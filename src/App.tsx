@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { AuthTemplate } from './components/templates/AuthTemplate';
 import { DashboardTemplate } from './components/templates/DashboardTemplate';
@@ -23,70 +22,136 @@ import { DevView } from './pages/DevView';
 
 const App = () => {
   const [session, setSession] = useState<any>(null);
-  const [userRole, setUserRole] = useState('OPERADOR'); // Estado para el rol
+  const [userRole, setUserRole] = useState("OPERADOR");
   const [isLoading, setIsLoading] = useState(true);
-  const [currentView, setCurrentView] = useState('dashboard');
+  const [currentView, setCurrentView] = useState("dashboard");
   const { isDarkMode, toggleTheme } = useTheme();
 
   const [isTransactionModalOpen, setTransactionModalOpen] = useState(false);
   const [isSupportModalOpen, setSupportModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
-  const [supportIssue, setSupportIssue] = useState('Olvidé mi contraseña');
-  const [supportDesc, setSupportDesc] = useState('');
+  const [supportIssue, setSupportIssue] = useState("Olvidé mi contraseña");
+  const [supportDesc, setSupportDesc] = useState("");
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [dataRefreshTrigger, setDataRefreshTrigger] = useState(0);
 
   useEffect(() => {
+    const debugInfo: any = {
+      init: "🔵 initSession: iniciando...",
+      getSession: null,
+      profileQuery: null,
+      final: null,
+      authChanges: [],
+      render: null,
+    };
+
+    const fetchProfile = async (userId: string) => {
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", userId)
+        .single();
+
+      debugInfo.profileQuery = { profile, profileError };
+      if (profile) {
+        setUserRole(profile.role);
+      }
+    };
+
     const initSession = async () => {
       try {
         const { data, error } = await supabase.auth.getSession();
-        if (error) console.error("Error sesión:", error);
+        debugInfo.getSession = { data, error };
 
-        if (data.session) {
-            setSession(data.session);
-            // Fetch Role
-            const { data: profile } = await supabase
-                .from('profiles')
-                .select('role')
-                .eq('id', data.session.user.id)
-                .single();
-            if (profile) setUserRole(profile.role);
+        if (data?.session) {
+          setSession(data.session);
+          await fetchProfile(data.session.user.id);
+        } else {
+          debugInfo.profileQuery = "⚪ No hay sesión activa";
         }
       } catch (err: any) {
-        console.error(err);
+        debugInfo.final = { error: err };
       } finally {
-        setIsLoading(false);
+        setIsLoading(false); // 🔴 Garantizamos que se libere la carga
+        debugInfo.final = { isLoading: false };
+        console.log("📊 DEPURACIÓN COMPLETA:", debugInfo);
       }
     };
+
     initSession();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (_event, session) => {
+        debugInfo.authChanges.push({ event: _event, session });
         setSession(session);
+
         if (session) {
-            const { data: profile } = await supabase.from('profiles').select('role').eq('id', session.user.id).single();
-            if (profile) setUserRole(profile.role);
+          await fetchProfile(session.user.id);
         }
-    });
-    return () => subscription.unsubscribe();
+
+        // 🔴 Solo liberamos carga si aún está activa
+        if (isLoading) {
+          setIsLoading(false);
+          debugInfo.final = { isLoading: false };
+        }
+
+        console.log("📊 DEPURACIÓN COMPLETA (authChange):", debugInfo);
+      }
+    );
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
-  const handleLogout = async () => await supabase.auth.signOut();
+  useEffect(() => {
+    if (session && isLoading) {
+      console.log("🟢 Sesión detectada, liberando carga...");
+      setIsLoading(false);
+    }
+  }, [session, isLoading]);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+  };
+
   const handleTransactionSuccess = () => {
     setTransactionModalOpen(false);
-    setDataRefreshTrigger(prev => prev + 1);
-    setCurrentView('transactions');
+    setDataRefreshTrigger((prev) => prev + 1);
+    setCurrentView("transactions");
   };
 
   const handleSendSupport = () => {
     const subject = encodeURIComponent(`Soporte Toro Group: ${supportIssue}`);
-    const bodyText = supportIssue === 'Otros' ? supportDesc : `Problema: ${supportIssue}`;
-    window.open(`mailto:josephbrachovillanueva2@gmail.com?subject=${subject}&body=${encodeURIComponent(bodyText)}`);
+    const bodyText =
+      supportIssue === "Otros"
+        ? supportDesc
+        : `Problema: ${supportIssue}`;
+    window.open(
+      `mailto:josephbrachovillanueva2@gmail.com?subject=${subject}&body=${encodeURIComponent(
+        bodyText
+      )}`
+    );
     setSupportModalOpen(false);
   };
 
-  if (isLoading) return <div className="min-h-screen flex items-center justify-center dark:bg-slate-900 dark:text-white">Cargando Sistema...</div>;
-  if (!session) return <AuthTemplate isDarkMode={isDarkMode} toggleTheme={toggleTheme}><LoginForm /></AuthTemplate>;
+  const renderDebug = { isLoading, session, userRole, currentView };
+  console.log("📊 DEPURACIÓN RENDER:", renderDebug);
+
+  if (isLoading)
+    return (
+      <div className="min-h-screen flex items-center justify-center dark:bg-slate-900 dark:text-white">
+        Cargando Sistema...
+      </div>
+    );
+
+  if (!session)
+    return (
+      <AuthTemplate isDarkMode={isDarkMode} toggleTheme={toggleTheme}>
+        <LoginForm />
+      </AuthTemplate>
+    );
 
   return (
     <DashboardTemplate
@@ -98,7 +163,7 @@ const App = () => {
           onSupport={() => { setSupportModalOpen(true); setSidebarOpen(false); }}
           isOpen={isSidebarOpen}
           onClose={() => setSidebarOpen(false)}
-          userRole={userRole} // Pasamos el rol a la Sidebar
+          userRole={userRole}
         />
       }
       header={
@@ -121,8 +186,6 @@ const App = () => {
       {currentView === 'reports' && <ReportsView />}
       {currentView === 'accounts' && <AccountsView />}
       {currentView === 'notes' && <NotesView />}
-
-      {/* Solo renderizamos la vista Dev si el rol es DEV, seguridad extra visual */}
       {currentView === 'dev' && userRole === 'DEV' && <DevView />}
 
       <Modal isOpen={isTransactionModalOpen} onClose={() => setTransactionModalOpen(false)} title="Registrar Transacción" size="lg">
