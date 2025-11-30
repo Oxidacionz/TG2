@@ -78,13 +78,13 @@ export const ExpensesView = () => {
       <div className="flex gap-2 border-b border-slate-200 dark:border-slate-700">
         <button
           onClick={() => setActiveTab("OPERATIVO")}
-          className={`border-b-2 px-4 py-2 text-sm font-medium transition-colors ${activeTab === "OPERATIVO" ? "border-brand-600 text-brand-600" : "border-transparent text-slate-500 hover:text-slate-700"}`}
+          className={`border-b-2 px-4 py-2 text-sm font-medium ${activeTab === "OPERATIVO" ? "border-brand-600 text-brand-600" : "border-transparent text-slate-500 hover:text-slate-700"}`}
         >
           Gastos Operativos
         </button>
         <button
           onClick={() => setActiveTab("LOGISTICA")}
-          className={`border-b-2 px-4 py-2 text-sm font-medium transition-colors ${activeTab === "LOGISTICA" ? "border-brand-600 text-brand-600" : "border-transparent text-slate-500 hover:text-slate-700"}`}
+          className={`border-b-2 px-4 py-2 text-sm font-medium ${activeTab === "LOGISTICA" ? "border-brand-600 text-brand-600" : "border-transparent text-slate-500 hover:text-slate-700"}`}
         >
           Consumos / Logística
         </button>

@@ -16,7 +16,7 @@ export const StatCard: React.FC<{
       "text-amber-600 bg-amber-50 dark:bg-amber-900/20 dark:text-amber-400",
   };
   return (
-    <Card className="flex h-32 flex-col justify-between p-4 transition-shadow hover:shadow-md">
+    <Card className="flex h-32 flex-col justify-between p-4">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm font-medium text-slate-500 dark:text-slate-400">

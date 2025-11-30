@@ -39,7 +39,7 @@ export const TransactionsTable = () => {
             {MOCK_DATA.transactions.map((tx) => (
               <tr
                 key={tx.id}
-                className="transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                className="hover:bg-slate-50 dark:hover:bg-slate-800/50"
               >
                 <td className="px-6 py-4">
                   <div className="font-medium text-slate-900 dark:text-white">

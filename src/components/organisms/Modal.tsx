@@ -22,7 +22,7 @@ export const Modal: React.FC<{
           </h3>
           <button
             onClick={onClose}
-            className="rounded-full p-1 text-slate-500 transition-colors hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
+            className="rounded-full p-1 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
           >
             <ICONS.Close />
           </button>

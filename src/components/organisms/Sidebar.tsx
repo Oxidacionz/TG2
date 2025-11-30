@@ -33,7 +33,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
     {/* Sidebar Content */}
     <aside
-      className={`fixed inset-y-0 left-0 z-30 flex w-64 flex-shrink-0 flex-col bg-slate-900 text-slate-300 shadow-2xl transition-transform duration-300 ease-in-out md:shadow-none ${isOpen ? "translate-x-0" : "-translate-x-full"} md:relative md:translate-x-0`}
+      className={`fixed inset-y-0 left-0 z-30 flex w-64 shrink-0 flex-col bg-slate-900 text-slate-300 shadow-2xl transition-transform duration-300 ease-in-out md:shadow-none ${isOpen ? "translate-x-0" : "-translate-x-full"} md:relative md:translate-x-0`}
     >
       <div className="relative flex flex-col items-center border-b border-slate-800 p-6">
         <div className="mb-1 flex items-center gap-3">
@@ -72,42 +72,42 @@ export const Sidebar: React.FC<SidebarProps> = ({
           onClick={() => onViewChange("transactions")}
         />
 
-{/*         <SidebarItem
+        {/*         <SidebarItem
           icon={<ICONS.Wallet />}
           label="Tesorería"
           active={currentView === "accounts"}
           onClick={() => onViewChange("accounts")}
         /> */}
-{/* 
+        {/* 
         <SidebarItem
           icon={<ICONS.Users />}
           label="Clientes"
           active={currentView === "clients"}
           onClick={() => onViewChange("clients")}
         /> */}
-        
-{/*         <SidebarItem
+
+        {/*         <SidebarItem
           icon={<ICONS.Camellos />}
           label="Camellos"
           active={currentView === "operators"}
           onClick={() => onViewChange("operators")}
         /> */}
 
-{/*         <SidebarItem
+        {/*         <SidebarItem
           icon={<ICONS.Notes />}
           label="Notas"
           active={currentView === "notes"}
           onClick={() => onViewChange("notes")}
         /> */}
-        
-{/*         <SidebarItem
+
+        {/*         <SidebarItem
           icon={<ICONS.Expenses />}
           label="Gastos"
           active={currentView === "expenses"}
           onClick={() => onViewChange("expenses")}
         /> */}
-        
-{/*         <SidebarItem
+
+        {/*         <SidebarItem
           icon={<ICONS.Reports />}
           label="Reportes"
           active={currentView === "reports"}
@@ -132,7 +132,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div className="border-t border-slate-800 bg-slate-900 p-4">
         <button
           onClick={onSupport}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-slate-800 px-4 py-3 text-sm text-slate-300 transition-colors hover:bg-slate-700"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-slate-800 px-4 py-3 text-sm text-slate-300 hover:bg-slate-700"
         >
           <ICONS.Support /> Soporte Técnico
         </button>

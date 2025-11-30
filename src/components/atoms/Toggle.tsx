@@ -12,10 +12,10 @@ export const Toggle: React.FC<ToggleProps> = ({ checked, onChange, label }) => (
     onClick={() => onChange(!checked)}
   >
     <div
-      className={`relative h-6 w-11 rounded-full transition-colors duration-200 ease-in-out ${checked ? "bg-brand-600" : "bg-slate-300 dark:bg-slate-700"}`}
+      className={`relative h-6 w-11 rounded-full ease-in-out ${checked ? "bg-brand-600" : "bg-slate-300 dark:bg-slate-700"}`}
     >
       <div
-        className={`absolute top-1 left-1 h-4 w-4 rounded-full bg-white shadow-sm transition-transform duration-200 ease-in-out ${checked ? "translate-x-5" : "translate-x-0"}`}
+        className={`absolute top-1 left-1 h-4 w-4 rounded-full bg-white shadow-sm transition-transform ease-in-out ${checked ? "translate-x-5" : "translate-x-0"}`}
       />
     </div>
     {label && (

@@ -5,7 +5,7 @@ export const DashboardTemplate: React.FC<{
   header: ReactNode;
   children: ReactNode;
 }> = ({ sidebar, header, children }) => (
-  <div className="flex h-screen overflow-hidden bg-slate-50 transition-colors duration-200 dark:bg-slate-950">
+  <div className="flex h-screen overflow-hidden bg-slate-50 dark:bg-slate-950">
     {sidebar}
     <main className="relative flex min-w-0 flex-1 flex-col overflow-hidden">
       {header}

@@ -10,7 +10,7 @@ export const NotificationDropdown: React.FC = () => {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 text-slate-500 transition-colors hover:text-slate-800 dark:text-slate-400 dark:hover:text-white"
+        className="relative p-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white"
       >
         <ICONS.Bell />
         {notifications.length > 0 && (

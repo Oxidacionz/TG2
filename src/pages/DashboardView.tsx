@@ -101,7 +101,7 @@ export const DashboardView = ({
               setTempRate(globalRate);
               setIsEditRateOpen(true);
             }}
-            className="absolute top-2 right-2 rounded-full p-1 text-white/50 transition-colors hover:bg-white/10 hover:text-white"
+            className="absolute top-2 right-2 rounded-full p-1 text-white/50 hover:bg-white/10 hover:text-white"
           >
             <ICONS.Edit />
           </button>
@@ -212,13 +212,13 @@ export const DashboardView = ({
           <div className="flex rounded-lg bg-slate-100 p-1 dark:bg-slate-700">
             <button
               onClick={() => setChartType("line")}
-              className={`rounded p-2 shadow-sm transition-colors ${chartType === "line" ? "bg-white text-slate-800 dark:bg-slate-600 dark:text-white" : "text-slate-500 hover:text-slate-700"}`}
+              className={`rounded p-2 shadow-sm ${chartType === "line" ? "bg-white text-slate-800 dark:bg-slate-600 dark:text-white" : "text-slate-500 hover:text-slate-700"}`}
             >
               <ICONS.Dashboard />
             </button>
             <button
               onClick={() => setChartType("pie")}
-              className={`rounded p-2 shadow-sm transition-colors ${chartType === "pie" ? "bg-white text-slate-800 dark:bg-slate-600 dark:text-white" : "text-slate-500 hover:text-slate-700"}`}
+              className={`rounded p-2 shadow-sm ${chartType === "pie" ? "bg-white text-slate-800 dark:bg-slate-600 dark:text-white" : "text-slate-500 hover:text-slate-700"}`}
             >
               <ICONS.Reports />
             </button>

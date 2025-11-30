@@ -262,13 +262,13 @@ export const AccountsView = () => {
       <div className="flex gap-4 border-b border-slate-200 dark:border-slate-700">
         <button
           onClick={() => setActiveTab("ACCOUNTS")}
-          className={`border-b-2 px-2 pb-2 font-medium transition-colors ${activeTab === "ACCOUNTS" ? "border-brand-600 text-brand-600" : "border-transparent text-slate-500 hover:text-slate-700"}`}
+          className={`border-b-2 px-2 pb-2 font-medium ${activeTab === "ACCOUNTS" ? "border-brand-600 text-brand-600" : "border-transparent text-slate-500 hover:text-slate-700"}`}
         >
           Mis Cuentas
         </button>
         <button
           onClick={() => setActiveTab("DEBTS")}
-          className={`border-b-2 px-2 pb-2 font-medium transition-colors ${activeTab === "DEBTS" ? "border-brand-600 text-brand-600" : "border-transparent text-slate-500 hover:text-slate-700"}`}
+          className={`border-b-2 px-2 pb-2 font-medium ${activeTab === "DEBTS" ? "border-brand-600 text-brand-600" : "border-transparent text-slate-500 hover:text-slate-700"}`}
         >
           Deudas
         </button>

@@ -35,7 +35,7 @@ export const UserDropdown: React.FC<{
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-brand-600 hover:bg-brand-700 flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-white transition-colors"
+        className="bg-brand-600 hover:bg-brand-700 flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-white"
       >
         {displayName.charAt(0).toUpperCase()}
       </button>

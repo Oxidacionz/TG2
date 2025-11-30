@@ -31,3 +31,12 @@ body {
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
     Arial, sans-serif;
 }
+
+button {
+  @apply cursor-pointer;
+}
+
+/* Se puso con el objetivo de hacer que gire el boton de cambiar tema*/
+.rotate-transition {
+  @apply rotate-360;
+}

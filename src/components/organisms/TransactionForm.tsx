@@ -132,10 +132,10 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
   return (
     <div className="flex h-full flex-col gap-6 md:flex-row">
       {/* Panel Izquierdo: Visualización y Comprobante */}
-      <div className="flex w-full flex-col gap-4 md:w-5/12">
+      <div className="flex w-full flex-col gap-4 p-2 md:w-5/12">
         {/* Tarjeta de Resumen en Tiempo Real */}
         <div
-          className={`rounded-2xl p-6 text-white shadow-lg transition-colors ${type === "ENTRADA" ? "bg-gradient-to-br from-green-600 to-teal-800" : "bg-gradient-to-br from-red-600 to-rose-800"}`}
+          className={`rounded-2xl p-6 text-white shadow-lg ${type === "ENTRADA" ? "bg-gradient-to-br from-green-600 to-teal-800" : "bg-gradient-to-br from-red-600 to-rose-800"}`}
         >
           <div className="mb-4 flex items-center justify-between">
             <span className="rounded bg-black/20 px-2 py-1 text-[10px] font-bold tracking-wider uppercase">
@@ -185,7 +185,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
 
         {/* Zona de Comprobante / Cámara */}
         <div
-          className="group hover:border-brand-500 relative flex min-h-[200px] flex-1 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-slate-300 bg-slate-100 p-4 transition-colors dark:border-slate-600 dark:bg-slate-800"
+          className="group hover:border-brand-500 relative flex min-h-[200px] flex-1 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-slate-300 bg-slate-100 p-4 dark:border-slate-600 dark:bg-slate-800"
           onClick={triggerFileInput}
         >
           <input
@@ -225,7 +225,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
       </div>
 
       {/* Panel Derecho: Inputs del Formulario */}
-      <div className="flex w-full flex-col gap-4 overflow-y-auto pr-1 md:w-7/12">
+      <div className="flex w-full flex-col gap-4 overflow-y-auto p-2 md:w-7/12">
         {/* Selector de Tipo */}
         <div className="grid grid-cols-2 gap-3 rounded-lg bg-slate-100 p-1 dark:bg-slate-800">
           <button
@@ -319,7 +319,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
           <div className="space-y-2">
             <div className="flex justify-between">
               <label className="text-xs font-bold text-slate-500 uppercase">
-                Margen de Ganancia
+                Comisión por transacción
               </label>
               <span className="text-brand-600 text-xs font-medium">
                 Calculado: ${calculatedProfit.toFixed(2)}
@@ -330,14 +330,14 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
                 <button
                   key={pct}
                   onClick={() => setProfitPercent(pct)}
-                  className={`flex-1 rounded border py-1.5 text-xs transition-colors ${profitPercent === pct ? "bg-brand-50 border-brand-500 text-brand-700 dark:bg-brand-900/20 dark:text-brand-400" : "border-slate-200 text-slate-500 dark:border-slate-700"}`}
+                  className={`flex-1 rounded border py-1.5 text-xs ${profitPercent === pct ? "bg-brand-50 border-brand-500 text-brand-700 dark:bg-brand-900/20 dark:text-brand-400" : "border-slate-200 text-slate-500 dark:border-slate-700"}`}
                 >
                   {pct}%
                 </button>
               ))}
               <button
                 onClick={() => setProfitPercent("custom")}
-                className={`rounded border px-3 py-1.5 text-xs transition-colors ${profitPercent === "custom" ? "bg-brand-50 border-brand-500 text-brand-700" : "border-slate-200 text-slate-500 dark:border-slate-700"}`}
+                className={`rounded border px-3 py-1.5 text-xs ${profitPercent === "custom" ? "bg-brand-50 border-brand-500 text-brand-700" : "border-slate-200 text-slate-500 dark:border-slate-700"}`}
               >
                 Otro
               </button>
@@ -375,7 +375,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
           </Button>
           <Button
             variant="primary"
-            className="flex-[2]"
+            className="flex-2"
             onClick={handleSubmit}
             disabled={loading}
           >

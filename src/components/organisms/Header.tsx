@@ -22,7 +22,7 @@ export const Header: React.FC<HeaderProps> = ({
   userEmail,
   onSettings,
 }) => (
-  <header className="sticky top-0 z-10 flex h-16 flex-shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4 transition-colors duration-200 md:px-6 dark:border-slate-800 dark:bg-slate-900">
+  <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4 md:px-6 dark:border-slate-800 dark:bg-slate-900">
     <div className="flex items-center gap-3">
       <button
         onClick={onMenuClick}
@@ -40,8 +40,11 @@ export const Header: React.FC<HeaderProps> = ({
     </div>
     <div className="flex items-center gap-2 md:gap-4">
       <button
-        onClick={toggleTheme}
-        className="p-2 text-slate-500 transition-colors hover:text-slate-800 dark:text-slate-400 dark:hover:text-white"
+        onClick={(e) => {
+          toggleTheme();
+          e.currentTarget.classList.toggle("rotate-transition");
+        }}
+        className="transition-rotate cursor-pointer p-2 text-slate-500 duration-300 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white"
       >
         {isDarkMode ? <ICONS.Sun /> : <ICONS.Moon />}
       </button>
