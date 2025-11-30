@@ -1,26 +1,30 @@
-
-import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabaseClient'
-import { Card } from '../components/atoms/Card'
-import { Button } from '../components/atoms/Button'
-import { Input } from '../components/atoms/Input'
-import { ICONS } from '../components/atoms/Icons'
-import { Modal } from '../components/organisms/Modal'
-import { FormField } from '../components/molecules/FormField'
+import React, { useState, useEffect } from "react";
+import { supabase } from "../lib/supabaseClient";
+import { Card } from "../components/atoms/Card";
+import { Button } from "../components/atoms/Button";
+import { Input } from "../components/atoms/Input";
+import { ICONS } from "../components/atoms/Icons";
+import { Modal } from "../components/organisms/Modal";
+import { FormField } from "../components/molecules/FormField";
 
 export const ExpensesView = () => {
   const [expenses, setExpenses] = useState([]);
-  const [activeTab, setActiveTab] = useState<'OPERATIVO' | 'LOGISTICA'>('OPERATIVO');
+  const [activeTab, setActiveTab] = useState<"OPERATIVO" | "LOGISTICA">(
+    "OPERATIVO",
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
   // Form State
-  const [desc, setDesc] = useState('');
-  const [amount, setAmount] = useState('');
+  const [desc, setDesc] = useState("");
+  const [amount, setAmount] = useState("");
 
   const fetchExpenses = async () => {
     setLoading(true);
-    const { data } = await supabase.from('expenses').select('*').order('created_at', { ascending: false });
+    const { data } = await supabase
+      .from("expenses")
+      .select("*")
+      .order("created_at", { ascending: false });
     if (data) setExpenses(data as any); // Type cast rápido
     setLoading(false);
   };
@@ -30,86 +34,127 @@ export const ExpensesView = () => {
   }, []);
 
   const handleSave = async () => {
-    if (!desc || !amount) return alert('Completa los datos');
-    const { error } = await supabase.from('expenses').insert({
-       description: desc,
-       amount: parseFloat(amount),
-       currency: 'USD',
-       category: activeTab,
-       date: new Date().toISOString()
+    if (!desc || !amount) return alert("Completa los datos");
+    const { error } = await supabase.from("expenses").insert({
+      description: desc,
+      amount: parseFloat(amount),
+      currency: "USD",
+      category: activeTab,
+      date: new Date().toISOString(),
     });
 
-    if (error) alert('Error: ' + error.message);
+    if (error) alert("Error: " + error.message);
     else {
-       setIsModalOpen(false);
-       setDesc('');
-       setAmount('');
-       fetchExpenses();
+      setIsModalOpen(false);
+      setDesc("");
+      setAmount("");
+      fetchExpenses();
     }
   };
 
-  const filtered = expenses.filter(e => e.category === activeTab);
+  const filtered = expenses.filter((e) => e.category === activeTab);
   const total = filtered.reduce((acc, curr) => acc + curr.amount, 0);
 
   return (
     <div className="space-y-6">
-       <div className="flex justify-between items-end">
+      <div className="flex items-end justify-between">
         <div>
-           <h2 className="text-lg font-bold text-slate-800 dark:text-white">Control de Gastos</h2>
-           <p className="text-sm text-slate-500">Gestión de salidas operativas y logística.</p>
+          <h2 className="text-lg font-bold text-slate-800 dark:text-white">
+            Control de Gastos
+          </h2>
+          <p className="text-sm text-slate-500">
+            Gestión de salidas operativas y logística.
+          </p>
         </div>
-        <Button onClick={() => setIsModalOpen(true)} icon={<ICONS.Plus />} variant="danger">Registrar Gasto</Button>
+        <Button
+          onClick={() => setIsModalOpen(true)}
+          icon={<ICONS.Plus />}
+          variant="danger"
+        >
+          Registrar Gasto
+        </Button>
       </div>
 
       <div className="flex gap-2 border-b border-slate-200 dark:border-slate-700">
-         <button
-            onClick={() => setActiveTab('OPERATIVO')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'OPERATIVO' ? 'border-brand-600 text-brand-600' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
-         >
-            Gastos Operativos
-         </button>
-         <button
-            onClick={() => setActiveTab('LOGISTICA')}
-            className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'LOGISTICA' ? 'border-brand-600 text-brand-600' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
-         >
-            Consumos / Logística
-         </button>
+        <button
+          onClick={() => setActiveTab("OPERATIVO")}
+          className={`border-b-2 px-4 py-2 text-sm font-medium transition-colors ${activeTab === "OPERATIVO" ? "border-brand-600 text-brand-600" : "border-transparent text-slate-500 hover:text-slate-700"}`}
+        >
+          Gastos Operativos
+        </button>
+        <button
+          onClick={() => setActiveTab("LOGISTICA")}
+          className={`border-b-2 px-4 py-2 text-sm font-medium transition-colors ${activeTab === "LOGISTICA" ? "border-brand-600 text-brand-600" : "border-transparent text-slate-500 hover:text-slate-700"}`}
+        >
+          Consumos / Logística
+        </button>
       </div>
 
-      <Card className="p-6 bg-red-50 dark:bg-red-900/10 border-red-100 dark:border-red-900/30">
-         <h3 className="text-red-800 dark:text-red-300 text-sm font-bold uppercase tracking-wide">Total {activeTab === 'OPERATIVO' ? 'Operativo' : 'Logística'} (Mes Actual)</h3>
-         <p className="text-3xl font-bold text-red-600 dark:text-red-400 mt-2">${total.toLocaleString()}</p>
+      <Card className="border-red-100 bg-red-50 p-6 dark:border-red-900/30 dark:bg-red-900/10">
+        <h3 className="text-sm font-bold tracking-wide text-red-800 uppercase dark:text-red-300">
+          Total {activeTab === "OPERATIVO" ? "Operativo" : "Logística"} (Mes
+          Actual)
+        </h3>
+        <p className="mt-2 text-3xl font-bold text-red-600 dark:text-red-400">
+          ${total.toLocaleString()}
+        </p>
       </Card>
 
       <div className="space-y-4">
-         {filtered.length === 0 ? (
-            <p className="text-center text-slate-400 py-8">No hay registros en esta categoría.</p>
-         ) : (
-            filtered.map(exp => (
-               <Card key={exp.id} className="p-4 flex justify-between items-center">
-                  <div>
-                     <p className="font-bold text-slate-800 dark:text-white">{exp.description}</p>
-                     <p className="text-xs text-slate-500">{new Date(exp.date).toLocaleDateString()}</p>
-                  </div>
-                  <span className="font-bold text-red-600">-${exp.amount} USD</span>
-               </Card>
-            ))
-         )}
+        {filtered.length === 0 ? (
+          <p className="py-8 text-center text-slate-400">
+            No hay registros en esta categoría.
+          </p>
+        ) : (
+          filtered.map((exp) => (
+            <Card
+              key={exp.id}
+              className="flex items-center justify-between p-4"
+            >
+              <div>
+                <p className="font-bold text-slate-800 dark:text-white">
+                  {exp.description}
+                </p>
+                <p className="text-xs text-slate-500">
+                  {new Date(exp.date).toLocaleDateString()}
+                </p>
+              </div>
+              <span className="font-bold text-red-600">-${exp.amount} USD</span>
+            </Card>
+          ))
+        )}
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={`Registrar Gasto (${activeTab})`}>
-         <div className="space-y-4">
-            <FormField label="Descripción del Gasto">
-               <Input value={desc} onChange={e => setDesc(e.target.value)} placeholder="Ej. Pago de Internet, Almuerzo..." />
-            </FormField>
-            <FormField label="Monto (USD)">
-               <Input type="number" value={amount} onChange={e => setAmount(e.target.value)} placeholder="0.00" />
-            </FormField>
-            <div className="pt-4 flex justify-end gap-2">
-               <Button variant="ghost" onClick={() => setIsModalOpen(false)}>Cancelar</Button>
-               <Button variant="danger" onClick={handleSave}>Guardar Salida</Button>
-            </div>
-         </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={`Registrar Gasto (${activeTab})`}
+      >
+        <div className="space-y-4">
+          <FormField label="Descripción del Gasto">
+            <Input
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
+              placeholder="Ej. Pago de Internet, Almuerzo..."
+            />
+          </FormField>
+          <FormField label="Monto (USD)">
+            <Input
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="0.00"
+            />
+          </FormField>
+          <div className="flex justify-end gap-2 pt-4">
+            <Button variant="ghost" onClick={() => setIsModalOpen(false)}>
+              Cancelar
+            </Button>
+            <Button variant="danger" onClick={handleSave}>
+              Guardar Salida
+            </Button>
+          </div>
+        </div>
       </Modal>
     </div>
   );

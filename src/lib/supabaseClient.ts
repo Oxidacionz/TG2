@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 
 // Credenciales de Supabase
 const CREDENTIALS = {
@@ -7,7 +7,7 @@ const CREDENTIALS = {
 };
 
 if (!CREDENTIALS.URL || !CREDENTIALS.KEY) {
-  throw new Error('Missing Supabase credentials');
+  throw new Error("Missing Supabase credentials");
 }
 
 // Cliente de Supabase
