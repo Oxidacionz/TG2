@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ICONS } from "../atoms/Icons";
+import { FaBell } from "react-icons/fa";
 
 export const NotificationDropdown: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +12,7 @@ export const NotificationDropdown: React.FC = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="relative p-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white"
       >
-        <ICONS.Bell />
+        <FaBell className="h-6 w-6" />
         {notifications.length > 0 && (
           <span className="absolute top-1 right-1 h-2 w-2 rounded-full border-2 border-white bg-red-500 dark:border-slate-900"></span>
         )}

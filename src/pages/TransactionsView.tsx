@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { ICONS } from "../components/atoms/Icons";
 
 import { Button } from "../components/atoms/Button";
 import { Card } from "../components/atoms/Card";
 import { Input } from "../components/atoms/Input";
 import { Badge } from "../components/atoms/Badge";
 import { MOCK_DATA } from "../mocks/mockData";
+import { IoScan } from "react-icons/io5";
+import { FaSearch } from "react-icons/fa";
+import { GrTransaction } from "react-icons/gr";
 
 export const TransactionsView = ({
   onScan,
@@ -43,14 +45,18 @@ export const TransactionsView = ({
             Historial de operaciones y estados
           </p>
         </div>
-        <Button variant="primary" onClick={onScan} icon={<ICONS.Scan />}>
+        <Button
+          variant="primary"
+          onClick={onScan}
+          icon={<IoScan className="h-6 w-6" />}
+        >
           Escanear / Nuevo
         </Button>
       </div>
       <Card className="flex flex-col gap-4 p-4 md:flex-row">
         <div className="relative flex-1">
           <div className="absolute top-1/2 left-3 -translate-y-1/2 text-slate-400">
-            <ICONS.Search />
+            <FaSearch className="h-6 w-6" />
           </div>
           <Input
             placeholder="Buscar por cliente, referencia o nota..."
@@ -210,7 +216,7 @@ export const TransactionsView = ({
                   <tr>
                     <td colSpan={8} className="py-12 text-center">
                       <div className="flex flex-col items-center justify-center text-slate-400">
-                        <ICONS.Transactions />
+                        <GrTransaction className="h-6 w-6" />
                         <p className="mt-2 text-sm">
                           No hay transacciones registradas aún.
                         </p>

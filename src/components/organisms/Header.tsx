@@ -1,7 +1,10 @@
 import React from "react";
-import { ICONS } from "../atoms/Icons";
+
 import { UserDropdown } from "../molecules/UserDropdown";
 import { NotificationDropdown } from "../molecules/NotificationDropdown";
+
+import { FaRegMoon, FaSun } from "react-icons/fa";
+import { FaBars } from "react-icons/fa6";
 
 interface HeaderProps {
   currentView: string;
@@ -28,7 +31,7 @@ export const Header: React.FC<HeaderProps> = ({
         onClick={onMenuClick}
         className="-ml-2 rounded-lg p-2 text-slate-500 hover:text-slate-700 md:hidden dark:text-slate-400 dark:hover:text-slate-200"
       >
-        <ICONS.Menu />
+        <FaBars className="h-6 w-6" />
       </button>
       <h1 className="truncate text-lg font-bold text-slate-800 capitalize md:text-xl dark:text-white">
         {currentView === "operators"
@@ -46,7 +49,11 @@ export const Header: React.FC<HeaderProps> = ({
         }}
         className="transition-rotate cursor-pointer p-2 text-slate-500 duration-300 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white"
       >
-        {isDarkMode ? <ICONS.Sun /> : <ICONS.Moon />}
+        {isDarkMode ? (
+          <FaSun className="h-6 w-6" />
+        ) : (
+          <FaRegMoon className="h-6 w-6" />
+        )}
       </button>
 
       <NotificationDropdown />

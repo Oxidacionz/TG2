@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { Logo } from "../atoms/Logo";
-import { ICONS } from "../atoms/Icons";
+import { FaMoon, FaSun } from "react-icons/fa6";
 
 export const AuthTemplate: React.FC<{
   children: ReactNode;
@@ -18,7 +18,11 @@ export const AuthTemplate: React.FC<{
           onClick={toggleTheme}
           className="absolute top-4 right-4 text-white/70 hover:text-white"
         >
-          {isDarkMode ? <ICONS.Sun /> : <ICONS.Moon />}
+          {isDarkMode ? (
+            <FaSun className="h-6 w-6" />
+          ) : (
+            <FaMoon className="h-6 w-6" />
+          )}
         </button>
       </div>
       {children}

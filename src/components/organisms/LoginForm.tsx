@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { ICONS } from "../atoms/Icons";
 import { Input } from "../atoms/Input";
 import { Button } from "../atoms/Button";
 import { FormField } from "../molecules/FormField";
 import { Modal } from "./Modal";
 import { supabase } from "../../lib/supabaseClient";
+import { FaEye, FaEyeSlash, FaLock, FaUser } from "react-icons/fa6";
+import { BiSupport } from "react-icons/bi";
+import { IoIosSend } from "react-icons/io";
 
 export const LoginForm: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -61,7 +63,7 @@ export const LoginForm: React.FC = () => {
           </div>
         )}
 
-        <FormField label="Email" icon={<ICONS.Users />}>
+        <FormField label="Email" icon={<FaUser />}>
           <Input
             type="email"
             value={email}
@@ -79,15 +81,7 @@ export const LoginForm: React.FC = () => {
           <div className="relative">
             {/* Candado a la izquierda */}
             <div className="absolute top-1/2 left-3 -translate-y-1/2 text-slate-400">
-              <svg
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                <path d="M7 11V7a5 5 0 0110 0v4"></path>
-              </svg>
+              <FaLock />
             </div>
 
             <Input
@@ -105,7 +99,7 @@ export const LoginForm: React.FC = () => {
               onClick={() => setShowPassword(!showPassword)}
               className="absolute top-1/2 right-3 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none dark:hover:text-slate-200"
             >
-              {showPassword ? <ICONS.EyeOff /> : <ICONS.Eye />}
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
         </div>
@@ -140,7 +134,7 @@ export const LoginForm: React.FC = () => {
           type="button"
           className="text-brand-600 flex w-full items-center justify-center gap-1 font-medium hover:underline"
         >
-          <ICONS.Support /> Contactar Soporte Técnico
+          <BiSupport /> Contactar Soporte Técnico
         </button>
       </div>
 
@@ -189,7 +183,7 @@ export const LoginForm: React.FC = () => {
 
           <Button
             className="w-full"
-            icon={<ICONS.Send />}
+            icon={<IoIosSend />}
             onClick={handleSendSupport}
           >
             Enviar Correo

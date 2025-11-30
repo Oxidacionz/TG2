@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { ICONS } from "../atoms/Icons";
+import { MdClose } from "react-icons/md";
 
 export const Modal: React.FC<{
   isOpen: boolean;
@@ -24,7 +24,7 @@ export const Modal: React.FC<{
             onClick={onClose}
             className="rounded-full p-1 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
           >
-            <ICONS.Close />
+            <MdClose className="h-6 w-6" />
           </button>
         </div>
         <div className="overflow-y-auto p-6">{children}</div>

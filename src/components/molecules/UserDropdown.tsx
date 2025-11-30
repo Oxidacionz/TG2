@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { ICONS } from "../atoms/Icons";
 import { supabase } from "../../lib/supabaseClient";
+import { FaGear } from "react-icons/fa6";
+import { BiSolidExit } from "react-icons/bi";
 
 export const UserDropdown: React.FC<{
   onLogout?: () => void;
@@ -45,8 +46,8 @@ export const UserDropdown: React.FC<{
             className="fixed inset-0 z-10"
             onClick={() => setIsOpen(false)}
           ></div>
-          <div className="animate-fade-in-down absolute right-0 z-20 mt-2 w-56 rounded-lg border border-slate-200 bg-white py-1 shadow-xl dark:border-slate-700 dark:bg-slate-800">
-            <div className="border-b border-slate-200 px-4 py-3 dark:border-slate-700">
+          <div className="animate-fade-in-down absolute right-0 z-20 mt-2 flex w-56 flex-col rounded-lg border border-slate-200 bg-white py-1 shadow-xl dark:border-slate-700 dark:bg-slate-800">
+            <div className="border-b border-slate-200 p-4 dark:border-slate-700">
               <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
                 {displayName}
               </p>
@@ -62,32 +63,20 @@ export const UserDropdown: React.FC<{
                 setIsOpen(false);
                 if (onSettings) onSettings();
               }}
-              className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700"
+              className="flex w-full items-center gap-2 p-4 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700"
             >
-              <ICONS.Users /> Configuración
+              <FaGear className="h-4 w-4" /> Configuración
             </button>
-            <div className="mt-1 border-t border-slate-200 dark:border-slate-700"></div>
+
             <button
               onClick={() => {
                 if (onLogout) onLogout();
-                setIsOpen(false);
+                // setIsOpen(false);
               }}
-              className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+              className="flex w-full flex-row items-center gap-2 p-4 text-left text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
             >
-              <svg
-                className="h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                ></path>
-              </svg>
-              Cerrar Sesión
+              <BiSolidExit className="h-4 w-4" />
+              <span>Cerrar Sesión</span>
             </button>
           </div>
         </>

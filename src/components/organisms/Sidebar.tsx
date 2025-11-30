@@ -1,7 +1,10 @@
 import React from "react";
 import { SidebarItem } from "../molecules/SidebarItem";
 import { Logo } from "../atoms/Logo";
-import { ICONS } from "../atoms/Icons";
+import { MdClose, MdSpaceDashboard } from "react-icons/md";
+import { IoScan } from "react-icons/io5";
+import { GrTransaction } from "react-icons/gr";
+import { BiSupport } from "react-icons/bi";
 
 interface SidebarProps {
   currentView: string;
@@ -44,7 +47,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           onClick={onClose}
           className="absolute top-4 right-4 text-slate-500 hover:text-white md:hidden"
         >
-          <ICONS.Close />
+          <MdClose />
         </button>
       </div>
 
@@ -53,20 +56,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
           onClick={onScan}
           className="bg-brand-600 hover:bg-brand-700 shadow-brand-900/50 flex w-full transform items-center justify-center gap-2 rounded-xl py-3 font-bold text-white shadow-lg transition-all hover:scale-[1.02]"
         >
-          <ICONS.Scan /> Escanear / Nuevo
+          <IoScan className="h-6 w-6" /> Escanear / Nuevo
         </button>
       </div>
 
-      <nav className="flex-1 space-y-1 overflow-y-auto px-2">
+      <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-2">
         <SidebarItem
-          icon={<ICONS.Dashboard />}
+          icon={<MdSpaceDashboard className="h-6 w-6" />}
           label="Dashboard"
           active={currentView === "dashboard"}
           onClick={() => onViewChange("dashboard")}
         />
 
         <SidebarItem
-          icon={<ICONS.Transactions />}
+          icon={<GrTransaction className="h-6 w-6" />}
           label="Transacciones"
           active={currentView === "transactions"}
           onClick={() => onViewChange("transactions")}
@@ -115,7 +118,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         /> */}
 
         {/* Sección Especial para Dev Mode - VISIBLE SOLO PARA ROL DEV */}
-        {userRole === "DEV" && (
+        {/*         {userRole === "DEV" && (
           <div className="mt-4 border-t border-slate-800 pt-4">
             <p className="mb-2 px-4 text-xs font-bold text-slate-500 uppercase">
               Administración
@@ -127,14 +130,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
               onClick={() => onViewChange("dev")}
             />
           </div>
-        )}
+        )} */}
       </nav>
       <div className="border-t border-slate-800 bg-slate-900 p-4">
         <button
           onClick={onSupport}
           className="flex w-full items-center justify-center gap-2 rounded-lg bg-slate-800 px-4 py-3 text-sm text-slate-300 hover:bg-slate-700"
         >
-          <ICONS.Support /> Soporte Técnico
+          <BiSupport className="h-6 w-6" /> Soporte Técnico
         </button>
       </div>
     </aside>

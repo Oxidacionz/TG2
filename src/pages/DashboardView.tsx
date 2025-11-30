@@ -13,13 +13,22 @@ import {
   Legend,
 } from "recharts";
 import { supabase } from "../lib/supabaseClient";
-import { ICONS } from "../components/atoms/Icons";
 import { Card } from "../components/atoms/Card";
 import { StatCard } from "../components/molecules/StatCard";
 import { MOCK_DATA } from "../mocks/mockData";
 import { Modal } from "../components/organisms/Modal";
 import { Button } from "../components/atoms/Button";
 import { Input } from "../components/atoms/Input";
+import { MdModeEdit, MdRefresh, MdSpaceDashboard } from "react-icons/md";
+import {
+  FaBoltLightning,
+  FaClock,
+  FaGlobe,
+  FaHandHoldingDollar,
+  FaWallet,
+} from "react-icons/fa6";
+import { GrTransaction } from "react-icons/gr";
+import { IoIosStats } from "react-icons/io";
 
 export const DashboardView = ({
   refreshTrigger,
@@ -84,7 +93,7 @@ export const DashboardView = ({
         <div className="group relative flex flex-1 items-center justify-between bg-blue-600 p-4">
           <div className="flex items-center gap-3">
             <div className="rounded-lg bg-white/20 p-2 text-white">
-              <span className="text-xl font-bold">$</span>
+              <FaHandHoldingDollar className="h-4 w-4" />
             </div>
             <div>
               <div className="flex items-center gap-2">
@@ -103,7 +112,7 @@ export const DashboardView = ({
             }}
             className="absolute top-2 right-2 rounded-full p-1 text-white/50 hover:bg-white/10 hover:text-white"
           >
-            <ICONS.Edit />
+            <MdModeEdit className="h-4 w-4" />
           </button>
 
           {/* Vertical Separator (Visual for desktop) */}
@@ -114,7 +123,7 @@ export const DashboardView = ({
         <div className="hidden flex-1 items-center justify-center border-b border-slate-800 bg-[#0f172a] p-4 sm:flex md:border-r md:border-b-0">
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-slate-800 p-3 text-blue-500">
-              <ICONS.Clock />
+              <FaClock className="h-4 w-4" />
             </div>
             <div>
               <p className="font-mono text-2xl font-bold tracking-widest text-white">
@@ -137,7 +146,8 @@ export const DashboardView = ({
           {/* BCV */}
           <div className="grid h-full grid-cols-2 p-2 sm:block">
             <div className="row-span-2 mb-1 flex items-center justify-start gap-1 text-[10px] font-bold text-slate-500 uppercase sm:justify-end">
-              <ICONS.Transactions /> BCV Oficial <ICONS.Refresh />
+              <GrTransaction className="h-4 w-4" /> BCV Oficial{" "}
+              <MdRefresh className="h-4 w-4" />
             </div>
             <div className="text-sm font-bold text-white">
               $ {bcvRate ? bcvRate.usd.toFixed(2) : "--"}
@@ -150,7 +160,8 @@ export const DashboardView = ({
           {/* Binance */}
           <div className="grid h-full grid-cols-2 p-2 sm:block">
             <div className="row-span-2 mb-1 flex items-center justify-start gap-1 text-[10px] font-bold text-slate-500 uppercase sm:justify-end">
-              <ICONS.Lightning /> Binance P2P <ICONS.Refresh />
+              <FaBoltLightning className="h-4 w-4" /> Binance P2P{" "}
+              <MdRefresh className="h-4 w-4" />
             </div>
             <div className="text-sm font-bold text-yellow-500">BUY 36.10</div>
             <div className="text-xs font-medium text-orange-400">
@@ -161,7 +172,8 @@ export const DashboardView = ({
           {/* Zelle */}
           <div className="grid h-full grid-cols-2 p-2 sm:block">
             <div className="row-span-2 mb-1 flex items-center justify-start gap-1 text-[10px] font-bold text-slate-500 uppercase sm:justify-end">
-              <ICONS.Globe /> Zelle <ICONS.Edit />
+              <FaGlobe className="h-4 w-4" /> Zelle{" "}
+              <MdModeEdit className="h-4 w-4" />
             </div>
             <div className="text-sm font-bold text-green-400">36.00</div>
           </div>
@@ -169,7 +181,8 @@ export const DashboardView = ({
           {/* Euro */}
           <div className="grid h-full grid-cols-2 p-2 sm:block">
             <div className="row-span-2 mb-1 flex items-center justify-start gap-1 text-[10px] font-bold text-slate-500 uppercase sm:justify-end">
-              <ICONS.Globe /> Euro (Intl) <ICONS.Edit />
+              <FaGlobe className="h-4 w-4" /> Euro (Intl){" "}
+              <MdModeEdit className="h-4 w-4" />
             </div>
             <div className="text-sm font-bold text-blue-400">€ 39.00</div>
           </div>
@@ -183,21 +196,21 @@ export const DashboardView = ({
           title="Volumen Total"
           value={`$${stats.totalVolume.toLocaleString()}`}
           subtext="↗ General"
-          icon={<ICONS.Transactions />}
+          icon={<GrTransaction />}
           color="blue"
         />
         <StatCard
           title="Ganancia Neta"
           value={`$${stats.netProfit.toLocaleString()}`}
           subtext="Margen global"
-          icon={<span className="text-xl font-bold">$</span>}
+          icon={<FaHandHoldingDollar className="h-4 w-4" />}
           color="green"
         />
         <StatCard
           title="Capital en Cuentas"
           value={`$${stats.totalCapital.toLocaleString()}`}
           subtext="Disponible Real"
-          icon={<ICONS.Wallet />}
+          icon={<FaWallet />}
           color="yellow"
         />
       </div>
@@ -214,13 +227,13 @@ export const DashboardView = ({
               onClick={() => setChartType("line")}
               className={`rounded p-2 shadow-sm ${chartType === "line" ? "bg-white text-slate-800 dark:bg-slate-600 dark:text-white" : "text-slate-500 hover:text-slate-700"}`}
             >
-              <ICONS.Dashboard />
+              <MdSpaceDashboard />
             </button>
             <button
               onClick={() => setChartType("pie")}
               className={`rounded p-2 shadow-sm ${chartType === "pie" ? "bg-white text-slate-800 dark:bg-slate-600 dark:text-white" : "text-slate-500 hover:text-slate-700"}`}
             >
-              <ICONS.Reports />
+              <IoIosStats />
             </button>
           </div>
         </div>
