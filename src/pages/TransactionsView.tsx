@@ -33,8 +33,8 @@ export const TransactionsView = ({
   }, [refreshTrigger]);
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-end justify-between">
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
         <div>
           <h2 className="text-lg font-bold text-slate-800 dark:text-white">
             Transacciones
@@ -57,7 +57,7 @@ export const TransactionsView = ({
             className="pl-10"
           />
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
           <select className="focus:ring-brand-500 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm outline-none focus:ring-2 dark:border-slate-700 dark:bg-slate-800 dark:text-white">
             <option>Todos los Tipos</option>
             <option>Entrada</option>
