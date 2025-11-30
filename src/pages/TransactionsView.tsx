@@ -6,12 +6,11 @@ import { Button } from "../components/atoms/Button"
 import { Card } from '../components/atoms/Card'
 import { Input } from '../components/atoms/Input'
 import { Badge } from '../components/atoms/Badge'
-import { supabase } from '../lib/supabase';
-import { MOCK_DATA } from '../../constants/mockData';
-import { Transaction } from '../../types';
+import { supabase } from '../lib/supabaseClient'
+import { MOCK_DATA } from '../mocks/mockData';
 
 export const TransactionsView = ({ onScan, refreshTrigger }: { onScan: () => void, refreshTrigger?: number }) => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,7 +26,7 @@ export const TransactionsView = ({ onScan, refreshTrigger }: { onScan: () => voi
 
         if (data && data.length > 0) {
           // Mapear datos de DB a formato frontend
-          const mappedData: Transaction[] = data.map((item: any) => ({
+          const mappedData = data.map((item: any) => ({
             id: item.id.substring(0, 8),
             date: new Date(item.created_at).toLocaleDateString(),
             ref: item.reference || 'S/R',

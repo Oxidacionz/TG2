@@ -1,22 +1,22 @@
 
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../lib/supabaseClient'
 import { Card } from '../components/atoms/Card'
 import { Button } from '../components/atoms/Button'
 import { Input } from '../components/atoms/Input'
 import { ICONS } from '../components/atoms/Icons'
 import { Modal } from '../components/organisms/Modal'
 import { FormField } from '../components/molecules/FormField'
-import { Account, Debt } from '../../types';
+
 
 export const AccountsView = () => {
   const [activeTab, setActiveTab] = useState<'ACCOUNTS' | 'DEBTS'>('ACCOUNTS');
   const [debtType, setDebtType] = useState<'COBRAR' | 'PAGAR'>('COBRAR');
 
   // Data State
-  const [accounts, setAccounts] = useState<Account[]>([]);
-  const [debts, setDebts] = useState<Debt[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [accounts, setAccounts] = useState([]);
+  const [debts, setDebts] = useState([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // Modals
   const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);

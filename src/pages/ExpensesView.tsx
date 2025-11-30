@@ -1,16 +1,15 @@
 
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../lib/supabaseClient'
 import { Card } from '../components/atoms/Card'
 import { Button } from '../components/atoms/Button'
 import { Input } from '../components/atoms/Input'
 import { ICONS } from '../components/atoms/Icons'
 import { Modal } from '../components/organisms/Modal'
 import { FormField } from '../components/molecules/FormField'
-import { Expense } from '../../types';
 
 export const ExpensesView = () => {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [expenses, setExpenses] = useState([]);
   const [activeTab, setActiveTab] = useState<'OPERATIVO' | 'LOGISTICA'>('OPERATIVO');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);

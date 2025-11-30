@@ -1,29 +1,29 @@
 
 import { useState, useEffect } from 'react';
-import { AuthTemplate } from './src/components/templates/AuthTemplate';
-import { DashboardTemplate } from './src/components/templates/DashboardTemplate';
-import { LoginForm } from './src/components/organisms/LoginForm';
-import { Sidebar } from './src/components/organisms/Sidebar';
-import { Header } from './src/components/organisms/Header';
-import { Modal } from './src/components/organisms/Modal';
-import { TransactionForm } from './src/components/organisms/TransactionForm';
-import { SettingsModal } from './src/components/organisms/SettingsModal';
-import { Button } from './src/components/atoms/Button';
+import { AuthTemplate } from './components/templates/AuthTemplate';
+import { DashboardTemplate } from './components/templates/DashboardTemplate';
+import { LoginForm } from './components/organisms/LoginForm';
+import { Sidebar } from './components/organisms/Sidebar';
+import { Header } from './components/organisms/Header';
+import { Modal } from './components/organisms/Modal';
+import { TransactionForm } from './components/organisms/TransactionForm';
+import { SettingsModal } from './components/organisms/SettingsModal';
+import { Button } from './components/atoms/Button';
 import { useTheme } from './hooks/useTheme';
-import { DashboardView } from './src/pages/DashboardView';
-import { TransactionsView } from './src/pages/TransactionsView';
-import { supabase } from './src/lib/supabase';
-import { ClientsView } from './src/pages/ClientsView';
-import { OperatorsView } from './src/pages/OperatorsView';
-import { ExpensesView } from './src/pages/ExpensesView';
-import { ReportsView } from './src/pages/ReportsView';
-import { AccountsView } from './src/pages/AccountsView';
-import { NotesView } from './src/pages/NotesView';
-import { DevView } from './src/pages/DevView';
+import { DashboardView } from './pages/DashboardView';
+import { TransactionsView } from './pages/TransactionsView';
+import { supabase } from './lib/supabaseClient';
+import { ClientsView } from './pages/ClientsView';
+import { OperatorsView } from './pages/OperatorsView';
+import { ExpensesView } from './pages/ExpensesView';
+import { ReportsView } from './pages/ReportsView';
+import { AccountsView } from './pages/AccountsView';
+import { NotesView } from './pages/NotesView';
+import { DevView } from './pages/DevView';
 
 const App = () => {
   const [session, setSession] = useState<any>(null);
-  const [userRole, setUserRole] = useState<string>('OPERADOR'); // Estado para el rol
+  const [userRole, setUserRole] = useState('OPERADOR'); // Estado para el rol
   const [isLoading, setIsLoading] = useState(true);
   const [currentView, setCurrentView] = useState('dashboard');
   const { isDarkMode, toggleTheme } = useTheme();

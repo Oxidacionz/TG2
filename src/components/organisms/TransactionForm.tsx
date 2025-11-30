@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from 'react';
-import { supabase } from '../../lib/supabase';
+import { supabase } from '../../lib/supabaseClient'
 import { Button } from '../atoms/Button';
 import { Input } from '../atoms/Input';
 import { FormField } from '../molecules/FormField';

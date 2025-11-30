@@ -1,15 +1,15 @@
 
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../lib/supabaseClient';
 import { Card } from '../components/atoms/Card'
 import { Button } from '../components/atoms/Button'
 import { ICONS } from '../components/atoms/Icons'
 import { Modal } from '../components/organisms/Modal'
-import { Operator } from '../../types';
+
 
 export const NotesView = () => {
     const [notes, setNotes] = useState<any[]>([]);
-    const [operators, setOperators] = useState<Operator[]>([]);
+    const [operators, setOperators] = useState([]);
     const [activeTab, setActiveTab] = useState<'PENDIENTE' | 'ENVIADAS'>('PENDIENTE');
     const [isModalOpen, setIsModalOpen] = useState(false);
 

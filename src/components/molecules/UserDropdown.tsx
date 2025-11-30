@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ICONS } from '../atoms/Icons';
-import { supabase } from '../../lib/supabase.ts';
+import { supabase } from '../../lib/supabaseClient';
 
 export const UserDropdown: React.FC<{ onLogout?: () => void, userEmail?: string, onSettings?: () => void }> = ({ onLogout, userEmail, onSettings }) => {
   const [isOpen, setIsOpen] = useState(false);

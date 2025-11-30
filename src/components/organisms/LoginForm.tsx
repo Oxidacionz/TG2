@@ -4,7 +4,7 @@ import { Input } from '../atoms/Input';
 import { Button } from '../atoms/Button';
 import { FormField } from '../molecules/FormField';
 import { Modal } from './Modal';
-import { supabase } from '../../lib/supabase';
+import { supabase } from '../../lib/supabaseClient';
 
 export const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');

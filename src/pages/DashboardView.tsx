@@ -1,12 +1,12 @@
 
 import { useEffect, useState } from 'react';
 import { LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../lib/supabaseClient'
 import { ICONS } from '../components/atoms/Icons'
 import { Card } from '../components/atoms/Card'
 import { StatCard } from '../components/molecules/StatCard'
-import { MOCK_DATA } from '../../constants/mockData';
-import { ExchangeRateService } from '../../services/ExchangeRateService';
+import { MOCK_DATA } from '../mocks/mockData';
+import { ExchangeRateService } from '../services/ExchangeRateService';
 import { Modal } from '../components/organisms/Modal'
 import { Button } from '../components/atoms/Button'
 import { Input } from '../components/atoms/Input'

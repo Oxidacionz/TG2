@@ -1,15 +1,14 @@
 
-import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabaseClient'
 import { Card } from '../components/atoms/Card'
-import { Operator } from '../../types';
 import { ICONS } from '../components/atoms/Icons'
 import { Button } from '../components/atoms/Button'
 import { Toggle } from '../components/atoms/Toggle'
 import { Modal } from '../components/organisms/Modal'
 
 export const OperatorsView = () => {
-  const [operators, setOperators] = useState<Operator[]>([]);
+  const [operators, setOperators] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
 
@@ -22,7 +21,7 @@ export const OperatorsView = () => {
       const { data } = await supabase.from('profiles').select('*');
       if (data) {
          // Filtramos para que NO se muestre el ADMIN ni el DEV
-         const mappedOps: Operator[] = data
+         const mappedOps = data
             .filter((p: any) => p.role !== 'ADMIN' && p.role !== 'DEV')
             .map((p: any) => ({
                 id: p.id,

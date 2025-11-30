@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { supabase } from '../lib/supabase';
+import { useState } from 'react';
+import { supabase } from '../lib/supabaseClient'
 import { Card } from '../components/atoms/Card'
 import { Button } from '../components/atoms/Button'
 import { ICONS } from '../components/atoms/Icons'

@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Modal } from './Modal';
-import { supabase } from '../../lib/supabase';
+import { supabase } from '../../lib/supabaseClient';
 import { FormField } from '../molecules/FormField';
 import { Input } from '../atoms/Input';
 import { Button } from '../atoms/Button';

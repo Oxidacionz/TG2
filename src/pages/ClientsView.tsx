@@ -1,16 +1,16 @@
 
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../lib/supabaseClient'
 import { Card } from '../components/atoms/Card'
 import { Button } from '../components/atoms/Button'
 import { Input } from '../components/atoms/Input'
 import { ICONS } from '../components/atoms/Icons'
 import { Modal } from '../components/organisms/Modal'
 import { FormField } from '../components/molecules/FormField'
-import { Client } from '../../types';
+
 
 export const ClientsView = () => {
-  const [clients, setClients] = useState<Client[]>([]);
+  const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);

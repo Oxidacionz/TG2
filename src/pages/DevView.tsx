@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../lib/supabaseClient';
 import { Card } from '../components/atoms/Card'
 import { Button } from '../components/atoms/Button'
 import { Input } from '../components/atoms/Input'
