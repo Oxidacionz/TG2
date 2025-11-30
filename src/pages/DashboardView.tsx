@@ -17,7 +17,6 @@ import { ICONS } from "../components/atoms/Icons";
 import { Card } from "../components/atoms/Card";
 import { StatCard } from "../components/molecules/StatCard";
 import { MOCK_DATA } from "../mocks/mockData";
-import { ExchangeRateService } from "../services/ExchangeRateService";
 import { Modal } from "../components/organisms/Modal";
 import { Button } from "../components/atoms/Button";
 import { Input } from "../components/atoms/Input";
@@ -35,9 +34,10 @@ export const DashboardView = ({
   });
 
   // BCV State
-  const [bcvRate, setBcvRate] = useState<{ usd: number; eur: number } | null>(
-    null,
-  );
+  const [bcvRate, setBcvRate] = useState<{ usd: number; eur: number } | null>({
+    usd: 247.3003,
+    eur: 286.40342343,
+  });
 
   // Config State (Tasa Global)
   const [globalRate, setGlobalRate] = useState("36.00");
@@ -53,87 +53,9 @@ export const DashboardView = ({
   const [pieData, setPieData] = useState<any[]>([]);
 
   useEffect(() => {
-    // Timer for clock
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
-
-  useEffect(() => {
-    const initData = async () => {
-      // 1. Fetch BCV
-      const rates = await ExchangeRateService.getBCVRate();
-      if (rates) setBcvRate({ usd: rates.usd, eur: rates.eur });
-
-      // 2. Fetch Global Rate from DB or LocalStorage
-      try {
-        const { data, error } = await supabase
-          .from("app_config")
-          .select("global_rate_ves")
-          .single();
-        if (data && data.global_rate_ves) {
-          setGlobalRate(data.global_rate_ves.toFixed(2));
-        } else {
-          // Fallback to local storage
-          const local = localStorage.getItem("globalRate");
-          if (local) setGlobalRate(local);
-        }
-      } catch (e) {
-        console.error("Config fetch error", e);
-      }
-
-      // 3. Stats
-      fetchStats();
-    };
-    initData();
-  }, [refreshTrigger]);
-
-  const fetchStats = async () => {
-    const { data: txData } = await supabase
-      .from("transactions")
-      .select("amount, profit, status, type");
-    const { data: accData } = await supabase
-      .from("accounts")
-      .select("balance, currency");
-
-    let volume = 0;
-    let profit = 0;
-    let pending = 0;
-    let capital = 0;
-    let entradas = 0;
-    let salidas = 0;
-
-    if (txData) {
-      txData.forEach((tx: any) => {
-        if (tx.status === "Completado") {
-          volume += Number(tx.amount);
-          profit += Number(tx.profit);
-          if (tx.type === "ENTRADA") entradas += Number(tx.amount);
-          else salidas += Number(tx.amount);
-        }
-        if (tx.status === "Pendiente") pending++;
-      });
-    }
-
-    if (accData) {
-      accData.forEach((acc: any) => {
-        if (acc.currency === "USD" || acc.currency === "USDT") {
-          capital += Number(acc.balance);
-        }
-      });
-    }
-
-    setStats({
-      totalVolume: volume,
-      netProfit: profit,
-      pendingCount: pending,
-      totalCapital: capital,
-    });
-
-    setPieData([
-      { name: "Entradas", value: entradas },
-      { name: "Salidas", value: salidas },
-    ]);
-  };
 
   const handleUpdateRate = async () => {
     const newRate = parseFloat(tempRate).toFixed(2);
@@ -149,19 +71,17 @@ export const DashboardView = ({
       console.error("Error al realizar el upsert:", error);
     }
 
-    // await supabase.from('app_config').upsert({ id: 1, global_rate_ves: parseFloat(newRate) }).catch(() => {});
-
     setIsEditRateOpen(false);
   };
 
   const COLORS = ["#10b981", "#ef4444"];
 
   return (
-    <div className="space-y-6">
+    <div className="flex w-full flex-col gap-6 overflow-x-hidden">
       {/* --- TOP BANNER REDESIGN (MATCHING IMAGE) --- */}
-      <div className="flex flex-col overflow-hidden rounded-xl border border-slate-800 bg-[#0f172a] shadow-2xl md:flex-row">
+      <div className="flex flex-col overflow-hidden rounded-xl border border-slate-800 bg-[#0f172a] xl:flex-row">
         {/* LEFT BLOCK: Tasa Promedio Global (Blue) */}
-        <div className="group relative flex items-center justify-between bg-blue-600 p-4 md:w-64">
+        <div className="group relative flex flex-1 items-center justify-between bg-blue-600 p-4">
           <div className="flex items-center gap-3">
             <div className="rounded-lg bg-white/20 p-2 text-white">
               <span className="text-xl font-bold">$</span>
@@ -191,7 +111,7 @@ export const DashboardView = ({
         </div>
 
         {/* CENTER BLOCK: Clock */}
-        <div className="flex flex-1 items-center justify-center border-b border-slate-800 bg-[#0f172a] p-4 md:border-r md:border-b-0">
+        <div className="hidden flex-1 items-center justify-center border-b border-slate-800 bg-[#0f172a] p-4 sm:flex md:border-r md:border-b-0">
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-slate-800 p-3 text-blue-500">
               <ICONS.Clock />
@@ -213,10 +133,10 @@ export const DashboardView = ({
         </div>
 
         {/* RIGHT BLOCK: Tickers Grid */}
-        <div className="flex flex-[1.5] items-center justify-around bg-[#0f172a] p-4 text-white">
+        <div className="grid flex-1/3 grid-cols-1 grid-rows-4 items-center justify-around divide-y divide-slate-800 bg-[#0f172a] p-4 text-end text-white sm:grid-cols-4 sm:grid-rows-1 sm:divide-x sm:divide-y-0">
           {/* BCV */}
-          <div className="border-r border-slate-800 px-4 text-right last:border-0">
-            <div className="mb-1 flex items-center justify-end gap-1 text-[10px] font-bold text-slate-500 uppercase">
+          <div className="grid h-full grid-cols-2 p-2 sm:block">
+            <div className="row-span-2 mb-1 flex items-center justify-start gap-1 text-[10px] font-bold text-slate-500 uppercase sm:justify-end">
               <ICONS.Transactions /> BCV Oficial <ICONS.Refresh />
             </div>
             <div className="text-sm font-bold text-white">
@@ -228,8 +148,8 @@ export const DashboardView = ({
           </div>
 
           {/* Binance */}
-          <div className="border-r border-slate-800 px-4 text-right last:border-0">
-            <div className="mb-1 flex items-center justify-end gap-1 text-[10px] font-bold text-slate-500 uppercase">
+          <div className="grid h-full grid-cols-2 p-2 sm:block">
+            <div className="row-span-2 mb-1 flex items-center justify-start gap-1 text-[10px] font-bold text-slate-500 uppercase sm:justify-end">
               <ICONS.Lightning /> Binance P2P <ICONS.Refresh />
             </div>
             <div className="text-sm font-bold text-yellow-500">BUY 36.10</div>
@@ -239,22 +159,23 @@ export const DashboardView = ({
           </div>
 
           {/* Zelle */}
-          <div className="hidden border-r border-slate-800 px-4 text-right last:border-0 lg:block">
-            <div className="mb-1 flex items-center justify-end gap-1 text-[10px] font-bold text-slate-500 uppercase">
+          <div className="grid h-full grid-cols-2 p-2 sm:block">
+            <div className="row-span-2 mb-1 flex items-center justify-start gap-1 text-[10px] font-bold text-slate-500 uppercase sm:justify-end">
               <ICONS.Globe /> Zelle <ICONS.Edit />
             </div>
             <div className="text-sm font-bold text-green-400">36.00</div>
           </div>
 
           {/* Euro */}
-          <div className="px-4 text-right">
-            <div className="mb-1 flex items-center justify-end gap-1 text-[10px] font-bold text-slate-500 uppercase">
+          <div className="grid h-full grid-cols-2 p-2 sm:block">
+            <div className="row-span-2 mb-1 flex items-center justify-start gap-1 text-[10px] font-bold text-slate-500 uppercase sm:justify-end">
               <ICONS.Globe /> Euro (Intl) <ICONS.Edit />
             </div>
             <div className="text-sm font-bold text-blue-400">€ 39.00</div>
           </div>
         </div>
       </div>
+
       {/* --- END BANNER --- */}
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -281,8 +202,8 @@ export const DashboardView = ({
         />
       </div>
 
-      <Card className="h-[400px] p-6">
-        <div className="mb-6 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+      <Card className="flex w-full flex-1 flex-col gap-6 p-6">
+        <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
           <h3 className="text-lg font-bold text-slate-800 dark:text-white">
             {chartType === "line"
               ? "Tendencia de Volumen vs Ganancia"
@@ -304,8 +225,8 @@ export const DashboardView = ({
           </div>
         </div>
 
-        <div className="h-full w-full pb-10">
-          <ResponsiveContainer width="100%" height="100%">
+        <div className="flex h-full w-full flex-row pb-10">
+          <ResponsiveContainer height={400} width="100%">
             {chartType === "line" ? (
               <LineChart data={lineData}>
                 <CartesianGrid

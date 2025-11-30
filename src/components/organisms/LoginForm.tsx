@@ -32,7 +32,6 @@ export const LoginForm: React.FC = () => {
       setError(error.message);
       setLoading(false);
     }
-    // Si es exitoso, App.tsx detectará el cambio de sesión automáticamente
   };
 
   const handleSendSupport = () => {

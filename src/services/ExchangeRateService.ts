@@ -1,7 +1,7 @@
 // Servicio simple para obtener tasas del BCV
 // Usa una API pública de scraping como intermediario
 
-export const ExchangeRateService = {
+/* export const ExchangeRateService = {
   async getBCVRate(): Promise<{
     usd: number;
     eur: number;
@@ -28,4 +28,4 @@ export const ExchangeRateService = {
       return { usd: 36.5, eur: 39.1, source: "Offline" };
     }
   },
-};
+}; */

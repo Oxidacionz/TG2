@@ -37,15 +37,6 @@ const App = () => {
   const [dataRefreshTrigger, setDataRefreshTrigger] = useState(0);
 
   useEffect(() => {
-    const debugInfo: any = {
-      init: "🔵 initSession: iniciando...",
-      getSession: null,
-      profileQuery: null,
-      final: null,
-      authChanges: [],
-      render: null,
-    };
-
     const fetchProfile = async (userId: string) => {
       const { data: profile, error: profileError } = await supabase
         .from("profiles")
@@ -53,29 +44,26 @@ const App = () => {
         .eq("id", userId)
         .single();
 
-      debugInfo.profileQuery = { profile, profileError };
       if (profile) {
         setUserRole(profile.role);
       }
+
+      if (profileError)
+        console.error("Error fetching profile:", profileError.message);
     };
 
     const initSession = async () => {
       try {
         const { data, error } = await supabase.auth.getSession();
-        debugInfo.getSession = { data, error };
 
-        if (data?.session) {
+        if (data.session) {
           setSession(data.session);
           await fetchProfile(data.session.user.id);
-        } else {
-          debugInfo.profileQuery = "⚪ No hay sesión activa";
         }
       } catch (err: any) {
-        debugInfo.final = { error: err };
+        console.error("Error initializing session:", err.message);
       } finally {
-        setIsLoading(false); // 🔴 Garantizamos que se libere la carga
-        debugInfo.final = { isLoading: false };
-        console.log("📊 DEPURACIÓN COMPLETA:", debugInfo);
+        setIsLoading(false);
       }
     };
 
@@ -84,20 +72,17 @@ const App = () => {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      debugInfo.authChanges.push({ event: _event, session });
       setSession(session);
 
       if (session) {
         await fetchProfile(session.user.id);
       }
 
-      // 🔴 Solo liberamos carga si aún está activa
       if (isLoading) {
         setIsLoading(false);
-        debugInfo.final = { isLoading: false };
       }
 
-      console.log("📊 DEPURACIÓN COMPLETA (authChange):", debugInfo);
+      console.log("📊 DEPURACIÓN COMPLETA (authChange):");
     });
 
     return () => {
@@ -107,7 +92,6 @@ const App = () => {
 
   useEffect(() => {
     if (session && isLoading) {
-      console.log("🟢 Sesión detectada, liberando carga...");
       setIsLoading(false);
     }
   }, [session, isLoading]);
@@ -133,9 +117,6 @@ const App = () => {
     );
     setSupportModalOpen(false);
   };
-
-  const renderDebug = { isLoading, session, userRole, currentView };
-  console.log("📊 DEPURACIÓN RENDER:", renderDebug);
 
   if (isLoading)
     return (

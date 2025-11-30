@@ -47,6 +47,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <ICONS.Close />
         </button>
       </div>
+
       <div className="p-4">
         <button
           onClick={onScan}
@@ -55,6 +56,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <ICONS.Scan /> Escanear / Nuevo
         </button>
       </div>
+
       <nav className="flex-1 space-y-1 overflow-y-auto px-2">
         <SidebarItem
           icon={<ICONS.Dashboard />}
@@ -62,48 +64,55 @@ export const Sidebar: React.FC<SidebarProps> = ({
           active={currentView === "dashboard"}
           onClick={() => onViewChange("dashboard")}
         />
+
         <SidebarItem
           icon={<ICONS.Transactions />}
           label="Transacciones"
           active={currentView === "transactions"}
           onClick={() => onViewChange("transactions")}
         />
-        <SidebarItem
+
+{/*         <SidebarItem
           icon={<ICONS.Wallet />}
           label="Tesorería"
           active={currentView === "accounts"}
           onClick={() => onViewChange("accounts")}
-        />
+        /> */}
+{/* 
         <SidebarItem
           icon={<ICONS.Users />}
           label="Clientes"
           active={currentView === "clients"}
           onClick={() => onViewChange("clients")}
-        />
-        <SidebarItem
+        /> */}
+        
+{/*         <SidebarItem
           icon={<ICONS.Camellos />}
           label="Camellos"
           active={currentView === "operators"}
           onClick={() => onViewChange("operators")}
-        />
-        <SidebarItem
+        /> */}
+
+{/*         <SidebarItem
           icon={<ICONS.Notes />}
           label="Notas"
           active={currentView === "notes"}
           onClick={() => onViewChange("notes")}
-        />
-        <SidebarItem
+        /> */}
+        
+{/*         <SidebarItem
           icon={<ICONS.Expenses />}
           label="Gastos"
           active={currentView === "expenses"}
           onClick={() => onViewChange("expenses")}
-        />
-        <SidebarItem
+        /> */}
+        
+{/*         <SidebarItem
           icon={<ICONS.Reports />}
           label="Reportes"
           active={currentView === "reports"}
           onClick={() => onViewChange("reports")}
-        />
+        /> */}
 
         {/* Sección Especial para Dev Mode - VISIBLE SOLO PARA ROL DEV */}
         {userRole === "DEV" && (

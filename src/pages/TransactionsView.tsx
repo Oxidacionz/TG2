@@ -5,7 +5,6 @@ import { Button } from "../components/atoms/Button";
 import { Card } from "../components/atoms/Card";
 import { Input } from "../components/atoms/Input";
 import { Badge } from "../components/atoms/Badge";
-import { supabase } from "../lib/supabaseClient";
 import { MOCK_DATA } from "../mocks/mockData";
 
 export const TransactionsView = ({
@@ -16,45 +15,15 @@ export const TransactionsView = ({
   refreshTrigger?: number;
 }) => {
   const [transactions, setTransactions] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchTransactions = async () => {
       setLoading(true);
       try {
-        const { data, error } = await supabase
-          .from("transactions")
-          .select("*")
-          .order("created_at", { ascending: false });
-
-        if (error) throw error;
-
-        if (data && data.length > 0) {
-          // Mapear datos de DB a formato frontend
-          const mappedData = data.map((item: any) => ({
-            id: item.id.substring(0, 8),
-            date: new Date(item.created_at).toLocaleDateString(),
-            ref: item.reference || "S/R",
-            client: item.client_name || "Desconocido",
-            clientBank: item.client_bank || "---",
-            amount: item.amount,
-            currency: item.currency,
-            type: item.type,
-            operator: item.operator_name || "Sistema",
-            rate: item.rate,
-            profit: item.profit,
-            status: item.status,
-            // Nuevos campos mapeados
-            targetAccount: item.target_account,
-            commission: item.commission,
-          }));
-          setTransactions(mappedData);
-        } else {
-          setTransactions([]);
-        }
+        setTransactions(MOCK_DATA.transactions);
       } catch (err) {
         console.error("Error fetching transactions:", err);
-        setTransactions(MOCK_DATA.transactions);
       } finally {
         setLoading(false);
       }
