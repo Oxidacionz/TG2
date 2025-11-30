@@ -117,7 +117,15 @@ export const DashboardView = ({ refreshTrigger }: { refreshTrigger?: number }) =
       localStorage.setItem('globalRate', newRate);
 
       // Try to update DB if table exists
-      await supabase.from('app_config').upsert({ id: 1, global_rate_ves: parseFloat(newRate) }).catch(() => {});
+      try {
+        await supabase
+          .from('app_config')
+          .upsert({ id: 1, global_rate_ves: parseFloat(newRate) });
+      } catch (error) {
+        console.error('Error al realizar el upsert:', error);
+      }
+
+      // await supabase.from('app_config').upsert({ id: 1, global_rate_ves: parseFloat(newRate) }).catch(() => {});
 
       setIsEditRateOpen(false);
   };

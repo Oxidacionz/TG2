@@ -1,6 +1,6 @@
 import { Card } from '../atoms/Card';
 import { Badge } from '../atoms/Badge';
-import { MOCK_DATA } from '../../../constants/mockData
+import { MOCK_DATA } from '../../../constants/mockData';
 
 export const TransactionsTable = () => (
     <Card className="overflow-hidden">
