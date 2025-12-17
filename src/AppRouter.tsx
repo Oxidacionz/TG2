@@ -11,6 +11,7 @@ import { ReportsView } from "./pages/ReportsView";
 import { AccountsView } from "./pages/AccountsView";
 import { NotesView } from "./pages/NotesView";
 import { DevView } from "./pages/DevView";
+import { Spinner } from "./components/atoms/Spinner";
 
 // --- LÓGICA DE PROTECCIÓN ---
 
@@ -39,11 +40,21 @@ const routes: RouteObject[] = [
     path: "/login",
     Component: LoginView,
     loader: publicLoader,
+    hydrateFallbackElement: (
+      <div className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-900">
+        <Spinner size="lg" />
+      </div>
+    ),
   },
   {
     path: "/",
     Component: DashboardLayout,
     loader: protectedLoader,
+    hydrateFallbackElement: (
+      <div className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-900">
+        <Spinner size="lg" />
+      </div>
+    ),
     children: [
       {
         index: true,

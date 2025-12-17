@@ -10,13 +10,13 @@ export const DigitalClock = () => {
   }, []);
 
   return (
-    <div className="hidden flex-1 items-center justify-center border-b border-slate-800 bg-[#0f172a] p-4 sm:flex md:border-r md:border-b-0">
+    <div className="bg-brand-900 hidden items-center justify-center border-b border-slate-800 p-4 sm:flex xl:border-r xl:border-b-0">
       <div className="flex items-center gap-4">
         <div className="rounded-xl bg-slate-800 p-3 text-blue-500">
           <FaClock className="h-4 w-4" />
         </div>
         <div>
-          <p className="font-mono text-2xl font-bold tracking-widest text-white">
+          <p className="font-mono text-lg font-bold tracking-widest text-white">
             {time.toLocaleTimeString("en-US", { hour12: true })}
           </p>
           <p className="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase">

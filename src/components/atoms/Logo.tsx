@@ -3,13 +3,14 @@ import React from "react";
 interface Props {
   size?: "sm" | "lg";
   invert?: boolean;
+  className?: string;
 }
 
 export const Logo = React.memo((props: Props) => {
-  const { size = "sm", invert = false } = props;
+  const { size = "sm", invert = false, className } = props;
   return (
     <div
-      className={`flex flex-col items-center ${invert ? "text-white" : "text-slate-900 dark:text-white"}`}
+      className={`flex flex-col items-center ${invert ? "text-white" : "text-slate-900 dark:text-white"} ${className}`}
     >
       <div
         className={`${size === "lg" ? "mb-4 h-16 w-16" : "mb-1 h-8 w-8"} text-brand-600 flex items-center justify-center rounded-full bg-white shadow-lg dark:bg-slate-800`}
@@ -25,7 +26,7 @@ export const Logo = React.memo((props: Props) => {
       {size === "lg" && (
         <>
           <h1 className="text-2xl font-bold">TORO GROUP</h1>
-          <p className="mt-1 text-sm text-blue-100">
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
             Sistema de Gestión Financiera
           </p>
         </>

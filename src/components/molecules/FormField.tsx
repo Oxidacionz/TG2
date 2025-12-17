@@ -5,13 +5,18 @@ interface Props {
   label: string;
   icon?: ReactNode;
   children: ReactNode;
+  htmlFor?: string;
+  error?: string;
 }
 
 export const FormField = React.memo((props: Props) => {
-  const { label, icon, children } = props;
+  const { label, icon, children, htmlFor, error } = props;
   return (
     <div className="space-y-1">
-      <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+      <label
+        htmlFor={htmlFor}
+        className="text-sm font-medium text-slate-700 dark:text-slate-300"
+      >
         {label}
       </label>
       <div className="relative">
@@ -22,6 +27,7 @@ export const FormField = React.memo((props: Props) => {
         )}
         {children}
       </div>
+      {error && <p className="text-xs text-rose-500">{error}</p>}
     </div>
   );
 });

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { TransactionType } from "../../types";
 import { Button } from "../atoms/Button";
 import { Input } from "../atoms/Input";
@@ -23,25 +23,19 @@ interface Props {
 export const DebtFormModal = (props: Props) => {
   const { isOpen, onClose, onSubmit, type } = props;
 
-  const [debtClient, setDebtClient] = useState("");
-  const [debtPlatform, setDebtPlatform] = useState("");
-  const [debtAmount, setDebtAmount] = useState("");
-  const [debtDueDate, setDebtDueDate] = useState("");
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<DebtFormData>();
 
-  const handleSubmit = () => {
-    if (!debtClient || !debtAmount) return alert("Datos obligatorios");
-    onSubmit({
-      debtClient,
-      debtPlatform,
-      debtAmount,
-      debtDueDate,
-      type,
-    });
-    // Reset form logic would go here ideally
-    setDebtClient("");
-    setDebtPlatform("");
-    setDebtAmount("");
-    setDebtDueDate("");
+  // Need to fix import first locally? No I'm overwriting file.
+
+  const onFormSubmit = (data: DebtFormData) => {
+    console.log("DebtFormModal Data:", data);
+    onSubmit({ ...data, type });
+    reset();
     onClose();
   };
 
@@ -53,7 +47,7 @@ export const DebtFormModal = (props: Props) => {
         type === TransactionType.INCOME ? "Cobrar" : "Pagar"
       }`}
     >
-      <div className="space-y-4">
+      <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
         <p className="text-sm text-slate-500">
           {type === TransactionType.INCOME
             ? "Registra un dinero que nos deben."
@@ -65,47 +59,42 @@ export const DebtFormModal = (props: Props) => {
               ? "Deudor (Cliente)"
               : "Acreedor (A quién debemos)"
           }
+          error={errors.debtClient?.message}
         >
           <Input
-            value={debtClient}
-            onChange={(e) => setDebtClient(e.target.value)}
+            {...register("debtClient", { required: "El nombre es requerido" })}
             placeholder="Nombre..."
             autoFocus
           />
         </FormField>
         <div className="grid grid-cols-2 gap-4">
           <FormField label="Plataforma / Banco">
-            <Input
-              value={debtPlatform}
-              onChange={(e) => setDebtPlatform(e.target.value)}
-              placeholder="Ej. Zelle"
-            />
+            <Input {...register("debtPlatform")} placeholder="Ej. Zelle" />
           </FormField>
           <FormField label="Fecha de Vencimiento">
             <input
               type="date"
               className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-              value={debtDueDate}
-              onChange={(e) => setDebtDueDate(e.target.value)}
+              {...register("debtDueDate")}
             />
           </FormField>
         </div>
-        <FormField label="Monto (USD)">
+        <FormField label="Monto (USD)" error={errors.debtAmount?.message}>
           <Input
             type="number"
-            value={debtAmount}
-            onChange={(e) => setDebtAmount(e.target.value)}
+            step="0.01"
+            {...register("debtAmount", { required: "El monto es requerido" })}
             placeholder="0.00"
             className="text-lg font-bold"
           />
         </FormField>
         <div className="flex justify-end gap-2 pt-4">
-          <Button variant="ghost" onClick={onClose}>
+          <Button variant="ghost" onClick={onClose} type="button">
             Cancelar
           </Button>
-          <Button onClick={handleSubmit}>Guardar Deuda</Button>
+          <Button type="submit">Guardar Deuda</Button>
         </div>
-      </div>
+      </form>
     </Modal>
   );
 };

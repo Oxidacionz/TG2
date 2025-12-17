@@ -11,7 +11,7 @@ export const GlobalRateCard = React.memo((props: Props) => {
   const { rate, onEdit } = props;
 
   return (
-    <div className="group relative flex flex-1 items-center justify-between bg-blue-600 p-4">
+    <div className="group relative flex items-center justify-between bg-blue-600 p-4">
       <div className="flex items-center gap-3">
         <div className="rounded-lg bg-white/20 p-2 text-white">
           <FaHandHoldingDollar className="h-4 w-4" />

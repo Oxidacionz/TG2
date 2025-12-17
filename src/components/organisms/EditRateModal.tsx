@@ -1,17 +1,45 @@
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { Button } from "../atoms/Button";
 import { Input } from "../atoms/Input";
+import { FormField } from "../molecules/FormField";
 import { Modal } from "./Modal";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  onSave: () => void;
-  tempRate: string;
-  setTempRate: (rate: string) => void;
+  onSave: (rate: string) => void;
+  currentRate: string;
+}
+
+interface RateFormData {
+  rate: string;
 }
 
 export const EditRateModal = (props: Props) => {
-  const { isOpen, onClose, onSave, tempRate, setTempRate } = props;
+  const { isOpen, onClose, onSave, currentRate } = props;
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<RateFormData>({
+    defaultValues: {
+      rate: currentRate,
+    },
+  });
+
+  useEffect(() => {
+    if (isOpen) {
+      reset({ rate: currentRate });
+    }
+  }, [isOpen, currentRate, reset]);
+
+  const onSubmit = (data: RateFormData) => {
+    console.log("EditRateModal Data:", data);
+    onSave(data.rate);
+  };
 
   return (
     <Modal
@@ -19,30 +47,30 @@ export const EditRateModal = (props: Props) => {
       onClose={onClose}
       title="Editar Tasa Promedio Global"
     >
-      <div className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <p className="text-sm text-slate-500">
           Esta tasa se usará como referencia para cálculos rápidos en la
           aplicación.
         </p>
-        <div>
-          <label className="text-sm font-bold text-slate-700 dark:text-slate-300">
-            Nueva Tasa (VES/$)
-          </label>
+        <FormField label="Nueva Tasa (VES/$)" error={errors.rate?.message}>
           <Input
             type="number"
-            value={tempRate}
-            onChange={(e) => setTempRate(e.target.value)}
+            step="0.01"
             placeholder="0.00"
             autoFocus
+            {...register("rate", {
+              required: "La tasa es requerida",
+              min: { value: 0.01, message: "Debe ser mayor a 0" },
+            })}
           />
-        </div>
+        </FormField>
         <div className="flex justify-end gap-2 pt-2">
-          <Button variant="ghost" onClick={onClose}>
+          <Button variant="ghost" onClick={onClose} type="button">
             Cancelar
           </Button>
-          <Button onClick={onSave}>Guardar Nueva Tasa</Button>
+          <Button type="submit">Guardar Nueva Tasa</Button>
         </div>
-      </div>
+      </form>
     </Modal>
   );
 };

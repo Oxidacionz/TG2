@@ -1,98 +1,112 @@
-import { type FormEvent, useState } from "react";
+import { useState, memo } from "react";
 import { Input } from "../atoms/Input";
 import { Button } from "../atoms/Button";
 import { FormField } from "../molecules/FormField";
-import { Modal } from "./Modal";
 import { authService } from "../../services/AuthService";
 import { FaEye, FaEyeSlash, FaLock, FaUser } from "react-icons/fa6";
 import { BiSupport } from "react-icons/bi";
-import { IoIosSend } from "react-icons/io";
+import { SupportModal } from "./SupportModal";
+import { FormProvider, useForm } from "react-hook-form";
 
-export const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // Estado para el ojo
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+interface LoginFormValues {
+  email: string;
+  password: string;
+}
 
-  // Estado para el Modal de Soporte
+const EMAIL_VALIDATION = {
+  required: "El email es requerido",
+  pattern: {
+    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+    message: "El email es invalido",
+  },
+};
+
+const PASSWORD_VALIDATION = {
+  required: "La contraseña es requerida",
+  minLength: {
+    value: 4,
+    message: "La contraseña debe tener al menos 4 caracteres",
+  },
+  maxLength: {
+    value: 32,
+    message: "La contraseña debe tener menos de 32 caracteres",
+  },
+};
+
+export const LoginForm = memo(() => {
+  const [showPassword, setShowPassword] = useState(false);
   const [isSupportOpen, setIsSupportOpen] = useState(false);
-  const [supportIssue, setSupportIssue] = useState("Olvidé mi contraseña");
-  const [supportDesc, setSupportDesc] = useState("");
 
-  const handleLogin = async (e: FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
+  const methods = useForm<LoginFormValues>();
 
-    const { error } = await authService.signInWithPassword(email, password);
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = methods;
 
-    if (error) {
-      setError(error.message);
-      setLoading(false);
-    } else {
-      // Success: Router revalidation will handle the redirect via onAuthStateChange in App.tsx
-    }
-  };
-
-  const handleSendSupport = () => {
-    const subject = encodeURIComponent(`Soporte Toro Group: ${supportIssue}`);
-    const bodyText =
-      supportIssue === "Otros"
-        ? supportDesc
-        : `Hola, tengo el siguiente problema: ${supportIssue}`;
-    const body = encodeURIComponent(bodyText);
-
-    window.open(
-      `mailto:josephbrachovillanueva2@gmail.com?subject=${subject}&body=${body}`,
+  const handleLogin = async (data: LoginFormValues) => {
+    console.log("LoginForm Data:", data);
+    // Clear root errors if any before new attempt
+    const { error } = await authService.signInWithPassword(
+      data.email,
+      data.password,
     );
-    setIsSupportOpen(false);
-    setSupportDesc("");
-    setSupportIssue("Olvidé mi contraseña");
+
+    if (error) setError("root", { message: error.message });
   };
 
   return (
-    <div className="p-8">
-      <form onSubmit={handleLogin} className="space-y-4">
-        {error && (
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(handleLogin)} className="space-y-4">
+        {errors.root && (
           <div className="mb-4 rounded border border-red-200 bg-red-100 p-3 text-sm text-red-700">
-            {error === "Invalid login credentials"
+            {errors.root.message === "Invalid login credentials"
               ? "Usuario o contraseña incorrectos"
-              : error}
+              : errors.root.message}
           </div>
         )}
 
-        <FormField label="Email" icon={<FaUser />}>
+        <FormField
+          htmlFor="email"
+          label="Email"
+          icon={<FaUser />}
+          error={errors.email?.message}
+        >
           <Input
+            id="email"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            {...register("email", EMAIL_VALIDATION)}
             placeholder="admin@torogroup.com"
-            className="pl-10" // Se eliminaron las clases forzadas (bg-white/dark:bg-white) para que el Atom maneje el color correcto
+            className="pl-10"
             required
+            disabled={isSubmitting}
           />
         </FormField>
 
         <div className="space-y-1">
-          <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+          <label
+            htmlFor="password"
+            className="text-sm font-medium text-slate-700 dark:text-slate-300"
+          >
             Contraseña
           </label>
           <div className="relative">
-            {/* Candado a la izquierda */}
             <div className="absolute top-1/2 left-3 -translate-y-1/2 text-slate-400">
               <FaLock />
             </div>
 
             <Input
+              id="password"
               type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...register("password", PASSWORD_VALIDATION)}
               placeholder="••••••••"
-              className="pr-10 pl-10" // Padding extra a la derecha para el ojo
+              className="pr-10 pl-10"
               required
+              disabled={isSubmitting}
             />
 
-            {/* Ojo (Toggle) a la derecha */}
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
@@ -101,6 +115,9 @@ export const LoginForm = () => {
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
+          {errors.password && (
+            <p className="text-xs text-rose-500">{errors.password.message}</p>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
@@ -120,9 +137,9 @@ export const LoginForm = () => {
         <Button
           type="submit"
           className="w-full justify-center"
-          disabled={loading}
+          disabled={isSubmitting}
         >
-          {loading ? "Verificando..." : "Iniciar Sesión"}{" "}
+          {isSubmitting ? "Verificando..." : "Iniciar Sesión"}{" "}
           <span className="ml-2">→</span>
         </Button>
       </form>
@@ -137,58 +154,12 @@ export const LoginForm = () => {
         </button>
       </div>
 
-      {/* Modal de Soporte */}
-      <Modal
+      <SupportModal
         isOpen={isSupportOpen}
         onClose={() => setIsSupportOpen(false)}
-        title="Soporte Técnico"
-      >
-        <div className="space-y-4">
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            Selecciona el tipo de problema para contactar al administrador.
-          </p>
-
-          <div className="space-y-1">
-            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">
-              Tipo de Problema
-            </label>
-            <select
-              className="focus:ring-brand-500 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:ring-2 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-              value={supportIssue}
-              onChange={(e) => setSupportIssue(e.target.value)}
-            >
-              <option value="Olvidé mi contraseña">Olvidé mi contraseña</option>
-              <option value="Error de correo">Error de correo</option>
-              <option value="Falla en software">Falla en software</option>
-              <option value="Otros">Otros...</option>
-            </select>
-          </div>
-
-          {/* Mostrar descripción solo si es "Otros" */}
-          {supportIssue === "Otros" && (
-            <div className="animate-fade-in space-y-1">
-              <label className="text-sm font-bold text-slate-700 dark:text-slate-300">
-                Describe el problema
-              </label>
-              <textarea
-                className="focus:ring-brand-500 w-full rounded-lg border border-slate-300 bg-white p-3 text-sm outline-none focus:ring-2 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-                rows={4}
-                placeholder="Detalla lo que sucedió..."
-                value={supportDesc}
-                onChange={(e) => setSupportDesc(e.target.value)}
-              ></textarea>
-            </div>
-          )}
-
-          <Button
-            className="w-full"
-            icon={<IoIosSend />}
-            onClick={handleSendSupport}
-          >
-            Enviar Correo
-          </Button>
-        </div>
-      </Modal>
-    </div>
+      />
+    </FormProvider>
   );
-};
+});
+// Add display name for debugging
+LoginForm.displayName = "LoginForm";

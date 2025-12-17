@@ -34,7 +34,6 @@ export const DashboardView = () => {
   // Config State (Tasa Global)
   const [globalRate, setGlobalRate] = useState("36.00");
   const [isEditRateOpen, setIsEditRateOpen] = useState(false);
-  const [tempRate, setTempRate] = useState("");
 
   // Chart State
   const [lineData] = useState(MOCK_DATA.chartData);
@@ -42,13 +41,13 @@ export const DashboardView = () => {
     [],
   );
 
-  const handleUpdateRate = () => {
-    const newRate = parseFloat(tempRate).toFixed(2);
-    setGlobalRate(newRate);
-    localStorage.setItem("globalRate", newRate);
+  const handleUpdateRate = (newRate: string) => {
+    const formattedRate = parseFloat(newRate).toFixed(2);
+    setGlobalRate(formattedRate);
+    localStorage.setItem("globalRate", formattedRate);
 
     // Try to update DB if table exists (MOCKED)
-    console.log("Mock update rate:", newRate);
+    console.log("Mock update rate:", formattedRate);
 
     setIsEditRateOpen(false);
   };
@@ -60,7 +59,6 @@ export const DashboardView = () => {
         <GlobalRateCard
           rate={globalRate}
           onEdit={() => {
-            setTempRate(globalRate);
             setIsEditRateOpen(true);
           }}
         />
@@ -79,8 +77,7 @@ export const DashboardView = () => {
         isOpen={isEditRateOpen}
         onClose={() => setIsEditRateOpen(false)}
         onSave={handleUpdateRate}
-        tempRate={tempRate}
-        setTempRate={setTempRate}
+        currentRate={globalRate}
       />
     </div>
   );
