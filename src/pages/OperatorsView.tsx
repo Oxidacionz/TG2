@@ -1,7 +1,7 @@
 import { useState } from "react";
 // Supabase removed
 import { Card } from "../components/atoms/Card";
-import { ICONS } from "../components/atoms/Icons";
+import { LuPlus } from "react-icons/lu";
 import { Button } from "../components/atoms/Button";
 import { Toggle } from "../components/atoms/Toggle";
 import { Modal } from "../components/organisms/Modal";
@@ -61,7 +61,7 @@ export const OperatorsView = () => {
           <Button variant="danger" size="sm" onClick={handleDisableAll}>
             Deshabilitar Todos
           </Button>
-          <Button onClick={() => setIsHelpOpen(true)} icon={<ICONS.Plus />}>
+          <Button onClick={() => setIsHelpOpen(true)} icon={<LuPlus />}>
             Registrar Nuevo
           </Button>
         </div>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Card } from "../components/atoms/Card";
 import { Button } from "../components/atoms/Button";
 import { Input } from "../components/atoms/Input";
-import { ICONS } from "../components/atoms/Icons";
+import { LuPlus, LuSearch, LuUsers } from "react-icons/lu";
 import { Modal } from "../components/organisms/Modal";
 import { FormField } from "../components/molecules/FormField";
 import { Client } from "../types";
@@ -57,7 +57,7 @@ export const ClientsView = () => {
             Gestión de cartera de clientes frecuentes.
           </p>
         </div>
-        <Button onClick={() => setIsModalOpen(true)} icon={<ICONS.Plus />}>
+        <Button onClick={() => setIsModalOpen(true)} icon={<LuPlus />}>
           Nuevo Cliente
         </Button>
       </div>
@@ -65,7 +65,7 @@ export const ClientsView = () => {
       <Card className="p-4">
         <div className="relative">
           <div className="absolute top-1/2 left-3 -translate-y-1/2 text-slate-400">
-            <ICONS.Search />
+            <LuSearch />
           </div>
           <Input
             placeholder="Buscar cliente por nombre o teléfono..."
@@ -119,7 +119,7 @@ export const ClientsView = () => {
           ))
         ) : (
           <div className="col-span-3 py-10 text-center text-slate-400">
-            <ICONS.Users />
+            <LuUsers />
             <p className="mt-2">No se encontraron clientes.</p>
           </div>
         )}

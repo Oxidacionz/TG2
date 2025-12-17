@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Card } from "../components/atoms/Card";
 import { Button } from "../components/atoms/Button";
 import { Input } from "../components/atoms/Input";
-import { ICONS } from "../components/atoms/Icons";
+import { LuPlus } from "react-icons/lu";
 import { Modal } from "../components/organisms/Modal";
 import { FormField } from "../components/molecules/FormField";
 import { Expense, ExpenseCategory } from "../types";
@@ -62,7 +62,7 @@ export const ExpensesView = () => {
         </div>
         <Button
           onClick={() => setIsModalOpen(true)}
-          icon={<ICONS.Plus />}
+          icon={<LuPlus />}
           variant="danger"
         >
           Registrar Gasto

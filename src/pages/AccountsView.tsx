@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Card } from "../components/atoms/Card";
 import { Button } from "../components/atoms/Button";
 import { Input } from "../components/atoms/Input";
-import { ICONS } from "../components/atoms/Icons";
+import { LuPlus, LuArrowRight } from "react-icons/lu";
 import { Modal } from "../components/organisms/Modal";
 import { FormField } from "../components/molecules/FormField";
 import {
@@ -159,7 +159,7 @@ export const AccountsView = () => {
           <Button
             size="sm"
             onClick={() => setIsDebtModalOpen(true)}
-            icon={<ICONS.Plus />}
+            icon={<LuPlus />}
           >
             Registrar
           </Button>
@@ -181,7 +181,7 @@ export const AccountsView = () => {
                   <div
                     className={`shrink-0 rounded-full p-3 ${debt.type === TransactionType.INCOME ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}
                   >
-                    <ICONS.ArrowRight />
+                    <LuArrowRight />
                   </div>
                   <div>
                     <h4 className="flex items-center gap-2 font-bold text-slate-800 dark:text-white">
@@ -234,10 +234,7 @@ export const AccountsView = () => {
           </p>
         </div>
         {activeTab === "ACCOUNTS" && (
-          <Button
-            onClick={() => setIsAccountModalOpen(true)}
-            icon={<ICONS.Plus />}
-          >
+          <Button onClick={() => setIsAccountModalOpen(true)} icon={<LuPlus />}>
             Agregar Cuenta
           </Button>
         )}

@@ -2,7 +2,7 @@ import { useState } from "react";
 // Supabase removed
 import { Card } from "../components/atoms/Card";
 import { Button } from "../components/atoms/Button";
-import { ICONS } from "../components/atoms/Icons";
+import { LuUpload } from "react-icons/lu";
 import { ReportRow } from "../types";
 
 export const ReportsView = () => {
@@ -100,7 +100,7 @@ export const ReportsView = () => {
         </div>
 
         <div className="flex gap-4">
-          <Button onClick={handleExportCSV} icon={<ICONS.Upload />}>
+          <Button onClick={handleExportCSV} icon={<LuUpload />}>
             Descargar CSV Filtrado
           </Button>
         </div>

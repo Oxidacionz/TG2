@@ -6,7 +6,7 @@ import { Button } from "../components/atoms/Button";
 import { Input } from "../components/atoms/Input";
 import { FormField } from "../components/molecules/FormField";
 import { Toggle } from "../components/atoms/Toggle";
-import { ICONS } from "../components/atoms/Icons";
+import { LuCode } from "react-icons/lu";
 
 export const DevView = () => {
   const [config, setConfig] = useState({
@@ -33,7 +33,7 @@ export const DevView = () => {
     <div className="space-y-6">
       <div>
         <h2 className="flex items-center gap-2 text-lg font-bold text-slate-800 dark:text-white">
-          <ICONS.Code /> Modo Desarrollador
+          <LuCode /> Modo Desarrollador
         </h2>
         <p className="text-sm text-slate-500">
           Configuración avanzada de APIs y automatización.

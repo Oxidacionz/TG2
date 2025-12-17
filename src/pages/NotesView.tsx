@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Card } from "../components/atoms/Card";
 import { Button } from "../components/atoms/Button";
-import { ICONS } from "../components/atoms/Icons";
+import { LuPlus } from "react-icons/lu";
 import { Modal } from "../components/organisms/Modal";
 import { Note } from "../types";
 
@@ -53,7 +53,7 @@ export const NotesView = () => {
           </h2>
           <p className="text-sm text-slate-500">Comunicaciones internas.</p>
         </div>
-        <Button onClick={() => setIsModalOpen(true)} icon={<ICONS.Plus />}>
+        <Button onClick={() => setIsModalOpen(true)} icon={<LuPlus />}>
           Nueva Nota
         </Button>
       </div>
