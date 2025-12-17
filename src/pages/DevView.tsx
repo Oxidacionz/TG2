@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { supabase } from "../lib/supabaseClient";
+// Supabase removed
 import { Card } from "../components/atoms/Card";
 import { Button } from "../components/atoms/Button";
 import { Input } from "../components/atoms/Input";
@@ -9,9 +9,9 @@ import { ICONS } from "../components/atoms/Icons";
 
 export const DevView = () => {
   const [config, setConfig] = useState({
-    whatsapp_key: "",
-    telegram_key: "",
-    ocr_enabled: false,
+    whatsapp_key: "mock-wa-key",
+    telegram_key: "mock-tg-key",
+    ocr_enabled: true,
   });
   const [loading, setLoading] = useState(false);
 
@@ -19,34 +19,14 @@ export const DevView = () => {
   const webhookUrl =
     "https://kkkwfimgkemxwgvqvaob.supabase.co/functions/v1/process-receipt";
 
-  useEffect(() => {
-    fetchConfig();
-  }, []);
-
-  const fetchConfig = async () => {
-    const { data } = await supabase.from("app_config").select("*").single();
-    if (data) {
-      setConfig({
-        whatsapp_key: data.whatsapp_api_key || "",
-        telegram_key: data.telegram_api_key || "",
-        ocr_enabled: data.ocr_enabled || false,
-      });
-    }
+  const fetchConfig = () => {
+    // Config initialized in state
   };
 
-  const handleSave = async () => {
+  const handleSave = () => {
     setLoading(true);
-    const { error } = await supabase
-      .from("app_config")
-      .update({
-        whatsapp_api_key: config.whatsapp_key,
-        telegram_api_key: config.telegram_key,
-        ocr_enabled: config.ocr_enabled,
-      })
-      .eq("id", 1);
-
-    if (error) alert("Error guardando configuración");
-    else alert("Configuración guardada correctamente");
+    console.log("Mock Save Config:", config);
+    alert("Configuración guardada correctamente (MOCK)");
     setLoading(false);
   };
 

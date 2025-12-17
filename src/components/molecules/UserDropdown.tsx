@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { supabase } from "../../lib/supabaseClient";
+// Supabase removed
 import { FaGear } from "react-icons/fa6";
 import { BiSolidExit } from "react-icons/bi";
 
@@ -9,28 +9,10 @@ export const UserDropdown: React.FC<{
   onSettings?: () => void;
 }> = ({ onLogout, userEmail, onSettings }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [role, setRole] = useState("Cargando...");
+  const [role, setRole] = useState("ADMIN");
 
   // Extraer nombre del email si no hay nombre de usuario (ej. admin@... -> admin)
   const displayName = userEmail ? userEmail.split("@")[0] : "ToroUser";
-
-  useEffect(() => {
-    // Obtener rol real de Supabase
-    const fetchRole = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (user) {
-        const { data } = await supabase
-          .from("profiles")
-          .select("role")
-          .eq("id", user.id)
-          .single();
-        if (data) setRole(data.role);
-      }
-    };
-    fetchRole();
-  }, []);
 
   return (
     <div className="relative">

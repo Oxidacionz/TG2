@@ -12,7 +12,6 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import { supabase } from "../lib/supabaseClient";
 import { Card } from "../components/atoms/Card";
 import { StatCard } from "../components/molecules/StatCard";
 import { MOCK_DATA } from "../mocks/mockData";
@@ -66,19 +65,13 @@ export const DashboardView = ({
     return () => clearInterval(timer);
   }, []);
 
-  const handleUpdateRate = async () => {
+  const handleUpdateRate = () => {
     const newRate = parseFloat(tempRate).toFixed(2);
     setGlobalRate(newRate);
     localStorage.setItem("globalRate", newRate);
 
-    // Try to update DB if table exists
-    try {
-      await supabase
-        .from("app_config")
-        .upsert({ id: 1, global_rate_ves: parseFloat(newRate) });
-    } catch (error) {
-      console.error("Error al realizar el upsert:", error);
-    }
+    // Try to update DB if table exists (MOCKED)
+    console.log("Mock update rate:", newRate);
 
     setIsEditRateOpen(false);
   };

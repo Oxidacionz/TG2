@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../lib/supabaseClient";
+// Supabase removed
 import { Card } from "../components/atoms/Card";
 import { ICONS } from "../components/atoms/Icons";
 import { Button } from "../components/atoms/Button";
@@ -7,62 +7,41 @@ import { Toggle } from "../components/atoms/Toggle";
 import { Modal } from "../components/organisms/Modal";
 
 export const OperatorsView = () => {
-  const [operators, setOperators] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [operators, setOperators] = useState([
+    {
+      id: "op1",
+      username: "Operador 1",
+      role: "OPERADOR",
+      last_active: new Date().toISOString(),
+      is_active: true,
+    },
+    {
+      id: "op2",
+      username: "Operador 2",
+      role: "OPERADOR",
+      last_active: new Date().toISOString(),
+      is_active: false,
+    },
+  ] as any);
+  const [loading, setLoading] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
 
-  useEffect(() => {
-    fetchOperators();
-  }, []);
-
-  const fetchOperators = async () => {
-    setLoading(true);
-    const { data } = await supabase.from("profiles").select("*");
-    if (data) {
-      // Filtramos para que NO se muestre el ADMIN ni el DEV
-      const mappedOps = data
-        .filter((p: any) => p.role !== "ADMIN" && p.role !== "DEV")
-        .map((p: any) => ({
-          id: p.id,
-          username: p.username || "Usuario",
-          role: p.role || "OPERADOR",
-          last_active: p.updated_at,
-          is_active: p.is_active ?? true, // Fallback to true if null
-        }));
-      setOperators(mappedOps);
-    }
-    setLoading(false);
-  };
-
-  const handleToggleActive = async (id: string, currentStatus: boolean) => {
-    // Optimistic update
+  const handleToggleActive = (id: string, currentStatus: boolean) => {
+    // Optimistic update (Mock)
     setOperators((prev) =>
       prev.map((op) =>
         op.id === id ? { ...op, is_active: !currentStatus } : op,
       ),
     );
-
-    const { error } = await supabase
-      .from("profiles")
-      .update({ is_active: !currentStatus })
-      .eq("id", id);
-    if (error) alert("Error actualizando estado");
+    console.log("Mock toggle operator:", id);
   };
 
-  const handleDisableAll = async () => {
+  const handleDisableAll = () => {
     if (!confirm("¿Seguro que deseas deshabilitar a TODOS los camellos?"))
       return;
 
-    const updates = operators.map((op) => ({ id: op.id, is_active: false }));
+    // Mock disable all
     setOperators((prev) => prev.map((op) => ({ ...op, is_active: false })));
-
-    // En batch es complejo con la API básica, hacemos loop simple por ahora
-    for (const op of updates) {
-      await supabase
-        .from("profiles")
-        .update({ is_active: false })
-        .eq("id", op.id);
-    }
   };
 
   return (
@@ -132,9 +111,9 @@ export const OperatorsView = () => {
         title="Registro de Operador"
       >
         <div className="space-y-4 text-slate-700 dark:text-slate-300">
-          <p>El registro se realiza en el panel de Supabase Auth.</p>
+          <p>El registro de operadores está simulado.</p>
           <p className="text-sm">
-            Al crear un usuario allí, aparecerá automáticamente en esta lista.
+            En modo mock, no se pueden agregar nuevos usuarios realmente.
           </p>
           <Button className="mt-2 w-full" onClick={() => setIsHelpOpen(false)}>
             Entendido

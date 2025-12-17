@@ -3,7 +3,7 @@ import { Input } from "../atoms/Input";
 import { Button } from "../atoms/Button";
 import { FormField } from "../molecules/FormField";
 import { Modal } from "./Modal";
-import { supabase } from "../../lib/supabaseClient";
+// Supabase removed
 import { FaEye, FaEyeSlash, FaLock, FaUser } from "react-icons/fa6";
 import { BiSupport } from "react-icons/bi";
 import { IoIosSend } from "react-icons/io";
@@ -20,18 +20,19 @@ export const LoginForm: React.FC = () => {
   const [supportIssue, setSupportIssue] = useState("Olvidé mi contraseña");
   const [supportDesc, setSupportDesc] = useState("");
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      setError(error.message);
+    // Mock Login
+    if (email === "admin@torogroup.com" && password === "admin") {
+      // In a real mock, we would set the session here, but since App.tsx is hardcoded, this might just reload or do nothing visible
+      window.location.reload();
+    } else {
+      setError(
+        "Invalid login credentials (Mock: use admin@torogroup.com / admin)",
+      );
       setLoading(false);
     }
   };

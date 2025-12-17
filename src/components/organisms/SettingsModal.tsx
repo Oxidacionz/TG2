@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal } from "./Modal";
-import { supabase } from "../../lib/supabaseClient";
+// Supabase removed
 import { FormField } from "../molecules/FormField";
 import { Input } from "../atoms/Input";
 import { Button } from "../atoms/Button";
@@ -16,49 +16,17 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   onClose,
   userEmail,
 }) => {
-  const [userId, setUserId] = useState("");
-  const [username, setUsername] = useState("");
-  const [role, setRole] = useState("");
+  const [userId, setUserId] = useState("mock-user-id");
+  const [username, setUsername] = useState("Admin Mock");
+  const [role, setRole] = useState("ADMIN");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (isOpen) {
-      fetchProfile();
-    }
-  }, [isOpen]);
-
-  const fetchProfile = async () => {
+  const handleUpdate = () => {
     setLoading(true);
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (user) {
-      setUserId(user.id);
-      const { data } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", user.id)
-        .single();
-      if (data) {
-        setUsername(data.username || "");
-        setRole(data.role || "OPERADOR");
-      }
-    }
-    setLoading(false);
-  };
-
-  const handleUpdate = async () => {
-    setLoading(true);
-    const { error } = await supabase
-      .from("profiles")
-      .update({ username })
-      .eq("id", userId);
-    if (error) alert("Error: " + error.message);
-    else {
-      onClose();
-      // Opcional: Recargar página para reflejar cambios en header
-      window.location.reload();
-    }
+    // Mock update
+    console.log("Mock update username:", username);
+    onClose();
+    window.location.reload();
     setLoading(false);
   };
 

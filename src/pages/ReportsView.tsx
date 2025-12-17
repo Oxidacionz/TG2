@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { supabase } from "../lib/supabaseClient";
+// Supabase removed
 import { Card } from "../components/atoms/Card";
 import { Button } from "../components/atoms/Button";
 import { ICONS } from "../components/atoms/Icons";
@@ -9,21 +9,20 @@ export const ReportsView = () => {
   const [endDate, setEndDate] = useState("");
 
   const handleExportCSV = async () => {
-    let query = supabase
-      .from("transactions")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    // Aplicar filtros si existen
-    if (startDate)
-      query = query.gte("created_at", new Date(startDate).toISOString());
-    if (endDate)
-      query = query.lte("created_at", new Date(endDate).toISOString());
-
-    const { data, error } = await query;
-
-    if (error || !data || data.length === 0)
-      return alert("No hay datos para exportar en este rango.");
+    // Mock Export
+    const data = [
+      {
+        id: 1,
+        created_at: new Date().toISOString(),
+        type: "ENTRADA",
+        client_name: "Mock Client",
+        amount: 100,
+        rate: 36,
+        profit: 5,
+        operator_name: "Admin Mock",
+        status: "COMPLETADO",
+      },
+    ];
 
     const csvRows = [];
     const headers = [

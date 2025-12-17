@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../lib/supabaseClient";
+// Supabase removed
 import { Card } from "../components/atoms/Card";
 import { Button } from "../components/atoms/Button";
 import { Input } from "../components/atoms/Input";
@@ -8,48 +8,42 @@ import { Modal } from "../components/organisms/Modal";
 import { FormField } from "../components/molecules/FormField";
 
 export const ExpensesView = () => {
-  const [expenses, setExpenses] = useState([]);
+  const [expenses, setExpenses] = useState([
+    {
+      id: 1,
+      description: "Gasto Mock 1",
+      amount: 50,
+      category: "OPERATIVO",
+      date: new Date().toISOString(),
+    },
+    {
+      id: 2,
+      description: "Gasto Mock 2",
+      amount: 20,
+      category: "LOGISTICA",
+      date: new Date().toISOString(),
+    },
+  ] as any);
   const [activeTab, setActiveTab] = useState<"OPERATIVO" | "LOGISTICA">(
     "OPERATIVO",
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // Form State
   const [desc, setDesc] = useState("");
   const [amount, setAmount] = useState("");
 
-  const fetchExpenses = async () => {
-    setLoading(true);
-    const { data } = await supabase
-      .from("expenses")
-      .select("*")
-      .order("created_at", { ascending: false });
-    if (data) setExpenses(data as any); // Type cast rápido
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchExpenses();
-  }, []);
-
-  const handleSave = async () => {
+  const handleSave = () => {
     if (!desc || !amount) return alert("Completa los datos");
-    const { error } = await supabase.from("expenses").insert({
-      description: desc,
-      amount: parseFloat(amount),
-      currency: "USD",
-      category: activeTab,
-      date: new Date().toISOString(),
-    });
 
-    if (error) alert("Error: " + error.message);
-    else {
-      setIsModalOpen(false);
-      setDesc("");
-      setAmount("");
-      fetchExpenses();
-    }
+    console.log("Mock Save Expense:", { desc, amount, activeTab });
+
+    setIsModalOpen(false);
+    setDesc("");
+    setAmount("");
+    // Simulate re-fetch
+    // fetchExpenses();
   };
 
   const filtered = expenses.filter((e) => e.category === activeTab);

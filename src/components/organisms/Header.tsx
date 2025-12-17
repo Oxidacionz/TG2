@@ -11,7 +11,7 @@ interface HeaderProps {
   isDarkMode: boolean;
   toggleTheme: () => void;
   onMenuClick?: () => void;
-  onLogout?: () => void;
+
   userEmail?: string;
   onSettings?: () => void;
 }
@@ -21,7 +21,6 @@ export const Header: React.FC<HeaderProps> = ({
   isDarkMode,
   toggleTheme,
   onMenuClick,
-  onLogout,
   userEmail,
   onSettings,
 }) => (
@@ -59,11 +58,7 @@ export const Header: React.FC<HeaderProps> = ({
       <NotificationDropdown />
 
       <div className="mx-1 h-6 w-px bg-slate-200 md:mx-2 dark:bg-slate-700"></div>
-      <UserDropdown
-        onLogout={onLogout}
-        userEmail={userEmail}
-        onSettings={onSettings}
-      />
+      <UserDropdown userEmail={userEmail} onSettings={onSettings} />
     </div>
   </header>
 );

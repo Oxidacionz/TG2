@@ -1,13 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { supabase } from "../lib/supabaseClient";
+// Supabase removed
 import { Card } from "../components/atoms/Card";
 import { Button } from "../components/atoms/Button";
 import { ICONS } from "../components/atoms/Icons";
 import { Modal } from "../components/organisms/Modal";
 
 export const NotesView = () => {
-  const [notes, setNotes] = useState<any[]>([]);
-  const [operators, setOperators] = useState([]);
+  const [notes, setNotes] = useState<any[]>([
+    {
+      id: 1,
+      content: "Nota mock 1",
+      created_at: new Date().toISOString(),
+      is_global: true,
+      status: "ENVIADO",
+    },
+    {
+      id: 2,
+      content: "Nota mock 2",
+      created_at: new Date().toISOString(),
+      is_global: false,
+      status: "PENDIENTE",
+    },
+  ]);
+  const [operators, setOperators] = useState([
+    { id: "op1", username: "Operador 1" },
+    { id: "op2", username: "Operador 2" },
+  ]);
   const [activeTab, setActiveTab] = useState<"PENDIENTE" | "ENVIADAS">(
     "PENDIENTE",
   );
@@ -17,45 +35,13 @@ export const NotesView = () => {
   const [content, setContent] = useState("");
   const [targetId, setTargetId] = useState("ALL"); // 'ALL' or specific ID
 
-  const fetchNotes = async () => {
-    // En un caso real filtraríamos por usuario actual
-    const { data } = await supabase
-      .from("notes")
-      .select("*")
-      .order("created_at", { ascending: false });
-    if (data) setNotes(data);
-  };
-
-  const fetchOperators = async () => {
-    const { data } = await supabase
-      .from("profiles")
-      .select("id, username")
-      .neq("role", "ADMIN");
-    if (data) setOperators(data as any);
-  };
-
-  useEffect(() => {
-    fetchNotes();
-    fetchOperators();
-  }, []);
-
-  const handleSendNote = async () => {
+  const handleSendNote = () => {
     if (!content) return alert("Escribe algo");
 
-    const { error } = await supabase.from("notes").insert({
-      content,
-      target_id: targetId === "ALL" ? null : targetId,
-      is_global: targetId === "ALL",
-      status: "PENDIENTE",
-      sender_id: (await supabase.auth.getUser()).data.user?.id,
-    });
-
-    if (error) alert(error.message);
-    else {
-      setIsModalOpen(false);
-      setContent("");
-      fetchNotes();
-    }
+    console.log("Mock Send Note:", { content, targetId });
+    setIsModalOpen(false);
+    setContent("");
+    // fetchNotes();
   };
 
   return (

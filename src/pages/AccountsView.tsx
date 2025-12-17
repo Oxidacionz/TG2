@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { supabase } from "../lib/supabaseClient";
+// Supabase removed
 import { Card } from "../components/atoms/Card";
 import { Button } from "../components/atoms/Button";
 import { Input } from "../components/atoms/Input";
@@ -12,8 +12,26 @@ export const AccountsView = () => {
   const [debtType, setDebtType] = useState<"COBRAR" | "PAGAR">("COBRAR");
 
   // Data State
-  const [accounts, setAccounts] = useState([]);
-  const [debts, setDebts] = useState([]);
+  const [accounts, setAccounts] = useState([
+    {
+      id: 1,
+      bank_name: "Mock Bank",
+      holder_name: "Mock Holder",
+      balance: 1000,
+      currency: "USD",
+      type: "BANCO",
+    },
+  ] as any);
+  const [debts, setDebts] = useState([
+    {
+      id: 1,
+      type: "COBRAR",
+      client_name: "Mock Client",
+      amount: 500,
+      status: "PENDIENTE",
+      due_date: new Date().toISOString(),
+    },
+  ] as any);
   const [loading, setLoading] = useState<boolean>(false);
 
   // Modals
@@ -34,66 +52,22 @@ export const AccountsView = () => {
   const [debtAmount, setDebtAmount] = useState("");
   const [debtDueDate, setDebtDueDate] = useState("");
 
-  const fetchAll = async () => {
-    setLoading(true);
-    // Fetch Accounts
-    const { data: accData } = await supabase
-      .from("accounts")
-      .select("*")
-      .order("bank_name");
-    if (accData) setAccounts(accData as any);
-
-    // Fetch Debts
-    const { data: debtData } = await supabase
-      .from("debts")
-      .select("*")
-      .order("due_date", { ascending: true });
-    if (debtData) setDebts(debtData as any);
-
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchAll();
-  }, []);
-
-  const handleCreateAccount = async () => {
+  const handleCreateAccount = () => {
     if (!bankName || !holderName) return alert("Datos obligatorios");
-    const { error } = await supabase.from("accounts").insert({
-      bank_name: bankName,
-      holder_name: holderName,
-      account_number: accountNumber,
-      currency,
-      balance: parseFloat(balance) || 0,
-      type,
-    });
-    if (error) alert("Error: " + error.message);
-    else {
-      setIsAccountModalOpen(false);
-      fetchAll();
-    }
+    console.log("Mock Create Account:", { bankName, holderName, balance });
+    setIsAccountModalOpen(false);
+    // fetchAll();
   };
 
-  const handleCreateDebt = async () => {
+  const handleCreateDebt = () => {
     if (!debtClient || !debtAmount) return alert("Datos obligatorios");
-    const { error } = await supabase.from("debts").insert({
-      type: debtType,
-      client_name: debtClient,
-      platform: debtPlatform,
-      amount: parseFloat(debtAmount),
-      currency: "USD",
-      due_date: debtDueDate || null,
-      status: "PENDIENTE",
-    });
-    if (error) alert("Error: " + error.message);
-    else {
-      setIsDebtModalOpen(false);
-      setDebtClient("");
-      setDebtPlatform("");
-      setDebtAmount("");
-      setDebtDueDate("");
-      fetchAll();
-    }
+    console.log("Mock Create Debt:", { debtClient, debtAmount });
+    setIsDebtModalOpen(false);
+    setDebtClient("");
+    setDebtPlatform("");
+    setDebtAmount("");
+    setDebtDueDate("");
+    // fetchAll();
   };
 
   const isOverdue = (dateString?: string) => {

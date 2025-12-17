@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { supabase } from "../../lib/supabaseClient";
+// Supabase removed
 import { Button } from "../atoms/Button";
 import { Input } from "../atoms/Input";
 import { FormField } from "../molecules/FormField";
@@ -62,7 +62,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
     fileInputRef.current?.click();
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     // Validaciones básicas
     if (!clientName) {
       alert("Por favor ingrese el nombre del cliente.");
@@ -79,52 +79,22 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
 
     setLoading(true);
     try {
-      const user = (await supabase.auth.getUser()).data.user;
-
-      const cleanNotes = [
-        notes,
-        type === "ENTRADA" ? "Compra de Divisas" : "Venta de Divisas",
-      ]
-        .filter(Boolean)
-        .join(" | ");
-
-      const finalReference =
-        reference || `#${Math.floor(Math.random() * 1000000)}`;
-
-      // Convertir imagen a base64 si existe (simplificado para demo)
-      // En producción usar supabase.storage
-      let imageBase64 = null;
-      if (previewImage && fileInputRef.current?.files?.[0]) {
-        const reader = new FileReader();
-        reader.readAsDataURL(fileInputRef.current.files[0]);
-        await new Promise((resolve) => (reader.onload = resolve));
-        imageBase64 = reader.result as string;
-      }
-
-      const { error } = await supabase.from("transactions").insert({
-        type: type,
-        client_name: clientName,
-        client_bank: clientBank || "No especificado",
-        amount: amountNum,
-        currency: "USD",
-        rate: rateNum,
+      console.log("Mock Transaction Submitted:", {
+        type,
+        clientName,
+        amount,
+        rate,
         profit: calculatedProfit,
-        notes: cleanNotes,
-        target_account: targetAccount,
-        commission: parseFloat(commission) || 0,
-        receipt_data: imageBase64,
-        operator_id: user?.id,
-        operator_name: userEmail ? userEmail.split("@")[0] : "Operador",
-        status: "Completado",
-        reference: finalReference,
+        targetAccount,
+        commission,
+        notes,
       });
 
-      if (error) throw error;
       onSuccess();
+      setLoading(false);
     } catch (error: any) {
       console.error("Error creating transaction:", error);
       alert("Error al guardar: " + error.message);
-    } finally {
       setLoading(false);
     }
   };

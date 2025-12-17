@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../lib/supabaseClient";
+// Supabase removed
 import { Card } from "../components/atoms/Card";
 import { Button } from "../components/atoms/Button";
 import { Input } from "../components/atoms/Input";
@@ -8,8 +8,16 @@ import { Modal } from "../components/organisms/Modal";
 import { FormField } from "../components/molecules/FormField";
 
 export const ClientsView = () => {
-  const [clients, setClients] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [clients, setClients] = useState([
+    {
+      id: 1,
+      name: "Cliente Mock 1",
+      phone: "+12345678",
+      email: "client@mock.com",
+      created_at: new Date().toISOString(),
+    },
+  ] as any);
+  const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -18,38 +26,16 @@ export const ClientsView = () => {
   const [newPhone, setNewPhone] = useState("");
   const [newEmail, setNewEmail] = useState("");
 
-  const fetchClients = async () => {
-    setLoading(true);
-    const { data, error } = await supabase
-      .from("clients")
-      .select("*")
-      .order("name");
-    if (data) setClients(data);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchClients();
-  }, []);
-
-  const handleCreateClient = async () => {
+  const handleCreateClient = () => {
     if (!newName) return alert("El nombre es obligatorio");
 
-    const { error } = await supabase.from("clients").insert({
-      name: newName,
-      phone: newPhone,
-      email: newEmail,
-    });
+    console.log("Mock Create Client:", { newName, newPhone, newEmail });
 
-    if (error) {
-      alert("Error al crear cliente: " + error.message);
-    } else {
-      setIsModalOpen(false);
-      setNewName("");
-      setNewPhone("");
-      setNewEmail("");
-      fetchClients();
-    }
+    setIsModalOpen(false);
+    setNewName("");
+    setNewPhone("");
+    setNewEmail("");
+    // fetchClients();
   };
 
   const filteredClients = clients.filter(

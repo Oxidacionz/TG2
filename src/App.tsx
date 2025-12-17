@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-import { AuthTemplate } from "./components/templates/AuthTemplate";
 import { DashboardTemplate } from "./components/templates/DashboardTemplate";
-import { LoginForm } from "./components/organisms/LoginForm";
 import { Sidebar } from "./components/organisms/Sidebar";
 import { Header } from "./components/organisms/Header";
 import { Modal } from "./components/organisms/Modal";
@@ -11,7 +9,7 @@ import { Button } from "./components/atoms/Button";
 import { useTheme } from "./hooks/useTheme";
 import { DashboardView } from "./pages/DashboardView";
 import { TransactionsView } from "./pages/TransactionsView";
-import { supabase } from "./lib/supabaseClient";
+import { MOCK_DATA } from "./mocks/mockData";
 import { ClientsView } from "./pages/ClientsView";
 import { OperatorsView } from "./pages/OperatorsView";
 import { ExpensesView } from "./pages/ExpensesView";
@@ -21,9 +19,12 @@ import { NotesView } from "./pages/NotesView";
 import { DevView } from "./pages/DevView";
 
 const App = () => {
-  const [session, setSession] = useState<any>(null);
-  const [userRole, setUserRole] = useState("OPERADOR");
-  const [isLoading, setIsLoading] = useState(true);
+  const [session, setSession] = useState<any>({
+    user: MOCK_DATA.user,
+    access_token: "mock-token",
+  });
+  const [userRole, setUserRole] = useState(MOCK_DATA.user.role);
+  const [isLoading, setIsLoading] = useState(false);
   const [currentView, setCurrentView] = useState("dashboard");
   const { isDarkMode, toggleTheme } = useTheme();
 
@@ -35,70 +36,6 @@ const App = () => {
   const [supportDesc, setSupportDesc] = useState("");
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [dataRefreshTrigger, setDataRefreshTrigger] = useState(0);
-
-  useEffect(() => {
-    const fetchProfile = async (userId: string) => {
-      const { data: profile, error: profileError } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("id", userId)
-        .single();
-
-      if (profile) {
-        setUserRole(profile.role);
-      }
-
-      if (profileError)
-        console.error("Error fetching profile:", profileError.message);
-    };
-
-    const initSession = async () => {
-      try {
-        const { data, error } = await supabase.auth.getSession();
-
-        if (data.session) {
-          setSession(data.session);
-          await fetchProfile(data.session.user.id);
-        }
-      } catch (err: any) {
-        console.error("Error initializing session:", err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    initSession();
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setSession(session);
-
-      if (session) {
-        await fetchProfile(session.user.id);
-      }
-
-      if (isLoading) {
-        setIsLoading(false);
-      }
-
-      console.log("📊 DEPURACIÓN COMPLETA (authChange):");
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (session && isLoading) {
-      setIsLoading(false);
-    }
-  }, [session, isLoading]);
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-  };
 
   const handleTransactionSuccess = () => {
     setTransactionModalOpen(false);
@@ -123,13 +60,6 @@ const App = () => {
       <div className="flex min-h-screen items-center justify-center dark:bg-slate-900 dark:text-white">
         Cargando Sistema...
       </div>
-    );
-
-  if (!session)
-    return (
-      <AuthTemplate isDarkMode={isDarkMode} toggleTheme={toggleTheme}>
-        <LoginForm />
-      </AuthTemplate>
     );
 
   return (
@@ -160,7 +90,6 @@ const App = () => {
           isDarkMode={isDarkMode}
           toggleTheme={toggleTheme}
           onMenuClick={() => setSidebarOpen(!isSidebarOpen)}
-          onLogout={handleLogout}
           userEmail={session.user.email}
           onSettings={() => setIsSettingsModalOpen(true)}
         />
