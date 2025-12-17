@@ -15,6 +15,7 @@ interface HeaderProps {
 
   userEmail?: string;
   onSettings?: () => void;
+  onLogout?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -25,6 +26,7 @@ export const Header: React.FC<HeaderProps> = ({
   onMenuClick,
   userEmail,
   onSettings,
+  onLogout,
 }) => (
   <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4 md:px-6 dark:border-slate-800 dark:bg-slate-900">
     <div className="flex items-center gap-3">
@@ -54,7 +56,7 @@ export const Header: React.FC<HeaderProps> = ({
       <NotificationDropdown />
 
       <div className="mx-1 h-6 w-px bg-slate-200 md:mx-2 dark:bg-slate-700"></div>
-      <UserDropdown userEmail={userEmail} onSettings={onSettings} />
+      <UserDropdown userEmail={userEmail} onSettings={onSettings} onLogout={onLogout} />
     </div>
   </header>
 );

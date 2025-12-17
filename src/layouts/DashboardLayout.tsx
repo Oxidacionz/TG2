@@ -46,6 +46,7 @@ export const DashboardLayout = () => {
           onMenuClick={() => ui.setSidebarOpen(!ui.isSidebarOpen)}
           userEmail={session.user.email}
           onSettings={() => ui.setIsSettingsModalOpen(true)}
+          onLogout={handlers.handleLogout}
         />
       }
     >

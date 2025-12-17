@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { MOCK_DATA } from "../mocks/mockData";
+import { useLoaderData } from "react-router"; // Importar hook del router
 import { useTheme } from "./useTheme";
+import { authService } from "../services/AuthService";
 
 export const useDashboardController = () => {
-  // Global State
-  const [session] = useState<any>({
-    user: MOCK_DATA.user,
-    access_token: "mock-token",
-  });
-  const [userRole] = useState(MOCK_DATA.user.role);
+  // Global State (Recuperado del Loader del Router)
+  const loaderData = useLoaderData() as { session: any }; // Type assertion simple por ahora
+  const session = loaderData?.session || null;
+
+  // TODO: Mejorar manejo de roles real desde metadatos o tabla de perfiles
+  const userRole = "ADMIN";
 
   // UI State
   const [isTransactionModalOpen, setTransactionModalOpen] = useState(false);
@@ -24,6 +25,11 @@ export const useDashboardController = () => {
   const handleTransactionSuccess = () => {
     setTransactionModalOpen(false);
     setDataRefreshTrigger((prev) => prev + 1);
+  };
+
+  const handleLogout = async () => {
+    await authService.signOut();
+    // El App.tsx detectará el cambio y redirigirá
   };
 
   return {
@@ -48,6 +54,7 @@ export const useDashboardController = () => {
     },
     handlers: {
       handleTransactionSuccess,
+      handleLogout, // Exponemos el handler
     },
   };
 };

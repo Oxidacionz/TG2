@@ -1,5 +1,11 @@
-import { createBrowserRouter, type RouteObject } from "react-router";
+import { createBrowserRouter, redirect } from "react-router";
+import { authService } from "./services/AuthService";
+
+// Importamos los componentes directamente (no como JSX)
 import { DashboardLayout } from "./layouts/DashboardLayout";
+import { LoginView } from "./pages/LoginView"; // La vista que acabamos de sugerir
+
+// Vistas del Dashboard
 import { DashboardView } from "./pages/DashboardView";
 import { TransactionsView } from "./pages/TransactionsView";
 import { ClientsView } from "./pages/ClientsView";
@@ -10,49 +16,76 @@ import { AccountsView } from "./pages/AccountsView";
 import { NotesView } from "./pages/NotesView";
 import { DevView } from "./pages/DevView";
 
-const routes: RouteObject[] = [
+// --- 🔒 LÓGICA DE PROTECCIÓN (Loaders) ---
+
+// Bloquea si NO hay sesión (Protege el Dashboard)
+async function protectedLoader() {
+  const { session } = await authService.getSession();
+  if (!session) {
+    throw redirect("/login");
+  }
+  return { session };
+}
+
+// Bloquea si YA hay sesión (Evita ver el Login si ya entraste)
+async function publicLoader() {
+  const { session } = await authService.getSession();
+
+  if (session) {
+    throw redirect("/");
+  }
+  return null;
+}
+
+// --- 🗺️ DEFINICIÓN DE RUTAS ---
+
+export const router = createBrowserRouter([
+  {
+    path: "/login",
+    Component: LoginView, // Sintaxis limpia: Pasamos la referencia, no el JSX
+    loader: publicLoader, // Protección anti-login-doble
+  },
   {
     path: "/",
-    element: <DashboardLayout />,
+    Component: DashboardLayout, // El Layout principal
+    loader: protectedLoader, // 🛡️ Muro de contención: Nadie pasa sin sesión
     children: [
       {
         index: true,
-        element: <DashboardView />,
+        Component: DashboardView,
       },
       {
         path: "transactions",
-        element: <TransactionsView />,
+        Component: TransactionsView,
       },
       {
         path: "clients",
-        element: <ClientsView />,
+        Component: ClientsView,
       },
       {
         path: "operators",
-        element: <OperatorsView />,
+        Component: OperatorsView,
       },
       {
         path: "expenses",
-        element: <ExpensesView />,
+        Component: ExpensesView,
       },
       {
         path: "reports",
-        element: <ReportsView />,
+        Component: ReportsView,
       },
       {
         path: "accounts",
-        element: <AccountsView />,
+        Component: AccountsView,
       },
       {
         path: "notes",
-        element: <NotesView />,
+        Component: NotesView,
       },
       {
         path: "dev",
-        element: <DevView />,
+        Component: DevView,
       },
     ],
   },
-];
-
-export const router = createBrowserRouter(routes);
+]);

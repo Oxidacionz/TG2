@@ -1,0 +1,27 @@
+export interface TransactionDTO {
+  type: "ENTRADA" | "SALIDA";
+  amount: string;
+  rate: string;
+  profit: number;
+  clientName: string;
+  clientBank?: string;
+  targetAccount: string;
+  notes?: string;
+  user?: string;
+}
+
+export interface ITransactionService {
+  createTransaction(transaction: TransactionDTO): Promise<void>;
+}
+
+class MockTransactionService implements ITransactionService {
+  async createTransaction(transaction: TransactionDTO): Promise<void> {
+    // Simulate network delay
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    console.log("SERVICE: Transaction Created", transaction);
+    // In a real app, this would be: await supabase.from('transactions').insert(transaction)
+  }
+}
+
+export const transactionService = new MockTransactionService();

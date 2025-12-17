@@ -9,6 +9,7 @@ interface SettingsModalProps {
   isOpen: boolean;
   onClose: () => void;
   userEmail?: string;
+  // TODO: Add strict user object prop if we have one
 }
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({
@@ -16,18 +17,23 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   onClose,
   userEmail,
 }) => {
-  const [userId] = useState("123e4567-e89b-12d3-a456-426614174000"); // Mock ID
-  const [username, setUsername] = useState("Admin Mock");
-  const [role] = useState("ADMIN"); // Mock Role
+  // En una App real, estos datos vendrían del Objeto User de Supabase o Contexto
+  const username = userEmail ? userEmail.split("@")[0] : "Usuario";
+  const role = "ADMIN"; // Idealmente leer de metadata
+  
+  const [newUsername, setNewUsername] = useState(username);
   const [loading, setLoading] = useState(false);
 
   const handleUpdate = () => {
     setLoading(true);
-    // Mock update
-    console.log("Mock update username:", username);
-    onClose();
-    window.location.reload();
-    setLoading(false);
+    // Here we would call authService.updateProfile()
+    console.log("Mock update username:", newUsername);
+    
+    setTimeout(() => {
+        setLoading(false);
+        onClose();
+        // Router revalidation would happen automatically if we updated global state
+    }, 500);
   };
 
   return (
@@ -35,11 +41,11 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
       <div className="space-y-6">
         <div className="flex items-center gap-4 rounded-lg bg-slate-50 p-4 dark:bg-slate-800">
           <div className="bg-brand-600 flex h-16 w-16 items-center justify-center rounded-full text-2xl font-bold text-white">
-            {username ? username.charAt(0).toUpperCase() : "U"}
+            {username.charAt(0).toUpperCase()}
           </div>
           <div>
             <p className="text-lg font-bold dark:text-white">{userEmail}</p>
-            <p className="text-xs text-slate-500">ID: {userId}</p>
+            <p className="text-xs text-slate-500">Rol: {role}</p>
             <span
               className={`rounded px-2 py-0.5 text-xs ${role === "ADMIN" ? "bg-purple-100 text-purple-700" : "bg-blue-100 text-blue-700"}`}
             >
@@ -51,8 +57,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         <div className="space-y-4">
           <FormField label="Nombre de Usuario">
             <Input
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={newUsername}
+              onChange={(e) => setNewUsername(e.target.value)}
             />
           </FormField>
 

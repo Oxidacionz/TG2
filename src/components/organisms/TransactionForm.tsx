@@ -1,9 +1,10 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 // Supabase removed
 import { Button } from "../atoms/Button";
 import { Input } from "../atoms/Input";
 import { FormField } from "../molecules/FormField";
 import { FaCamera } from "react-icons/fa6";
+import { useTransactionController } from "../../hooks/useTransactionController";
 
 interface TransactionFormProps {
   onSuccess: () => void;
@@ -14,90 +15,21 @@ interface TransactionFormProps {
 export const TransactionForm: React.FC<TransactionFormProps> = ({
   onSuccess,
   onCancel,
-  userEmail: _userEmail,
+  userEmail,
 }) => {
-  const [loading, setLoading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Estados del formulario (Datos Principales)
-  const [type, setType] = useState<"ENTRADA" | "SALIDA">("ENTRADA");
-  const [amount, setAmount] = useState("");
-  const [rate, setRate] = useState("36.00");
-  const [profitPercent, setProfitPercent] = useState<number | "custom">(5);
-  const [customProfit, setCustomProfit] = useState("");
-
-  // Datos Operativos (Conectados a inputs)
-  const [clientName, setClientName] = useState("");
-  const [clientBank, setClientBank] = useState(""); // Banco Origen
-  const [targetAccount, setTargetAccount] = useState(""); // Cuenta Interna
-  const [commission, setCommission] = useState(""); // Comisión en VES
-  const [reference, setReference] = useState(""); // Número de referencia
-  const [notes, setNotes] = useState("");
-
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
-
-  // Cálculos automáticos
-  const amountNum = parseFloat(amount) || 0;
-  const rateNum = parseFloat(rate) || 0;
-
-  // Total en Bolívares
-  const totalVES = (amountNum * rateNum).toFixed(2);
-
-  // Ganancia Estimada
-  const calculatedProfit =
-    profitPercent === "custom"
-      ? parseFloat(customProfit) || 0
-      : amountNum * (profitPercent / 100);
-
-  // Manejo de Archivos (Simulación visual de carga)
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const objectUrl = URL.createObjectURL(file);
-      setPreviewImage(objectUrl);
-    }
-  };
-
-  const triggerFileInput = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleSubmit = () => {
-    // Validaciones básicas
-    if (!clientName) {
-      alert("Por favor ingrese el nombre del cliente.");
-      return;
-    }
-    if (!amount || amountNum <= 0) {
-      alert("Por favor ingrese un monto válido.");
-      return;
-    }
-    if (!targetAccount) {
-      alert("Por favor seleccione la cuenta interna.");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      console.log("Mock Transaction Submitted:", {
-        type,
-        clientName,
-        amount,
-        rate,
-        profit: calculatedProfit,
-        targetAccount,
-        commission,
-        notes,
-      });
-
-      onSuccess();
-      setLoading(false);
-    } catch (error: any) {
-      console.error("Error creating transaction:", error);
-      alert("Error al guardar: " + error.message);
-      setLoading(false);
-    }
-  };
+  const { state, actions } = useTransactionController({ onSuccess, userEmail });
+  const {
+    type,
+    amount,
+    rate,
+    profitPercent,
+    customProfit,
+    formData,
+    previewImage,
+    loading,
+    fileInputRef,
+    calculations: { totalVES, calculatedProfit },
+  } = state;
 
   return (
     <div className="flex h-full flex-col gap-6 md:flex-row">
@@ -105,7 +37,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
       <div className="flex w-full flex-col gap-4 p-2 md:w-5/12">
         {/* Tarjeta de Resumen en Tiempo Real */}
         <div
-          className={`rounded-2xl p-6 text-white shadow-lg ${type === "ENTRADA" ? "bg-gradient-to-br from-green-600 to-teal-800" : "bg-gradient-to-br from-red-600 to-rose-800"}`}
+          className={`rounded-2xl p-6 text-white shadow-lg ${type === "ENTRADA" ? "bg-linear-to-br from-green-600 to-teal-800" : "bg-linear-to-br from-red-600 to-rose-800"}`}
         >
           <div className="mb-4 flex items-center justify-between">
             <span className="rounded bg-black/20 px-2 py-1 text-[10px] font-bold tracking-wider uppercase">
@@ -156,14 +88,14 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
         {/* Zona de Comprobante / Cámara */}
         <div
           className="group hover:border-brand-500 relative flex min-h-[200px] flex-1 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-slate-300 bg-slate-100 p-4 dark:border-slate-600 dark:bg-slate-800"
-          onClick={triggerFileInput}
+          onClick={actions.triggerFileInput}
         >
           <input
             type="file"
             ref={fileInputRef}
             className="hidden"
             accept="image/*"
-            onChange={handleFileChange}
+            onChange={actions.handleFileChange}
           />
 
           {previewImage ? (
@@ -199,13 +131,13 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
         {/* Selector de Tipo */}
         <div className="grid grid-cols-2 gap-3 rounded-lg bg-slate-100 p-1 dark:bg-slate-800">
           <button
-            onClick={() => setType("ENTRADA")}
+            onClick={() => actions.setType("ENTRADA")}
             className={`flex items-center justify-center gap-2 rounded-md py-2 text-sm font-bold transition-all ${type === "ENTRADA" ? "bg-white text-green-600 shadow-sm dark:bg-slate-700" : "text-slate-500 hover:text-slate-700"}`}
           >
             <span className="text-lg">↘</span> COMPRA (Entrada)
           </button>
           <button
-            onClick={() => setType("SALIDA")}
+            onClick={() => actions.setType("SALIDA")}
             className={`flex items-center justify-center gap-2 rounded-md py-2 text-sm font-bold transition-all ${type === "SALIDA" ? "bg-white text-red-600 shadow-sm dark:bg-slate-700" : "text-slate-500 hover:text-slate-700"}`}
           >
             <span className="text-lg">↗</span> VENTA (Salida)
@@ -216,8 +148,10 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
           <FormField label="Cliente">
             <Input
               placeholder="Nombre del cliente..."
-              value={clientName}
-              onChange={(e) => setClientName(e.target.value)}
+              value={formData.clientName}
+              onChange={(e) =>
+                actions.handleInputChange("clientName", e.target.value)
+              }
               autoFocus
             />
           </FormField>
@@ -229,14 +163,14 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
                 placeholder="0.00"
                 className="font-mono text-lg font-bold"
                 value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                onChange={(e) => actions.setAmount(e.target.value)}
               />
             </FormField>
             <FormField label="Tasa (VES)">
               <Input
                 type="number"
                 value={rate}
-                onChange={(e) => setRate(e.target.value)}
+                onChange={(e) => actions.setRate(e.target.value)}
               />
             </FormField>
           </div>
@@ -246,8 +180,10 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
               <Input
                 type="number"
                 placeholder="0.00"
-                value={commission}
-                onChange={(e) => setCommission(e.target.value)}
+                value={formData.commission}
+                onChange={(e) =>
+                  actions.handleInputChange("commission", e.target.value)
+                }
               />
             </FormField>
             <div className="space-y-1">
@@ -256,8 +192,10 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
               </label>
               <select
                 className="focus:ring-brand-500 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:ring-2 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-                value={targetAccount}
-                onChange={(e) => setTargetAccount(e.target.value)}
+                value={formData.targetAccount}
+                onChange={(e) =>
+                  actions.handleInputChange("targetAccount", e.target.value)
+                }
               >
                 <option value="">Seleccionar cuenta...</option>
                 <option value="Banesco Panama">Banesco Panamá</option>
@@ -273,15 +211,19 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
             <FormField label="Banco Origen / Cliente">
               <Input
                 placeholder="Ej. Banesco, Mercantil..."
-                value={clientBank}
-                onChange={(e) => setClientBank(e.target.value)}
+                value={formData.clientBank}
+                onChange={(e) =>
+                  actions.handleInputChange("clientBank", e.target.value)
+                }
               />
             </FormField>
             <FormField label="Número Referencia">
               <Input
                 placeholder="Ej. 12345678"
-                value={reference}
-                onChange={(e) => setReference(e.target.value)}
+                value={formData.reference}
+                onChange={(e) =>
+                  actions.handleInputChange("reference", e.target.value)
+                }
               />
             </FormField>
           </div>
@@ -299,14 +241,14 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
               {[1, 3, 5, 10].map((pct) => (
                 <button
                   key={pct}
-                  onClick={() => setProfitPercent(pct)}
+                  onClick={() => actions.setProfitPercent(pct)}
                   className={`flex-1 rounded border py-1.5 text-xs ${profitPercent === pct ? "bg-brand-50 border-brand-500 text-brand-700 dark:bg-brand-900/20 dark:text-brand-400" : "border-slate-200 text-slate-500 dark:border-slate-700"}`}
                 >
                   {pct}%
                 </button>
               ))}
               <button
-                onClick={() => setProfitPercent("custom")}
+                onClick={() => actions.setProfitPercent("custom")}
                 className={`rounded border px-3 py-1.5 text-xs ${profitPercent === "custom" ? "bg-brand-50 border-brand-500 text-brand-700" : "border-slate-200 text-slate-500 dark:border-slate-700"}`}
               >
                 Otro
@@ -317,7 +259,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
                 type="number"
                 placeholder="Ganancia manual en USD"
                 value={customProfit}
-                onChange={(e) => setCustomProfit(e.target.value)}
+                onChange={(e) => actions.setCustomProfit(e.target.value)}
                 className="mt-2"
               />
             )}
@@ -328,8 +270,10 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
               rows={2}
               className="focus:ring-brand-500 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:ring-2 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
               placeholder="Detalles opcionales..."
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
+              value={formData.notes}
+              onChange={(e) =>
+                actions.handleInputChange("notes", e.target.value)
+              }
             />
           </FormField>
         </div>
@@ -346,7 +290,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
           <Button
             variant="primary"
             className="flex-2"
-            onClick={handleSubmit}
+            onClick={actions.handleSubmit}
             disabled={loading}
           >
             {loading ? "Guardando..." : "Confirmar Transacción"}
@@ -356,3 +300,4 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
     </div>
   );
 };
+
