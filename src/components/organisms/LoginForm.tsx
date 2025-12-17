@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { type FormEvent, useState } from "react";
 import { Input } from "../atoms/Input";
 import { Button } from "../atoms/Button";
 import { FormField } from "../molecules/FormField";
@@ -8,7 +8,7 @@ import { FaEye, FaEyeSlash, FaLock, FaUser } from "react-icons/fa6";
 import { BiSupport } from "react-icons/bi";
 import { IoIosSend } from "react-icons/io";
 
-export const LoginForm: React.FC = () => {
+export const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false); // Estado para el ojo
@@ -20,7 +20,7 @@ export const LoginForm: React.FC = () => {
   const [supportIssue, setSupportIssue] = useState("Olvidé mi contraseña");
   const [supportDesc, setSupportDesc] = useState("");
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);

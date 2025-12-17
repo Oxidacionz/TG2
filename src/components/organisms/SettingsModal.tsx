@@ -1,24 +1,19 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Modal } from "./Modal";
-// Supabase removed
 import { FormField } from "../molecules/FormField";
 import { Input } from "../atoms/Input";
 import { Button } from "../atoms/Button";
 
-interface SettingsModalProps {
+interface Props {
   isOpen: boolean;
   onClose: () => void;
   userEmail?: string;
   // TODO: Add strict user object prop if we have one
 }
 
-export const SettingsModal: React.FC<SettingsModalProps> = ({
-  isOpen,
-  onClose,
-  userEmail,
-}) => {
+export const SettingsModal = (props: Props) => {
   // En una App real, estos datos vendrían del Objeto User de Supabase o Contexto
-  const username = userEmail ? userEmail.split("@")[0] : "Usuario";
+  const username = props.userEmail ? props.userEmail.split("@")[0] : "Usuario";
   const role = "ADMIN"; // Idealmente leer de metadata
 
   const [newUsername, setNewUsername] = useState(username);
@@ -31,20 +26,26 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
     setTimeout(() => {
       setLoading(false);
-      onClose();
+      props.onClose();
       // Router revalidation would happen automatically if we updated global state
     }, 500);
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Configuración de Perfil">
+    <Modal
+      isOpen={props.isOpen}
+      onClose={props.onClose}
+      title="Configuración de Perfil"
+    >
       <div className="space-y-6">
         <div className="flex items-center gap-4 rounded-lg bg-slate-50 p-4 dark:bg-slate-800">
           <div className="bg-brand-600 flex h-16 w-16 items-center justify-center rounded-full text-2xl font-bold text-white">
             {username.charAt(0).toUpperCase()}
           </div>
           <div>
-            <p className="text-lg font-bold dark:text-white">{userEmail}</p>
+            <p className="text-lg font-bold dark:text-white">
+              {props.userEmail}
+            </p>
             <p className="text-xs text-slate-500">Rol: {role}</p>
             <span
               className={`rounded px-2 py-0.5 text-xs ${role === "ADMIN" ? "bg-purple-100 text-purple-700" : "bg-blue-100 text-blue-700"}`}
@@ -69,7 +70,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         </div>
 
         <div className="flex justify-end gap-2 pt-4">
-          <Button variant="ghost" onClick={onClose}>
+          <Button variant="ghost" onClick={props.onClose}>
             Cancelar
           </Button>
           <Button onClick={handleUpdate} disabled={loading}>

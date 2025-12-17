@@ -1,16 +1,19 @@
 import React, { ReactNode } from "react";
 import { MdClose } from "react-icons/md";
 
-export const Modal: React.FC<{
+interface Props {
   isOpen: boolean;
   onClose: () => void;
   title: string;
   children: ReactNode;
   size?: "sm" | "md" | "lg";
-}> = ({ isOpen, onClose, title, children, size = "md" }) => {
-  if (!isOpen) return null;
+}
+
+export const Modal = (props: Props) => {
+  const { isOpen, onClose, title, children, size = "md" } = props;
   const widthClass =
     size === "lg" ? "max-w-4xl" : size === "sm" ? "max-w-md" : "max-w-2xl";
+  if (!isOpen) return null;
   return (
     <div className="animate-fade-in fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
       <div

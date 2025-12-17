@@ -1,29 +1,21 @@
 import { useLocation } from "react-router";
-
 import { UserDropdown } from "../molecules/UserDropdown";
 import { NotificationDropdown } from "../molecules/NotificationDropdown";
-
 import { FaRegMoon } from "react-icons/fa";
 import { FaBars } from "react-icons/fa6";
 
-interface HeaderProps {
+interface Props {
   onMenuClick?: () => void;
-
   userEmail?: string;
   onSettings?: () => void;
   onLogout?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({
-  onMenuClick,
-  userEmail,
-  onSettings,
-  onLogout,
-}) => (
+export const Header = (props: Props) => (
   <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4 md:px-6 dark:border-slate-800 dark:bg-slate-900">
     <div className="flex items-center gap-3">
       <button
-        onClick={onMenuClick}
+        onClick={props.onMenuClick}
         className="-ml-2 rounded-lg p-2 text-slate-500 hover:text-slate-700 md:hidden dark:text-slate-400 dark:hover:text-slate-200"
       >
         <FaBars className="h-6 w-6" />
@@ -42,9 +34,9 @@ export const Header: React.FC<HeaderProps> = ({
 
       <div className="mx-1 h-6 w-px bg-slate-200 md:mx-2 dark:bg-slate-700"></div>
       <UserDropdown
-        userEmail={userEmail}
-        onSettings={onSettings}
-        onLogout={onLogout}
+        userEmail={props.userEmail}
+        onSettings={props.onSettings}
+        onLogout={props.onLogout}
       />
     </div>
   </header>

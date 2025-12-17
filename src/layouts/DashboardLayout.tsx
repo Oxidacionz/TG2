@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
 // Use "react-router" instead of "react-router-dom" as requested in REFACTOR_PLAN
-import { DashboardTemplate } from "../components/templates/DashboardTemplate";
+import DashboardTemplate from "../components/templates/DashboardTemplate";
 import { Sidebar } from "../components/organisms/Sidebar";
 import { Header } from "../components/organisms/Header";
 import { Modal } from "../components/organisms/Modal";
