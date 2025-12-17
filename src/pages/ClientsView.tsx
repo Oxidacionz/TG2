@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 // Supabase removed
 import { Card } from "../components/atoms/Card";
 import { Button } from "../components/atoms/Button";
@@ -8,7 +8,7 @@ import { Modal } from "../components/organisms/Modal";
 import { FormField } from "../components/molecules/FormField";
 
 export const ClientsView = () => {
-  const [clients, setClients] = useState([
+  const [clients] = useState([
     {
       id: 1,
       name: "Cliente Mock 1",
@@ -17,7 +17,8 @@ export const ClientsView = () => {
       created_at: new Date().toISOString(),
     },
   ] as any);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -39,7 +40,7 @@ export const ClientsView = () => {
   };
 
   const filteredClients = clients.filter(
-    (c) =>
+    (c: any) =>
       c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (c.phone && c.phone.includes(searchTerm)),
   );
@@ -80,7 +81,7 @@ export const ClientsView = () => {
             Cargando clientes...
           </p>
         ) : filteredClients.length > 0 ? (
-          filteredClients.map((client) => (
+          filteredClients.map((client: any) => (
             <Card
               key={client.id}
               className="flex flex-col gap-2 p-4 transition-shadow hover:shadow-md"

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 // Supabase removed
 import { Card } from "../components/atoms/Card";
 import { Button } from "../components/atoms/Button";
@@ -8,7 +8,7 @@ import { Modal } from "../components/organisms/Modal";
 import { FormField } from "../components/molecules/FormField";
 
 export const ExpensesView = () => {
-  const [expenses, setExpenses] = useState([
+  const [expenses] = useState([
     {
       id: 1,
       description: "Gasto Mock 1",
@@ -28,7 +28,7 @@ export const ExpensesView = () => {
     "OPERATIVO",
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
 
   // Form State
   const [desc, setDesc] = useState("");
@@ -46,8 +46,8 @@ export const ExpensesView = () => {
     // fetchExpenses();
   };
 
-  const filtered = expenses.filter((e) => e.category === activeTab);
-  const total = filtered.reduce((acc, curr) => acc + curr.amount, 0);
+  const filtered = expenses.filter((e: any) => e.category === activeTab);
+  const total = filtered.reduce((acc: any, curr: any) => acc + curr.amount, 0);
 
   return (
     <div className="space-y-6">
@@ -100,7 +100,7 @@ export const ExpensesView = () => {
             No hay registros en esta categoría.
           </p>
         ) : (
-          filtered.map((exp) => (
+          filtered.map((exp: any) => (
             <Card
               key={exp.id}
               className="flex items-center justify-between p-4"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 // Supabase removed
 import { Card } from "../components/atoms/Card";
 import { Button } from "../components/atoms/Button";
@@ -6,7 +6,7 @@ import { ICONS } from "../components/atoms/Icons";
 import { Modal } from "../components/organisms/Modal";
 
 export const NotesView = () => {
-  const [notes, setNotes] = useState<any[]>([
+  const [notes] = useState<any[]>([
     {
       id: 1,
       content: "Nota mock 1",
@@ -22,7 +22,7 @@ export const NotesView = () => {
       status: "PENDIENTE",
     },
   ]);
-  const [operators, setOperators] = useState([
+  const [operators] = useState([
     { id: "op1", username: "Operador 1" },
     { id: "op2", username: "Operador 2" },
   ]);

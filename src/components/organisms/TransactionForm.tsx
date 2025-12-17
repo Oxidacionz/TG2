@@ -14,7 +14,7 @@ interface TransactionFormProps {
 export const TransactionForm: React.FC<TransactionFormProps> = ({
   onSuccess,
   onCancel,
-  userEmail,
+  userEmail: _userEmail,
 }) => {
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);

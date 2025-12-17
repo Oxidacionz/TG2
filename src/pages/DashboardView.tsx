@@ -37,8 +37,10 @@ interface DashboardContext {
 
 export const DashboardView = () => {
   const { refreshTrigger } = useOutletContext<DashboardContext>();
+  // To avoid unused warning if we want to keep it available for future use:
+  console.log("Dashboard refreshed", refreshTrigger);
 
-  const [stats, setStats] = useState({
+  const [stats] = useState({
     totalVolume: 0,
     netProfit: 0,
     pendingCount: 0,
@@ -46,7 +48,7 @@ export const DashboardView = () => {
   });
 
   // BCV State
-  const [bcvRate, setBcvRate] = useState<{ usd: number; eur: number } | null>({
+  const [bcvRate] = useState<{ usd: number; eur: number } | null>({
     usd: 247.3003,
     eur: 286.40342343,
   });
@@ -61,8 +63,8 @@ export const DashboardView = () => {
 
   // Chart State
   const [chartType, setChartType] = useState<"line" | "pie">("line");
-  const [lineData, setLineData] = useState(MOCK_DATA.chartData);
-  const [pieData, setPieData] = useState<any[]>([]);
+  const [lineData] = useState(MOCK_DATA.chartData);
+  const [pieData] = useState<any[]>([]);
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);

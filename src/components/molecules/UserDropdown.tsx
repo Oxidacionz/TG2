@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 // Supabase removed
 import { FaGear } from "react-icons/fa6";
 import { BiSolidExit } from "react-icons/bi";
@@ -9,7 +9,7 @@ export const UserDropdown: React.FC<{
   onSettings?: () => void;
 }> = ({ onLogout, userEmail, onSettings }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [role, setRole] = useState("ADMIN");
+  const [role] = useState("ADMIN"); // setRole removed as it's unused
 
   // Extraer nombre del email si no hay nombre de usuario (ej. admin@... -> admin)
   const displayName = userEmail ? userEmail.split("@")[0] : "ToroUser";

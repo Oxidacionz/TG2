@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 // Supabase removed
 import { Card } from "../components/atoms/Card";
 import { Button } from "../components/atoms/Button";
@@ -12,7 +12,7 @@ export const AccountsView = () => {
   const [debtType, setDebtType] = useState<"COBRAR" | "PAGAR">("COBRAR");
 
   // Data State
-  const [accounts, setAccounts] = useState([
+  const [accounts] = useState([
     {
       id: 1,
       bank_name: "Mock Bank",
@@ -22,7 +22,7 @@ export const AccountsView = () => {
       type: "BANCO",
     },
   ] as any);
-  const [debts, setDebts] = useState([
+  const [debts] = useState([
     {
       id: 1,
       type: "COBRAR",
@@ -32,7 +32,7 @@ export const AccountsView = () => {
       due_date: new Date().toISOString(),
     },
   ] as any);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading] = useState<boolean>(false);
 
   // Modals
   const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);

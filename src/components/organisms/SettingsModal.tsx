@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Modal } from "./Modal";
 // Supabase removed
 import { FormField } from "../molecules/FormField";
@@ -16,9 +16,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   onClose,
   userEmail,
 }) => {
-  const [userId, setUserId] = useState("mock-user-id");
+  const [userId] = useState("123e4567-e89b-12d3-a456-426614174000"); // Mock ID
   const [username, setUsername] = useState("Admin Mock");
-  const [role, setRole] = useState("ADMIN");
+  const [role] = useState("ADMIN"); // Mock Role
   const [loading, setLoading] = useState(false);
 
   const handleUpdate = () => {

@@ -3,12 +3,10 @@ import { useLocation, useNavigate } from "react-router";
 
 import { SidebarItem } from "../molecules/SidebarItem";
 import { Logo } from "../atoms/Logo";
-import { MdClose, MdSpaceDashboard, MdAttachMoney } from "react-icons/md";
-import { IoScan, IoPeople, IoDocuments } from "react-icons/io5";
-import { GrTransaction } from "react-icons/gr";
+import { SIDEBAR_ITEMS, DEV_SIDEBAR_ITEMS } from "../../config/navigation";
+import { MdClose } from "react-icons/md";
+import { IoScan } from "react-icons/io5";
 import { BiSupport } from "react-icons/bi";
-import { FaUserTie } from "react-icons/fa";
-import { TbReportAnalytics } from "react-icons/tb";
 
 interface SidebarProps {
   // currentView removed
@@ -77,61 +75,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-2">
-          <SidebarItem
-            icon={<MdSpaceDashboard className="h-6 w-6" />}
-            label="Dashboard"
-            active={currentPath === "/"}
-            onClick={() => handleNavigation("/")}
-          />
-
-          <SidebarItem
-            icon={<GrTransaction className="h-6 w-6" />}
-            label="Transacciones"
-            active={currentPath === "/transactions"}
-            onClick={() => handleNavigation("/transactions")}
-          />
-
-          <SidebarItem
-            icon={<MdAttachMoney className="h-6 w-6" />}
-            label="Tesorería"
-            active={currentPath === "/accounts"}
-            onClick={() => handleNavigation("/accounts")}
-          />
-
-          <SidebarItem
-            icon={<IoPeople className="h-6 w-6" />}
-            label="Clientes"
-            active={currentPath === "/clients"}
-            onClick={() => handleNavigation("/clients")}
-          />
-
-          <SidebarItem
-            icon={<FaUserTie className="h-6 w-6" />}
-            label="Camellos"
-            active={currentPath === "/operators"}
-            onClick={() => handleNavigation("/operators")}
-          />
-
-          <SidebarItem
-            icon={<IoDocuments className="h-6 w-6" />}
-            label="Notas"
-            active={currentPath === "/notes"}
-            onClick={() => handleNavigation("/notes")}
-          />
-
-          <SidebarItem
-            icon={<MdAttachMoney className="h-6 w-6" />}
-            label="Gastos"
-            active={currentPath === "/expenses"}
-            onClick={() => handleNavigation("/expenses")}
-          />
-
-          <SidebarItem
-            icon={<TbReportAnalytics className="h-6 w-6" />}
-            label="Reportes"
-            active={currentPath === "/reports"}
-            onClick={() => handleNavigation("/reports")}
-          />
+          {SIDEBAR_ITEMS.map((item) => (
+            <SidebarItem
+              key={item.path}
+              icon={item.icon}
+              label={item.label}
+              active={currentPath === item.path}
+              onClick={() => handleNavigation(item.path)}
+            />
+          ))}
 
           {/* Sección Especial para Dev Mode - VISIBLE SOLO PARA ROL DEV */}
           {userRole === "DEV" && (
@@ -139,15 +91,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <p className="mb-2 px-4 text-xs font-bold text-slate-500 uppercase">
                 Administración
               </p>
-              <SidebarItem
-                icon={<IoScan className="h-6 w-6" />} // Reusing an icon or import a specific Code icon if available. I'll use IoScan for now or just generic.
-                label="Modo Dev"
-                active={currentPath === "/dev"}
-                onClick={() => handleNavigation("/dev")}
-              />
+              {DEV_SIDEBAR_ITEMS.map((item) => (
+                <SidebarItem
+                  key={item.path}
+                  icon={item.icon}
+                  label={item.label}
+                  active={currentPath === item.path}
+                  onClick={() => handleNavigation(item.path)}
+                />
+              ))}
             </div>
           )}
         </nav>
+
         <div className="border-t border-slate-800 bg-slate-900 p-4">
           <button
             onClick={onSupport}

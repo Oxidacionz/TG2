@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 // Supabase removed
 import { Card } from "../components/atoms/Card";
 import { ICONS } from "../components/atoms/Icons";
@@ -23,13 +23,14 @@ export const OperatorsView = () => {
       is_active: false,
     },
   ] as any);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
+
   const [isHelpOpen, setIsHelpOpen] = useState(false);
 
   const handleToggleActive = (id: string, currentStatus: boolean) => {
     // Optimistic update (Mock)
-    setOperators((prev) =>
-      prev.map((op) =>
+    setOperators((prev: any) =>
+      prev.map((op: any) =>
         op.id === id ? { ...op, is_active: !currentStatus } : op,
       ),
     );
@@ -41,7 +42,9 @@ export const OperatorsView = () => {
       return;
 
     // Mock disable all
-    setOperators((prev) => prev.map((op) => ({ ...op, is_active: false })));
+    setOperators((prev: any) =>
+      prev.map((op: any) => ({ ...op, is_active: false })),
+    );
   };
 
   return (
@@ -71,7 +74,7 @@ export const OperatorsView = () => {
         ) : operators.length === 0 ? (
           <p className="text-slate-500">No hay operadores registrados.</p>
         ) : (
-          operators.map((op) => (
+          operators.map((op: any) => (
             <Card
               key={op.id}
               className={`relative flex flex-col items-center border-2 p-6 text-center ${op.is_active ? "border-transparent" : "border-slate-200 opacity-75 dark:border-slate-700"}`}

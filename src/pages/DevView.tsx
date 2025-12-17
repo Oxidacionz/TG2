@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+
 // Supabase removed
 import { Card } from "../components/atoms/Card";
 import { Button } from "../components/atoms/Button";
@@ -19,9 +20,7 @@ export const DevView = () => {
   const webhookUrl =
     "https://kkkwfimgkemxwgvqvaob.supabase.co/functions/v1/process-receipt";
 
-  const fetchConfig = () => {
-    // Config initialized in state
-  };
+  // const fetchConfig = () => { ... } // Removed
 
   const handleSave = () => {
     setLoading(true);
