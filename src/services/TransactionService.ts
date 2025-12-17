@@ -1,14 +1,4 @@
-export interface TransactionDTO {
-  type: "ENTRADA" | "SALIDA";
-  amount: string;
-  rate: string;
-  profit: number;
-  clientName: string;
-  clientBank?: string;
-  targetAccount: string;
-  notes?: string;
-  user?: string;
-}
+import { TransactionDTO } from "../types/transaction";
 
 export interface ITransactionService {
   createTransaction(transaction: TransactionDTO): Promise<void>;

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 // Supabase removed
 import { FaGear } from "react-icons/fa6";
 import { BiSolidExit } from "react-icons/bi";
+import { ROLES } from "../../config/constants";
 
 export const UserDropdown: React.FC<{
   onLogout?: () => void;
@@ -9,7 +10,7 @@ export const UserDropdown: React.FC<{
   onSettings?: () => void;
 }> = ({ onLogout, userEmail, onSettings }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [role] = useState("ADMIN"); // setRole removed as it's unused
+  const [role] = useState(ROLES.ADMIN); // setRole removed as it's unused
 
   // Extraer nombre del email si no hay nombre de usuario (ej. admin@... -> admin)
   const displayName = userEmail ? userEmail.split("@")[0] : "ToroUser";
@@ -34,7 +35,7 @@ export const UserDropdown: React.FC<{
                 {displayName}
               </p>
               <p
-                className={`text-xs font-bold ${role === "ADMIN" ? "text-purple-500" : "text-brand-500"}`}
+                className={`text-xs font-bold ${role === ROLES.ADMIN ? "text-purple-500" : "text-brand-500"}`}
               >
                 {role}
               </p>

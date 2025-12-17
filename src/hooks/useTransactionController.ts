@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { exchangeRateService } from "../services/ExchangeRateService";
 import { transactionService } from "../services/TransactionService";
+import { TRANSACTION_TYPES, TransactionType } from "../config/constants";
 
 interface UseTransactionControllerProps {
   onSuccess: () => void;
@@ -15,7 +16,7 @@ export const useTransactionController = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Estados del formulario (Datos Principales)
-  const [type, setType] = useState<"ENTRADA" | "SALIDA">("ENTRADA");
+  const [type, setType] = useState<TransactionType>(TRANSACTION_TYPES.INCOME);
   const [amount, setAmount] = useState("");
   const [rate, setRate] = useState("36.00");
   const [profitPercent, setProfitPercent] = useState<number | "custom">(5);
