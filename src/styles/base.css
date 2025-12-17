@@ -1,5 +1,6 @@
 div.root {
   font-family: "Inter", sans-serif;
+  @apply bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100;
 }
 
 ::-webkit-scrollbar {
