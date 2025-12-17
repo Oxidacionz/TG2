@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router";
+
 import {
   LineChart,
   Line,
@@ -29,11 +31,13 @@ import {
 import { GrTransaction } from "react-icons/gr";
 import { IoIosStats } from "react-icons/io";
 
-export const DashboardView = ({
-  refreshTrigger,
-}: {
-  refreshTrigger?: number;
-}) => {
+interface DashboardContext {
+  refreshTrigger: number;
+}
+
+export const DashboardView = () => {
+  const { refreshTrigger } = useOutletContext<DashboardContext>();
+
   const [stats, setStats] = useState({
     totalVolume: 0,
     netProfit: 0,

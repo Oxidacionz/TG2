@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router";
 
 import { Button } from "../components/atoms/Button";
 import { Card } from "../components/atoms/Card";
@@ -9,13 +10,14 @@ import { IoScan } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
 import { GrTransaction } from "react-icons/gr";
 
-export const TransactionsView = ({
-  onScan,
-  refreshTrigger,
-}: {
-  onScan: () => void;
-  refreshTrigger?: number;
-}) => {
+// Define the context type
+interface DashboardContext {
+  refreshTrigger: number;
+}
+
+export const TransactionsView = ({ onScan }: { onScan?: () => void }) => {
+  const { refreshTrigger } = useOutletContext<DashboardContext>();
+
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
 

@@ -1,4 +1,4 @@
-import React from "react";
+import { useLocation } from "react-router";
 
 import { UserDropdown } from "../molecules/UserDropdown";
 import { NotificationDropdown } from "../molecules/NotificationDropdown";
@@ -7,7 +7,8 @@ import { FaRegMoon, FaSun } from "react-icons/fa";
 import { FaBars } from "react-icons/fa6";
 
 interface HeaderProps {
-  currentView: string;
+  // currentView removed
+
   isDarkMode: boolean;
   toggleTheme: () => void;
   onMenuClick?: () => void;
@@ -17,7 +18,8 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  currentView,
+  // currentView,
+
   isDarkMode,
   toggleTheme,
   onMenuClick,
@@ -32,13 +34,7 @@ export const Header: React.FC<HeaderProps> = ({
       >
         <FaBars className="h-6 w-6" />
       </button>
-      <h1 className="truncate text-lg font-bold text-slate-800 capitalize md:text-xl dark:text-white">
-        {currentView === "operators"
-          ? "Operadores"
-          : currentView === "accounts"
-            ? "Cuentas & Bancos"
-            : currentView}
-      </h1>
+      <HeadingTitle />
     </div>
     <div className="flex items-center gap-2 md:gap-4">
       <button
@@ -62,3 +58,30 @@ export const Header: React.FC<HeaderProps> = ({
     </div>
   </header>
 );
+
+const HeadingTitle = () => {
+  const location = useLocation();
+  const path = location.pathname.substring(1); // remove leading slash
+
+  // Map paths to titles
+  const titles: Record<string, string> = {
+    "": "Dashboard",
+    dashboard: "Dashboard",
+    transactions: "Transacciones",
+    clients: "Clientes",
+    operators: "Operadores",
+    expenses: "Gastos",
+    reports: "Reportes",
+    accounts: "Cuentas & Bancos",
+    notes: "Notas",
+    dev: "Modo Dev",
+  };
+
+  const title = titles[path] || titles[""] || "Toro Group";
+
+  return (
+    <h1 className="truncate text-lg font-bold text-slate-800 capitalize md:text-xl dark:text-white">
+      {title}
+    </h1>
+  );
+};
