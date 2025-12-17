@@ -27,6 +27,7 @@ const [currentView, setCurrentView] = useState("dashboard");
 ```
 
 **Renderizado condicional manual:**
+
 ```typescript
 {currentView === "dashboard" && <DashboardView refreshTrigger={dataRefreshTrigger} />}
 {currentView === "transactions" && <TransactionsView onScan={() => setTransactionModalOpen(true)} refreshTrigger={dataRefreshTrigger} />}
@@ -41,12 +42,12 @@ const [currentView, setCurrentView] = useState("dashboard");
 
 ### Líneas de Código Relacionadas con Navegación
 
-| Concepto | Líneas | Ubicación |
-|----------|--------|-----------|
-| Estado de vista actual | 1 línea | L27 |
-| Renderizado condicional de vistas | ~16 líneas | L169-184 |
-| Callbacks de navegación en Sidebar | ~6 líneas | L140-147 |
-| **Total aproximado** | **~23 líneas** | Multiple |
+| Concepto                           | Líneas         | Ubicación |
+| ---------------------------------- | -------------- | --------- |
+| Estado de vista actual             | 1 línea        | L27       |
+| Renderizado condicional de vistas  | ~16 líneas     | L169-184  |
+| Callbacks de navegación en Sidebar | ~6 líneas      | L140-147  |
+| **Total aproximado**               | **~23 líneas** | Multiple  |
 
 ---
 
@@ -57,12 +58,14 @@ const [currentView, setCurrentView] = useState("dashboard");
 Con React Router, se eliminarían las siguientes secciones:
 
 1. **Estado manual de navigate:**
+
    ```typescript
    const [currentView, setCurrentView] = useState("dashboard");
    ```
 
 2. **Renderizado condicional manual (L169-184):**
    Reemplazado por:
+
    ```typescript
    <Routes>
      <Route path="/dashboard" element={<DashboardView refreshTrigger={dataRefreshTrigger} />} />
@@ -76,12 +79,12 @@ Con React Router, se eliminarían las siguientes secciones:
 
 ### 📉 Comparación Estimada
 
-| Métrica | Actual | Con React Router | Diferencia |
-|---------|--------|------------------|------------|
-| **Líneas en App.tsx** | ~239 líneas | ~220-225 líneas | **-14 a -19 líneas** |
-| **Estado de navegación** | Manual (useState) | Manejado por router | -1 estado |
-| **Lógica condicional** | 9 bloques if | Rutas declarativas | -9 condicionales |
-| **Responsabilidad de App.tsx** | Alta (maneja todo) | Media (delega al router) | Mejora modularidad |
+| Métrica                        | Actual             | Con React Router         | Diferencia           |
+| ------------------------------ | ------------------ | ------------------------ | -------------------- |
+| **Líneas en App.tsx**          | ~239 líneas        | ~220-225 líneas          | **-14 a -19 líneas** |
+| **Estado de navegación**       | Manual (useState)  | Manejado por router      | -1 estado            |
+| **Lógica condicional**         | 9 bloques if       | Rutas declarativas       | -9 condicionales     |
+| **Responsabilidad de App.tsx** | Alta (maneja todo) | Media (delega al router) | Mejora modularidad   |
 
 ### ⚠️ Código Adicional Necesario
 
@@ -96,6 +99,7 @@ Sin embargo, se necesitarían:
 > **REDUCCIÓN NETA EN APP.TSX: ~10-15 líneas**
 
 Aunque `App.tsx` se simplifica, el proyecto total tendrá **código adicional** distribuido en:
+
 - Archivo de rutas (`/routes` o `/router`)
 - Componentes de protección de rutas (`ProtectedRoute.tsx`)
 - Configuración en `main.tsx`
@@ -109,12 +113,14 @@ Aunque `App.tsx` se simplifica, el proyecto total tendrá **código adicional** 
 ### Estado Actual de Seguridad
 
 **Fortalezas:**
+
 - ✅ Autenticación mediante Supabase
 - ✅ Verificación de sesión con `getSession()` y `onAuthStateChange`
 - ✅ Roles de usuario cargados desde base de datos
 - ✅ Protección básica: `if (!session)` muestra `LoginForm`
 
 **Debilidades:**
+
 - ⚠️ **No hay protección granular por vista**
 - ⚠️ **Control de acceso basado en roles solo para DevView** (L184)
 - ⚠️ **Sin prevención de acceso directo a vistas sensibles**
@@ -127,28 +133,29 @@ Aunque `App.tsx` se simplifica, el proyecto total tendrá **código adicional** 
 Con React Router se puede implementar un componente `ProtectedRoute`:
 
 ```typescript
-function ProtectedRoute({ 
-  children, 
-  requiredRole 
-}: { 
-  children: React.ReactNode; 
-  requiredRole?: string 
+function ProtectedRoute({
+  children,
+  requiredRole
+}: {
+  children: React.ReactNode;
+  requiredRole?: string
 }) {
   const { session, userRole } = useAuth();
-  
+
   if (!session) {
     return <Navigate to="/login" replace />;
   }
-  
+
   if (requiredRole && userRole !== requiredRole) {
     return <Navigate to="/unauthorized" replace />;
   }
-  
+
   return <>{children}</>;
 }
 ```
 
 **Beneficios:**
+
 - ✅ Protección declarativa y centralizada
 - ✅ Redirección automática si no hay autenticación
 - ✅ Control de acceso basado en roles más robusto
@@ -160,18 +167,18 @@ Ejemplo de configuración:
 ```typescript
 <Routes>
   <Route path="/login" element={<LoginForm />} />
-  
+
   {/* Rutas protegidas - cualquier usuario autenticado */}
   <Route element={<ProtectedRoute />}>
     <Route path="/dashboard" element={<DashboardView />} />
     <Route path="/transactions" element={<TransactionsView />} />
   </Route>
-  
+
   {/* Rutas solo para ADMIN */}
   <Route element={<ProtectedRoute requiredRole="ADMIN" />}>
     <Route path="/operators" element={<OperatorsView />} />
   </Route>
-  
+
   {/* Rutas solo para DEV */}
   <Route element={<ProtectedRoute requiredRole="DEV" />}>
     <Route path="/dev" element={<DevView />} />
@@ -180,6 +187,7 @@ Ejemplo de configuración:
 ```
 
 **Ventajas de seguridad:**
+
 - ✅ **Cada ruta puede tener requisitos específicos**
 - ✅ **Previene acceso accidental a vistas no autorizadas**
 - ✅ **Facilita auditoría de permisos** (todas las rutas en un solo lugar)
@@ -187,10 +195,12 @@ Ejemplo de configuración:
 #### 3. **Protección contra Manipulación de URL**
 
 **Situación actual:**
+
 - Con el estado manual, los usuarios no pueden acceder directamente mediante URL
 - Pero tampoco hay URLs compartibles ni bookmarks
 
 **Con React Router:**
+
 - URLs son accesibles directamente (ej: `/operators`)
 - **REQUIERE** implementar guards adecuados
 - **PERO** permite validación en cada cambio de ruta
@@ -198,11 +208,13 @@ Ejemplo de configuración:
 #### 4. **Navegación Programática Segura**
 
 **Actual:**
+
 ```typescript
 setCurrentView("transactions"); // No valida permisos
 ```
 
 **Con React Router + Guards:**
+
 ```typescript
 navigate("/transactions"); // Pasa por ProtectedRoute automáticamente
 ```
@@ -219,7 +231,7 @@ useEffect(() => {
   auditLog({
     user: session.user.id,
     route: location.pathname,
-    timestamp: new Date()
+    timestamp: new Date(),
   });
 }, [location]);
 ```
@@ -228,15 +240,15 @@ useEffect(() => {
 
 ### 🎯 Conclusión sobre Seguridad
 
-| Aspecto | Sin React Router | Con React Router | Mejora |
-|---------|------------------|------------------|---------|
-| Protección de rutas | Manual, global | Declarativa, granular | ⬆️ **Alta** |
-| Control de acceso por roles | Solo DevView | Todas las rutas | ⬆️ **Alta** |
-| Prevención de acceso directo | Implícita (sin URLs) | Requiere guards | ➡️ Neutral* |
-| Auditoría de navegación | No disponible | Fácil de implementar | ⬆️ **Media** |
-| Redirección segura | Manual | Automática | ⬆️ **Media** |
+| Aspecto                      | Sin React Router     | Con React Router      | Mejora       |
+| ---------------------------- | -------------------- | --------------------- | ------------ |
+| Protección de rutas          | Manual, global       | Declarativa, granular | ⬆️ **Alta**  |
+| Control de acceso por roles  | Solo DevView         | Todas las rutas       | ⬆️ **Alta**  |
+| Prevención de acceso directo | Implícita (sin URLs) | Requiere guards       | ➡️ Neutral\* |
+| Auditoría de navegación      | No disponible        | Fácil de implementar  | ⬆️ **Media** |
+| Redirección segura           | Manual               | Automática            | ⬆️ **Media** |
 
-*\*Nota: Aunque requiere implementación explícita, el resultado final es más robusto.*
+_\*Nota: Aunque requiere implementación explícita, el resultado final es más robusto._
 
 ### 🚨 Consideraciones de Seguridad Críticas
 
@@ -267,16 +279,20 @@ useEffect(() => {
    - Mejora UX significativamente
 
 3. **Lazy loading de rutas**
+
    ```typescript
-   const ReportsView = lazy(() => import('./pages/ReportsView'));
+   const ReportsView = lazy(() => import("./pages/ReportsView"));
    ```
+
    - Reduce bundle inicial
    - Mejora tiempo de carga
 
 4. **Parámetros de ruta dinámicos**
+
    ```typescript
    <Route path="/client/:id" element={<ClientDetail />} />
    ```
+
    - Permite deep-linking a entidades específicas
 
 5. **Navegación anidada**
@@ -290,6 +306,7 @@ useEffect(() => {
 ### ¿Debería migrar a React Router?
 
 **✅ SÍ, si:**
+
 - Planeas escalar la aplicación con más vistas/módulos
 - Necesitas URLs compartibles o deep-linking
 - Quieres implementar control de acceso más granular por roles
@@ -297,6 +314,7 @@ useEffect(() => {
 - El equipo está familiarizado con React Router
 
 **❌ NO, si:**
+
 - La aplicación es muy simple y no crecerá
 - Prefieres mantener URLs opacas (seguridad por oscuridad)
 - No tienes tiempo para implementar guards de seguridad correctamente
@@ -315,34 +333,38 @@ useEffect(() => {
 ### 📋 Plan de Migración Sugerido
 
 #### Fase 1: Preparación
+
 - [ ] Crear archivo de configuración de rutas
 - [ ] Implementar `ProtectedRoute` component
 - [ ] Definir mapeo de roles a rutas
 
 #### Fase 2: Implementación Core
+
 - [ ] Instalar `react-router-dom`
 - [ ] Envolver app en `BrowserRouter`
 - [ ] Migrar rutas una por una (empezando por las menos críticas)
 
 #### Fase 3: Seguridad
+
 - [ ] Aplicar `ProtectedRoute` a todas las rutas sensibles
 - [ ] Implementar página 403 (Unauthorized)
 - [ ] Testing de permisos por rol
 
 #### Fase 4: Mejoras
+
 - [ ] Implementar lazy loading
 - [ ] Añadir logging de navegación
 - [ ] Optimizar bundle size
 
 ### ⏱️ Esfuerzo Estimado
 
-| Fase | Tiempo estimado | Complejidad |
-|------|-----------------|-------------|
-| Preparación | 1-2 horas | Baja |
-| Implementación | 3-4 horas | Media |
-| Seguridad | 2-3 horas | Alta |
-| Mejoras | 2-3 horas | Media |
-| **TOTAL** | **8-12 horas** | **Media-Alta** |
+| Fase           | Tiempo estimado | Complejidad    |
+| -------------- | --------------- | -------------- |
+| Preparación    | 1-2 horas       | Baja           |
+| Implementación | 3-4 horas       | Media          |
+| Seguridad      | 2-3 horas       | Alta           |
+| Mejoras        | 2-3 horas       | Media          |
+| **TOTAL**      | **8-12 horas**  | **Media-Alta** |
 
 ---
 
@@ -356,9 +378,9 @@ useEffect(() => {
 
 ## 🔄 Historial de Cambios
 
-| Versión | Fecha | Cambios |
-|---------|-------|---------|
-| 1.0 | 2025-12-16 | Análisis inicial completo |
+| Versión | Fecha      | Cambios                   |
+| ------- | ---------- | ------------------------- |
+| 1.0     | 2025-12-16 | Análisis inicial completo |
 
 ---
 
