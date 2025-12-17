@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useLoaderData } from "react-router"; // Importar hook del router
-import { useTheme } from "./useTheme";
 import { authService } from "../services/AuthService";
+import { AppSession } from "../types";
 
 export const useDashboardController = () => {
   // Global State (Recuperado del Loader del Router)
-  const loaderData = useLoaderData() as { session: any }; // Type assertion simple por ahora
+  const loaderData = useLoaderData() as { session: AppSession | null };
+  // User asked to replace any.
+  // Let's import AppSession definitions.
   const session = loaderData?.session || null;
 
   // TODO: Mejorar manejo de roles real desde metadatos o tabla de perfiles
@@ -18,9 +20,6 @@ export const useDashboardController = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [dataRefreshTrigger, setDataRefreshTrigger] = useState(0);
 
-  // Theme
-  const { isDarkMode, toggleTheme } = useTheme();
-
   // Logic
   const handleTransactionSuccess = () => {
     setTransactionModalOpen(false);
@@ -29,7 +28,6 @@ export const useDashboardController = () => {
 
   const handleLogout = async () => {
     await authService.signOut();
-    // El App.tsx detectará el cambio y redirigirá
   };
 
   return {
@@ -48,13 +46,9 @@ export const useDashboardController = () => {
     data: {
       refreshTrigger: dataRefreshTrigger,
     },
-    theme: {
-      isDarkMode,
-      toggleTheme,
-    },
     handlers: {
       handleTransactionSuccess,
-      handleLogout, // Exponemos el handler
+      handleLogout,
     },
   };
 };

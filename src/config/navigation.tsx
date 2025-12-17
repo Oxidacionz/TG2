@@ -5,11 +5,13 @@ import { GrTransaction } from "react-icons/gr";
 import { FaUserTie } from "react-icons/fa";
 import { TbReportAnalytics } from "react-icons/tb";
 
+import { Role } from "../types";
+
 export interface SidebarItemConfig {
   label: string;
   path: string;
   icon: ReactNode;
-  roles?: string[]; // Optional: if item is restricted to specific roles
+  roles?: Role[]; // Update type to use Enum
 }
 
 export const SIDEBAR_ITEMS: SidebarItemConfig[] = [
@@ -60,6 +62,6 @@ export const DEV_SIDEBAR_ITEMS: SidebarItemConfig[] = [
     label: "Modo Dev",
     path: "/dev",
     icon: <IoScan className="h-6 w-6" />, // Using IoScan as generic/placeholder or we can import specific
-    roles: ["DEV"],
+    roles: [Role.DEV],
   },
 ];

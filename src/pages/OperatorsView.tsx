@@ -5,32 +5,33 @@ import { ICONS } from "../components/atoms/Icons";
 import { Button } from "../components/atoms/Button";
 import { Toggle } from "../components/atoms/Toggle";
 import { Modal } from "../components/organisms/Modal";
+import { Operator, Role } from "../types";
 
 export const OperatorsView = () => {
-  const [operators, setOperators] = useState([
+  const [operators, setOperators] = useState<Operator[]>([
     {
-      id: "op1",
-      username: "Operador 1",
-      role: "OPERADOR",
-      last_active: new Date().toISOString(),
+      id: "op-1",
+      username: "Camello_1",
+      role: Role.OPERATOR,
+      last_active: "Hace 5 min",
       is_active: true,
     },
     {
-      id: "op2",
-      username: "Operador 2",
-      role: "OPERADOR",
-      last_active: new Date().toISOString(),
-      is_active: false,
+      id: "op-2",
+      username: "Camello_2",
+      role: Role.OPERATOR,
+      last_active: "Hace 2 horas",
+      is_active: true,
     },
-  ] as any);
+  ]);
   const [loading] = useState(false);
 
   const [isHelpOpen, setIsHelpOpen] = useState(false);
 
   const handleToggleActive = (id: string, currentStatus: boolean) => {
     // Optimistic update (Mock)
-    setOperators((prev: any) =>
-      prev.map((op: any) =>
+    setOperators((prev) =>
+      prev.map((op) =>
         op.id === id ? { ...op, is_active: !currentStatus } : op,
       ),
     );
@@ -42,9 +43,7 @@ export const OperatorsView = () => {
       return;
 
     // Mock disable all
-    setOperators((prev: any) =>
-      prev.map((op: any) => ({ ...op, is_active: false })),
-    );
+    setOperators((prev) => prev.map((op) => ({ ...op, is_active: false })));
   };
 
   return (
@@ -74,7 +73,7 @@ export const OperatorsView = () => {
         ) : operators.length === 0 ? (
           <p className="text-slate-500">No hay operadores registrados.</p>
         ) : (
-          operators.map((op: any) => (
+          operators.map((op) => (
             <Card
               key={op.id}
               className={`relative flex flex-col items-center border-2 p-6 text-center ${op.is_active ? "border-transparent" : "border-slate-200 opacity-75 dark:border-slate-700"}`}

@@ -10,15 +10,12 @@ import { IoScan } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
 import { GrTransaction } from "react-icons/gr";
 
-// Define the context type
-interface DashboardContext {
-  refreshTrigger: number;
-}
+import { DashboardContextType, Transaction } from "../types";
 
 export const TransactionsView = ({ onScan }: { onScan?: () => void }) => {
-  const { refreshTrigger } = useOutletContext<DashboardContext>();
+  const { refreshTrigger } = useOutletContext<DashboardContextType>();
 
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {

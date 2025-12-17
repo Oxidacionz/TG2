@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// Supabase removed
 import { Card } from "../components/atoms/Card";
 import { Button } from "../components/atoms/Button";
 import { ICONS } from "../components/atoms/Icons";

@@ -6,9 +6,10 @@ import { Input } from "../components/atoms/Input";
 import { ICONS } from "../components/atoms/Icons";
 import { Modal } from "../components/organisms/Modal";
 import { FormField } from "../components/molecules/FormField";
+import { Expense } from "../types";
 
 export const ExpensesView = () => {
-  const [expenses] = useState([
+  const [expenses] = useState<Expense[]>([
     {
       id: 1,
       description: "Gasto Mock 1",
@@ -23,12 +24,11 @@ export const ExpensesView = () => {
       category: "LOGISTICA",
       date: new Date().toISOString(),
     },
-  ] as any);
+  ]);
   const [activeTab, setActiveTab] = useState<"OPERATIVO" | "LOGISTICA">(
     "OPERATIVO",
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loading] = useState(false);
 
   // Form State
   const [desc, setDesc] = useState("");
@@ -46,8 +46,8 @@ export const ExpensesView = () => {
     // fetchExpenses();
   };
 
-  const filtered = expenses.filter((e: any) => e.category === activeTab);
-  const total = filtered.reduce((acc: any, curr: any) => acc + curr.amount, 0);
+  const filtered = expenses.filter((e) => e.category === activeTab);
+  const total = filtered.reduce((acc, curr) => acc + curr.amount, 0);
 
   return (
     <div className="space-y-6">
@@ -100,7 +100,7 @@ export const ExpensesView = () => {
             No hay registros en esta categoría.
           </p>
         ) : (
-          filtered.map((exp: any) => (
+          filtered.map((exp) => (
             <Card
               key={exp.id}
               className="flex items-center justify-between p-4"

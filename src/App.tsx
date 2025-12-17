@@ -2,14 +2,16 @@ import { useEffect } from "react";
 import { RouterProvider } from "react-router";
 import { router } from "./AppRouter";
 import { authService } from "./services/AuthService";
-import { AUTH_EVENTS } from "./config/constants";
+import { AuthEvent } from "./types/enums";
 
 const App = () => {
   useEffect(() => {
     const { unsubscribe } = authService.subscribeToAuthChanges((event) => {
-      if (event === AUTH_EVENTS.SIGNED_IN || event === AUTH_EVENTS.SIGNED_OUT) {
-        router.revalidate();
-      }
+      const isSignIn = event === AuthEvent.SIGNED_IN;
+      const isSignOut = event === AuthEvent.SIGNED_OUT;
+      const shouldRevalidate = isSignIn || isSignOut;
+
+      if (shouldRevalidate) router.revalidate();
     });
     return () => unsubscribe();
   }, []);

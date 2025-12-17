@@ -10,16 +10,12 @@ import { SupportModal } from "../components/organisms/SupportModal";
 import { useDashboardController } from "../hooks/useDashboardController";
 
 export const DashboardLayout = () => {
-  const { session, userRole, ui, data, theme, handlers } =
-    useDashboardController();
-
-  // const currentView = "dashboard"; // REMOVED
+  const { session, userRole, ui, data, handlers } = useDashboardController();
 
   return (
     <DashboardTemplate
       sidebar={
         <Sidebar
-          // currentView removed
           // onViewChange will be ignored or we can just pass a no-op if the prop is still there,
           // but better to remove it from usage since I removed it from Sidebar component.
           // However, Sidebar might still expect onClose to close mobile menu.
@@ -40,9 +36,6 @@ export const DashboardLayout = () => {
       }
       header={
         <Header
-          // currentView removed
-          isDarkMode={theme.isDarkMode}
-          toggleTheme={theme.toggleTheme}
           onMenuClick={() => ui.setSidebarOpen(!ui.isSidebarOpen)}
           userEmail={session.user.email}
           onSettings={() => ui.setIsSettingsModalOpen(true)}

@@ -1,5 +1,5 @@
 import { supabase } from "../lib/supabaseClient";
-import { AuthChangeEvent, Session } from "@supabase/supabase-js";
+import { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
 
 // Abstraction (Interface)
 export interface IAuthService {
@@ -10,7 +10,7 @@ export interface IAuthService {
     password: string,
   ): Promise<{
     error: Error | null;
-    data: { user: any; session: Session } | null;
+    data: { user: User; session: Session } | null;
   }>;
   subscribeToAuthChanges(
     callback: (event: AuthChangeEvent, session: Session | null) => void,

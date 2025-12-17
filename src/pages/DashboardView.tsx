@@ -31,12 +31,10 @@ import {
 import { GrTransaction } from "react-icons/gr";
 import { IoIosStats } from "react-icons/io";
 
-interface DashboardContext {
-  refreshTrigger: number;
-}
+import { DashboardContextType } from "../types";
 
 export const DashboardView = () => {
-  const { refreshTrigger } = useOutletContext<DashboardContext>();
+  const { refreshTrigger } = useOutletContext<DashboardContextType>();
   // To avoid unused warning if we want to keep it available for future use:
   console.log("Dashboard refreshed", refreshTrigger);
 
@@ -64,7 +62,9 @@ export const DashboardView = () => {
   // Chart State
   const [chartType, setChartType] = useState<"line" | "pie">("line");
   const [lineData] = useState(MOCK_DATA.chartData);
-  const [pieData] = useState<any[]>([]);
+  const [pieData] = useState<{ name: string; value: number; color?: string }[]>(
+    [],
+  );
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);

@@ -4,8 +4,8 @@ import { Button } from "../atoms/Button";
 import { Input } from "../atoms/Input";
 import { FormField } from "../molecules/FormField";
 import { FaCamera } from "react-icons/fa6";
+import { TransactionType } from "../../types";
 import { useTransactionController } from "../../hooks/useTransactionController";
-import { TRANSACTION_TYPES } from "../../config/constants";
 
 interface TransactionFormProps {
   onSuccess: () => void;
@@ -38,14 +38,14 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
       <div className="flex w-full flex-col gap-4 p-2 md:w-5/12">
         {/* Tarjeta de Resumen en Tiempo Real */}
         <div
-          className={`rounded-2xl p-6 text-white shadow-lg ${type === TRANSACTION_TYPES.INCOME ? "bg-linear-to-br from-green-600 to-teal-800" : "bg-linear-to-br from-red-600 to-rose-800"}`}
+          className={`rounded-2xl p-6 text-white shadow-lg ${type === TransactionType.INCOME ? "bg-linear-to-br from-green-600 to-teal-800" : "bg-linear-to-br from-red-600 to-rose-800"}`}
         >
           <div className="mb-4 flex items-center justify-between">
             <span className="rounded bg-black/20 px-2 py-1 text-[10px] font-bold tracking-wider uppercase">
-              {type === TRANSACTION_TYPES.INCOME ? "Recibimos" : "Enviamos"}
+              {type === TransactionType.INCOME ? "Recibimos" : "Enviamos"}
             </span>
             <span className="text-sm font-medium opacity-80">
-              {type === TRANSACTION_TYPES.INCOME
+              {type === TransactionType.INCOME
                 ? "Cliente Paga"
                 : "Cliente Recibe"}
             </span>
@@ -63,10 +63,10 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
           <div className="my-3 flex items-center justify-between rounded-lg bg-black/10 p-3">
             <div className="text-center">
               <p className="text-xs opacity-70">
-                {type === TRANSACTION_TYPES.INCOME ? "USD" : "VES"}
+                {type === TransactionType.INCOME ? "USD" : "VES"}
               </p>
               <p className="text-sm font-bold">
-                {type === TRANSACTION_TYPES.INCOME
+                {type === TransactionType.INCOME
                   ? `$${amount || 0}`
                   : `Bs ${totalVES}`}
               </p>
@@ -74,10 +74,10 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
             <div className="text-white/50">➜</div>
             <div className="text-center">
               <p className="text-xs opacity-70">
-                {type === TRANSACTION_TYPES.INCOME ? "VES" : "USD"}
+                {type === TransactionType.INCOME ? "VES" : "USD"}
               </p>
               <p className="text-sm font-bold">
-                {type === TRANSACTION_TYPES.INCOME
+                {type === TransactionType.INCOME
                   ? `Bs ${totalVES}`
                   : `$${amount || 0}`}
               </p>
@@ -138,14 +138,14 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
         {/* Selector de Tipo */}
         <div className="grid grid-cols-2 gap-3 rounded-lg bg-slate-100 p-1 dark:bg-slate-800">
           <button
-            onClick={() => actions.setType(TRANSACTION_TYPES.INCOME)}
-            className={`flex items-center justify-center gap-2 rounded-md py-2 text-sm font-bold transition-all ${type === TRANSACTION_TYPES.INCOME ? "bg-white text-green-600 shadow-sm dark:bg-slate-700" : "text-slate-500 hover:text-slate-700"}`}
+            onClick={() => actions.setType(TransactionType.INCOME)}
+            className={`flex items-center justify-center gap-2 rounded-md py-2 text-sm font-bold transition-all ${type === TransactionType.INCOME ? "bg-white text-green-600 shadow-sm dark:bg-slate-700" : "text-slate-500 hover:text-slate-700"}`}
           >
             <span className="text-lg">↘</span> COMPRA (Entrada)
           </button>
           <button
-            onClick={() => actions.setType(TRANSACTION_TYPES.EXPENSE)}
-            className={`flex items-center justify-center gap-2 rounded-md py-2 text-sm font-bold transition-all ${type === TRANSACTION_TYPES.EXPENSE ? "bg-white text-red-600 shadow-sm dark:bg-slate-700" : "text-slate-500 hover:text-slate-700"}`}
+            onClick={() => actions.setType(TransactionType.EXPENSE)}
+            className={`flex items-center justify-center gap-2 rounded-md py-2 text-sm font-bold transition-all ${type === TransactionType.EXPENSE ? "bg-white text-red-600 shadow-sm dark:bg-slate-700" : "text-slate-500 hover:text-slate-700"}`}
           >
             <span className="text-lg">↗</span> VENTA (Salida)
           </button>
@@ -195,7 +195,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
             </FormField>
             <div className="space-y-1">
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                Cuenta {type === TRANSACTION_TYPES.INCOME ? "RECIBE" : "ENVÍA"}{" "}
+                Cuenta {type === TransactionType.INCOME ? "RECIBE" : "ENVÍA"}{" "}
                 Dinero
               </label>
               <select

@@ -6,23 +6,24 @@ import { Input } from "../components/atoms/Input";
 import { ICONS } from "../components/atoms/Icons";
 import { Modal } from "../components/organisms/Modal";
 import { FormField } from "../components/molecules/FormField";
+import { Account, Debt } from "../types";
 
 export const AccountsView = () => {
   const [activeTab, setActiveTab] = useState<"ACCOUNTS" | "DEBTS">("ACCOUNTS");
   const [debtType, setDebtType] = useState<"COBRAR" | "PAGAR">("COBRAR");
 
   // Data State
-  const [accounts] = useState([
+  const [accounts] = useState<Account[]>([
     {
       id: 1,
-      bank_name: "Mock Bank",
-      holder_name: "Mock Holder",
+      bankName: "Mock Bank",
+      holder: "Mock Holder",
       balance: 1000,
       currency: "USD",
       type: "BANCO",
     },
-  ] as any);
-  const [debts] = useState([
+  ]);
+  const [debts] = useState<Debt[]>([
     {
       id: 1,
       type: "COBRAR",
@@ -31,7 +32,7 @@ export const AccountsView = () => {
       status: "PENDIENTE",
       due_date: new Date().toISOString(),
     },
-  ] as any);
+  ]);
   const [loading] = useState<boolean>(false);
 
   // Modals
@@ -100,7 +101,7 @@ export const AccountsView = () => {
             </div>
             <div>
               <h3 className="font-bold text-slate-800 dark:text-white">
-                {acc.bank_name}
+                {acc.bankName}
               </h3>
               <p className="text-xs text-slate-500 uppercase">{acc.type}</p>
             </div>
@@ -115,7 +116,7 @@ export const AccountsView = () => {
             </p>
           </div>
           <div className="mt-4 border-t border-slate-100 pt-3 dark:border-slate-700">
-            <p className="truncate text-xs text-slate-500">{acc.holder_name}</p>
+            <p className="truncate text-xs text-slate-500">{acc.holder}</p>
           </div>
         </Card>
       ))}

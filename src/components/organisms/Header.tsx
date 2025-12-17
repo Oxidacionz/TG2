@@ -3,14 +3,10 @@ import { useLocation } from "react-router";
 import { UserDropdown } from "../molecules/UserDropdown";
 import { NotificationDropdown } from "../molecules/NotificationDropdown";
 
-import { FaRegMoon, FaSun } from "react-icons/fa";
+import { FaRegMoon } from "react-icons/fa";
 import { FaBars } from "react-icons/fa6";
 
 interface HeaderProps {
-  // currentView removed
-
-  isDarkMode: boolean;
-  toggleTheme: () => void;
   onMenuClick?: () => void;
 
   userEmail?: string;
@@ -19,10 +15,6 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  // currentView,
-
-  isDarkMode,
-  toggleTheme,
   onMenuClick,
   userEmail,
   onSettings,
@@ -40,17 +32,10 @@ export const Header: React.FC<HeaderProps> = ({
     </div>
     <div className="flex items-center gap-2 md:gap-4">
       <button
-        onClick={(e) => {
-          toggleTheme();
-          e.currentTarget.classList.toggle("rotate-transition");
-        }}
+        type="button"
         className="transition-rotate cursor-pointer p-2 text-slate-500 duration-300 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white"
       >
-        {isDarkMode ? (
-          <FaSun className="h-6 w-6" />
-        ) : (
-          <FaRegMoon className="h-6 w-6" />
-        )}
+        <FaRegMoon className="h-6 w-6" />
       </button>
 
       <NotificationDropdown />

@@ -1,4 +1,4 @@
-import { TransactionDTO } from "../types/transaction";
+import { TransactionDTO } from "../types";
 
 export interface ITransactionService {
   createTransaction(transaction: TransactionDTO): Promise<void>;

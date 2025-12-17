@@ -1,7 +1,8 @@
 import { useState, useRef } from "react";
 import { exchangeRateService } from "../services/ExchangeRateService";
 import { transactionService } from "../services/TransactionService";
-import { TRANSACTION_TYPES, TransactionType } from "../config/constants";
+import { TransactionType } from "../types";
+import { TransactionType as TransactionTypeEnum } from "../types/enums"; // Import enum for value usage
 
 interface UseTransactionControllerProps {
   onSuccess: () => void;
@@ -16,7 +17,7 @@ export const useTransactionController = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Estados del formulario (Datos Principales)
-  const [type, setType] = useState<TransactionType>(TRANSACTION_TYPES.INCOME);
+  const [type, setType] = useState<TransactionType>(TransactionTypeEnum.INCOME);
   const [amount, setAmount] = useState("");
   const [rate, setRate] = useState("36.00");
   const [profitPercent, setProfitPercent] = useState<number | "custom">(5);
@@ -96,9 +97,11 @@ export const useTransactionController = ({
       });
 
       onSuccess();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error creating transaction:", error);
-      alert("Error al guardar: " + error.message);
+      const errorMessage =
+        error instanceof Error ? error.message : "Error desconocido";
+      alert("Error al guardar: " + errorMessage);
     } finally {
       setLoading(false);
     }

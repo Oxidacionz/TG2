@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 // Supabase removed
+import { Link } from "react-router";
+import { useAuth } from "../../context/AuthContext";
+import { Role } from "../../types";
 import { FaGear } from "react-icons/fa6";
 import { BiSolidExit } from "react-icons/bi";
-import { ROLES } from "../../config/constants";
 
 export const UserDropdown: React.FC<{
   onLogout?: () => void;
@@ -10,7 +12,8 @@ export const UserDropdown: React.FC<{
   onSettings?: () => void;
 }> = ({ onLogout, userEmail, onSettings }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [role] = useState(ROLES.ADMIN); // setRole removed as it's unused
+  const { user } = useAuth();
+  const isAdmin = user?.role === Role.ADMIN; // setRole removed as it's unused
 
   // Extraer nombre del email si no hay nombre de usuario (ej. admin@... -> admin)
   const displayName = userEmail ? userEmail.split("@")[0] : "ToroUser";
@@ -31,14 +34,16 @@ export const UserDropdown: React.FC<{
           ></div>
           <div className="animate-fade-in-down absolute right-0 z-20 mt-2 flex w-56 flex-col rounded-lg border border-slate-200 bg-white py-1 shadow-xl dark:border-slate-700 dark:bg-slate-800">
             <div className="border-b border-slate-200 p-4 dark:border-slate-700">
-              <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
-                {displayName}
-              </p>
-              <p
-                className={`text-xs font-bold ${role === ROLES.ADMIN ? "text-purple-500" : "text-brand-500"}`}
-              >
-                {role}
-              </p>
+              <div className="ml-2 hidden text-left md:block">
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+                  {displayName}
+                </p>
+                <p
+                  className={`text-xs font-bold ${isAdmin ? "text-purple-500" : "text-brand-500"}`}
+                >
+                  {user?.role || "GUEST"}
+                </p>
+              </div>
               <p className="truncate text-xs text-slate-500">{userEmail}</p>
             </div>
             <button

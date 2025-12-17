@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Badge: React.FC<{ status: string }> = ({ status }) => {
+export const Badge = React.memo<{ status: string }>(({ status }) => {
   const styles: Record<string, string> = {
     Completado:
       "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800",
@@ -18,4 +18,6 @@ export const Badge: React.FC<{ status: string }> = ({ status }) => {
       {status}
     </span>
   );
-};
+});
+
+Badge.displayName = "Badge";

@@ -1,4 +1,6 @@
-export const MOCK_TRANSACTIONS = [
+import { Transaction, TransactionType, Currency } from "../types";
+
+export const MOCK_TRANSACTIONS: Transaction[] = [
   {
     id: "#t1",
     date: "28/11/2025",
@@ -6,8 +8,8 @@ export const MOCK_TRANSACTIONS = [
     client: "Juan Perez",
     clientBank: "Chase",
     amount: 100,
-    currency: "USD",
-    type: "ENTRADA",
+    currency: Currency.USD,
+    type: TransactionType.INCOME,
     operator: "Camello_1",
     rate: 1.0,
     profit: 5,
@@ -20,8 +22,8 @@ export const MOCK_TRANSACTIONS = [
     client: "Maria Gomez",
     clientBank: "Bofa",
     amount: 50,
-    currency: "USD",
-    type: "SALIDA",
+    currency: Currency.USD,
+    type: TransactionType.EXPENSE,
     operator: "Camello_2",
     rate: 1.0,
     profit: 2,
@@ -34,8 +36,8 @@ export const MOCK_TRANSACTIONS = [
     client: "Carlos Ruiz",
     clientBank: "Zelle",
     amount: 200,
-    currency: "USD",
-    type: "ENTRADA",
+    currency: Currency.USD,
+    type: TransactionType.INCOME,
     operator: "Camello_1",
     rate: 1.0,
     profit: 10,

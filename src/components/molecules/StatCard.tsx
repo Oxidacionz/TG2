@@ -1,13 +1,13 @@
 import React, { ReactNode } from "react";
 import { Card } from "../atoms/Card";
 
-export const StatCard: React.FC<{
+export const StatCard = React.memo<{
   title: string;
   value: string;
   subtext: string;
   icon?: ReactNode;
   color?: "blue" | "green" | "yellow";
-}> = ({ title, value, subtext, icon, color = "blue" }) => {
+}>(({ title, value, subtext, icon, color = "blue" }) => {
   const colors = {
     blue: "text-brand-600 bg-brand-50 dark:bg-brand-900/20 dark:text-brand-400",
     green:
@@ -31,4 +31,6 @@ export const StatCard: React.FC<{
       <p className={`mt-2 text-xs ${colors[color].split(" ")[0]}`}>{subtext}</p>
     </Card>
   );
-};
+});
+
+StatCard.displayName = "StatCard";

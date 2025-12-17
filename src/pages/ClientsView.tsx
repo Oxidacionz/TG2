@@ -6,9 +6,10 @@ import { Input } from "../components/atoms/Input";
 import { ICONS } from "../components/atoms/Icons";
 import { Modal } from "../components/organisms/Modal";
 import { FormField } from "../components/molecules/FormField";
+import { Client } from "../types";
 
 export const ClientsView = () => {
-  const [clients] = useState([
+  const [clients] = useState<Client[]>([
     {
       id: 1,
       name: "Cliente Mock 1",
@@ -16,7 +17,7 @@ export const ClientsView = () => {
       email: "client@mock.com",
       created_at: new Date().toISOString(),
     },
-  ] as any);
+  ]);
   const [loading] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -40,7 +41,7 @@ export const ClientsView = () => {
   };
 
   const filteredClients = clients.filter(
-    (c: any) =>
+    (c) =>
       c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (c.phone && c.phone.includes(searchTerm)),
   );
@@ -81,7 +82,7 @@ export const ClientsView = () => {
             Cargando clientes...
           </p>
         ) : filteredClients.length > 0 ? (
-          filteredClients.map((client: any) => (
+          filteredClients.map((client) => (
             <Card
               key={client.id}
               className="flex flex-col gap-2 p-4 transition-shadow hover:shadow-md"

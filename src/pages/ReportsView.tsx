@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Card } from "../components/atoms/Card";
 import { Button } from "../components/atoms/Button";
 import { ICONS } from "../components/atoms/Icons";
+import { ReportRow } from "../types";
 
 export const ReportsView = () => {
   const [startDate, setStartDate] = useState("");
@@ -38,7 +39,7 @@ export const ReportsView = () => {
     ];
     csvRows.push(headers.join(","));
 
-    data.forEach((row: any) => {
+    data.forEach((row: ReportRow) => {
       const values = [
         row.id,
         new Date(row.created_at).toLocaleDateString(),
