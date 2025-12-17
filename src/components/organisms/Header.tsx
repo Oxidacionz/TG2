@@ -56,7 +56,11 @@ export const Header: React.FC<HeaderProps> = ({
       <NotificationDropdown />
 
       <div className="mx-1 h-6 w-px bg-slate-200 md:mx-2 dark:bg-slate-700"></div>
-      <UserDropdown userEmail={userEmail} onSettings={onSettings} onLogout={onLogout} />
+      <UserDropdown
+        userEmail={userEmail}
+        onSettings={onSettings}
+        onLogout={onLogout}
+      />
     </div>
   </header>
 );

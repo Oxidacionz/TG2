@@ -20,7 +20,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   // En una App real, estos datos vendrían del Objeto User de Supabase o Contexto
   const username = userEmail ? userEmail.split("@")[0] : "Usuario";
   const role = "ADMIN"; // Idealmente leer de metadata
-  
+
   const [newUsername, setNewUsername] = useState(username);
   const [loading, setLoading] = useState(false);
 
@@ -28,11 +28,11 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     setLoading(true);
     // Here we would call authService.updateProfile()
     console.log("Mock update username:", newUsername);
-    
+
     setTimeout(() => {
-        setLoading(false);
-        onClose();
-        // Router revalidation would happen automatically if we updated global state
+      setLoading(false);
+      onClose();
+      // Router revalidation would happen automatically if we updated global state
     }, 500);
   };
 

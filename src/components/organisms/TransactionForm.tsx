@@ -300,4 +300,3 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
     </div>
   );
 };
-
