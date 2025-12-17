@@ -5,11 +5,14 @@ import { Role } from "../../types";
 import { FaGear } from "react-icons/fa6";
 import { BiSolidExit } from "react-icons/bi";
 
-export const UserDropdown: React.FC<{
+interface Props {
   onLogout?: () => void;
   userEmail?: string;
   onSettings?: () => void;
-}> = ({ onLogout, userEmail, onSettings }) => {
+}
+
+export const UserDropdown = (props: Props) => {
+  const { onLogout, userEmail, onSettings } = props;
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
   const isAdmin = user?.role === Role.ADMIN; // setRole removed as it's unused

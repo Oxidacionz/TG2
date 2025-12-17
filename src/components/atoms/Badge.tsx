@@ -1,6 +1,11 @@
 import React from "react";
 
-export const Badge = React.memo<{ status: string }>(({ status }) => {
+interface Props {
+  status: string;
+}
+
+export const Badge = React.memo((props: Props) => {
+  const { status } = props;
   const styles: Record<string, string> = {
     Completado:
       "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800",

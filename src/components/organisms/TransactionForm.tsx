@@ -1,5 +1,3 @@
-import React from "react";
-// Supabase removed
 import { Button } from "../atoms/Button";
 import { Input } from "../atoms/Input";
 import { FormField } from "../molecules/FormField";
@@ -7,17 +5,14 @@ import { FaCamera } from "react-icons/fa6";
 import { TransactionType } from "../../types";
 import { useTransactionController } from "../../hooks/useTransactionController";
 
-interface TransactionFormProps {
+interface Props {
   onSuccess: () => void;
   onCancel: () => void;
   userEmail?: string;
 }
 
-export const TransactionForm: React.FC<TransactionFormProps> = ({
-  onSuccess,
-  onCancel,
-  userEmail,
-}) => {
+export const TransactionForm = (props: Props) => {
+  const { onSuccess, onCancel, userEmail } = props;
   const { state, actions } = useTransactionController({ onSuccess, userEmail });
   const {
     type,

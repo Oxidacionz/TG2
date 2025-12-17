@@ -1,20 +1,25 @@
-import React, { ReactNode } from "react";
+import type { ReactNode } from "react";
 
-export const SidebarItem: React.FC<{
+interface Props {
   icon: ReactNode;
   label: string;
   active?: boolean;
   onClick: () => void;
-}> = ({ icon, label, active, onClick }) => (
-  <button
-    onClick={onClick}
-    className={`flex w-full items-center justify-start gap-3 px-4 py-3 text-sm font-medium ${
-      active
-        ? "text-brand-400 border-brand-500 border-r-2 bg-slate-800"
-        : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
-    }`}
-  >
-    {icon}
-    <span>{label}</span>
-  </button>
-);
+}
+
+export const SidebarItem = (props: Props) => {
+  const { icon, label, active, onClick } = props;
+  return (
+    <button
+      onClick={onClick}
+      className={`flex w-full items-center justify-start gap-3 px-4 py-3 text-sm font-medium ${
+        active
+          ? "border-brand-500 text-brand-400 border-r-2 bg-slate-800"
+          : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
+      }`}
+    >
+      {icon}
+      <span>{label}</span>
+    </button>
+  );
+};

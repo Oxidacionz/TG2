@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaBell } from "react-icons/fa";
 import { Notification } from "../../types";
 
-export const NotificationDropdown: React.FC = () => {
+export const NotificationDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   // Aquí podrías conectar con Supabase para traer notificaciones reales de la tabla 'notes'
   const notifications: Notification[] = [];

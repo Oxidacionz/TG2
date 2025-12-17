@@ -5,9 +5,12 @@ import { authService } from "../services/AuthService";
 import { AuthEvent } from "../types/enums";
 import { AuthContext } from "./AuthContext";
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+interface Props {
+  children: React.ReactNode;
+}
+
+export const AuthProvider = (props: Props) => {
+  const { children } = props;
   const [session, setSession] = useState<AppSession | null>(null);
   const [loading, setLoading] = useState(true);
 

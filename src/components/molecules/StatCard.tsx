@@ -1,13 +1,16 @@
 import React, { ReactNode } from "react";
 import { Card } from "../atoms/Card";
 
-export const StatCard = React.memo<{
+interface Props {
   title: string;
   value: string;
   subtext: string;
   icon?: ReactNode;
   color?: "blue" | "green" | "yellow";
-}>(({ title, value, subtext, icon, color = "blue" }) => {
+}
+
+export const StatCard = React.memo((props: Props) => {
+  const { title, value, subtext, icon, color = "blue" } = props;
   const colors = {
     blue: "text-brand-600 bg-brand-50 dark:bg-brand-900/20 dark:text-brand-400",
     green:

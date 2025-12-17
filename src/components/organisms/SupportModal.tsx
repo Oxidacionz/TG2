@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Modal } from "./Modal";
 import { Button } from "../atoms/Button";
 
-interface SupportModalProps {
+interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const SupportModal = ({ isOpen, onClose }: SupportModalProps) => {
+export const SupportModal = (props: Props) => {
+  const { isOpen, onClose } = props;
   const [supportIssue, setSupportIssue] = useState("Olvidé mi contraseña");
   const [supportDesc, setSupportDesc] = useState("");
 
