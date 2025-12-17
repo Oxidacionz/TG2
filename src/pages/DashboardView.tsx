@@ -1,3 +1,5 @@
+// COMPONENTE CRITICO
+
 import { useState } from "react";
 import { useOutletContext } from "react-router";
 import { MOCK_DATA } from "../mocks/mockData";

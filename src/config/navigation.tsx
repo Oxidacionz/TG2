@@ -30,6 +30,7 @@ export const SIDEBAR_ITEMS: SidebarItemConfig[] = [
     path: "/accounts",
     icon: <MdAttachMoney className="h-6 w-6" />,
   },
+  /*
   {
     label: "Clientes",
     path: "/clients",
@@ -55,6 +56,7 @@ export const SIDEBAR_ITEMS: SidebarItemConfig[] = [
     path: "/reports",
     icon: <TbReportAnalytics className="h-6 w-6" />,
   },
+*/
 ];
 
 export const DEV_SIDEBAR_ITEMS: SidebarItemConfig[] = [
