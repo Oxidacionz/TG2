@@ -1,11 +1,7 @@
-import { createBrowserRouter, redirect } from "react-router";
+import { createBrowserRouter, redirect, RouteObject } from "react-router";
 import { authService } from "./services/AuthService";
-
-// Importamos los componentes directamente (no como JSX)
 import { DashboardLayout } from "./layouts/DashboardLayout";
-import { LoginView } from "./pages/LoginView"; // La vista que acabamos de sugerir
-
-// Vistas del Dashboard
+import { LoginView } from "./pages/LoginView";
 import { DashboardView } from "./pages/DashboardView";
 import { TransactionsView } from "./pages/TransactionsView";
 import { ClientsView } from "./pages/ClientsView";
@@ -16,39 +12,38 @@ import { AccountsView } from "./pages/AccountsView";
 import { NotesView } from "./pages/NotesView";
 import { DevView } from "./pages/DevView";
 
-// --- 🔒 LÓGICA DE PROTECCIÓN (Loaders) ---
+// --- LÓGICA DE PROTECCIÓN ---
 
-// Bloquea si NO hay sesión (Protege el Dashboard)
-async function protectedLoader() {
+// Protege el Dashboard
+const protectedLoader = async () => {
   const { session } = await authService.getSession();
-  if (!session) {
-    throw redirect("/login");
-  }
+
+  if (!session) throw redirect("/login");
+
   return { session };
-}
+};
 
-// Bloquea si YA hay sesión (Evita ver el Login si ya entraste)
-async function publicLoader() {
+// Evita ver el Login si ya entraste
+const publicLoader = async () => {
   const { session } = await authService.getSession();
 
-  if (session) {
-    throw redirect("/");
-  }
+  if (session) throw redirect("/");
+
   return null;
-}
+};
 
-// --- 🗺️ DEFINICIÓN DE RUTAS ---
+// --- DEFINICIÓN DE RUTAS ---
 
-export const router = createBrowserRouter([
+const routes: RouteObject[] = [
   {
     path: "/login",
-    Component: LoginView, // Sintaxis limpia: Pasamos la referencia, no el JSX
-    loader: publicLoader, // Protección anti-login-doble
+    Component: LoginView,
+    loader: publicLoader,
   },
   {
     path: "/",
-    Component: DashboardLayout, // El Layout principal
-    loader: protectedLoader, // 🛡️ Muro de contención: Nadie pasa sin sesión
+    Component: DashboardLayout,
+    loader: protectedLoader,
     children: [
       {
         index: true,
@@ -88,4 +83,6 @@ export const router = createBrowserRouter([
       },
     ],
   },
-]);
+];
+
+export const router = createBrowserRouter(routes);

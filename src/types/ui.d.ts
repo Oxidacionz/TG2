@@ -6,6 +6,14 @@ export interface Notification {
   read: boolean;
 }
 
+export interface Note {
+  id: number;
+  content: string;
+  created_at: string;
+  is_global: boolean;
+  status: "PENDIENTE" | "ENVIADO";
+}
+
 export interface DashboardContextType {
   refreshTrigger: number;
 }

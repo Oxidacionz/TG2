@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 // Supabase removed
-import { Link } from "react-router";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 import { Role } from "../../types";
 import { FaGear } from "react-icons/fa6";
 import { BiSolidExit } from "react-icons/bi";

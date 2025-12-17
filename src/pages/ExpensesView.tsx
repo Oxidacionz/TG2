@@ -6,7 +6,7 @@ import { Input } from "../components/atoms/Input";
 import { ICONS } from "../components/atoms/Icons";
 import { Modal } from "../components/organisms/Modal";
 import { FormField } from "../components/molecules/FormField";
-import { Expense } from "../types";
+import { Expense, ExpenseCategory } from "../types";
 
 export const ExpensesView = () => {
   const [expenses] = useState<Expense[]>([
@@ -14,19 +14,19 @@ export const ExpensesView = () => {
       id: 1,
       description: "Gasto Mock 1",
       amount: 50,
-      category: "OPERATIVO",
+      category: ExpenseCategory.OPERATIONAL,
       date: new Date().toISOString(),
     },
     {
       id: 2,
       description: "Gasto Mock 2",
       amount: 20,
-      category: "LOGISTICA",
+      category: ExpenseCategory.LOGISTICS,
       date: new Date().toISOString(),
     },
   ]);
-  const [activeTab, setActiveTab] = useState<"OPERATIVO" | "LOGISTICA">(
-    "OPERATIVO",
+  const [activeTab, setActiveTab] = useState<ExpenseCategory>(
+    ExpenseCategory.OPERATIONAL,
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -71,14 +71,14 @@ export const ExpensesView = () => {
 
       <div className="flex gap-2 border-b border-slate-200 dark:border-slate-700">
         <button
-          onClick={() => setActiveTab("OPERATIVO")}
-          className={`border-b-2 px-4 py-2 text-sm font-medium ${activeTab === "OPERATIVO" ? "border-brand-600 text-brand-600" : "border-transparent text-slate-500 hover:text-slate-700"}`}
+          onClick={() => setActiveTab(ExpenseCategory.OPERATIONAL)}
+          className={`border-b-2 px-4 py-2 text-sm font-medium ${activeTab === ExpenseCategory.OPERATIONAL ? "border-brand-600 text-brand-600" : "border-transparent text-slate-500 hover:text-slate-700"}`}
         >
           Gastos Operativos
         </button>
         <button
-          onClick={() => setActiveTab("LOGISTICA")}
-          className={`border-b-2 px-4 py-2 text-sm font-medium ${activeTab === "LOGISTICA" ? "border-brand-600 text-brand-600" : "border-transparent text-slate-500 hover:text-slate-700"}`}
+          onClick={() => setActiveTab(ExpenseCategory.LOGISTICS)}
+          className={`border-b-2 px-4 py-2 text-sm font-medium ${activeTab === ExpenseCategory.LOGISTICS ? "border-brand-600 text-brand-600" : "border-transparent text-slate-500 hover:text-slate-700"}`}
         >
           Consumos / Logística
         </button>
@@ -86,8 +86,11 @@ export const ExpensesView = () => {
 
       <Card className="border-red-100 bg-red-50 p-6 dark:border-red-900/30 dark:bg-red-900/10">
         <h3 className="text-sm font-bold tracking-wide text-red-800 uppercase dark:text-red-300">
-          Total {activeTab === "OPERATIVO" ? "Operativo" : "Logística"} (Mes
-          Actual)
+          Total{" "}
+          {activeTab === ExpenseCategory.OPERATIONAL
+            ? "Operativo"
+            : "Logística"}{" "}
+          (Mes Actual)
         </h3>
         <p className="mt-2 text-3xl font-bold text-red-600 dark:text-red-400">
           ${total.toLocaleString()}

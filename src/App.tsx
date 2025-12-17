@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { RouterProvider } from "react-router";
 import { router } from "./AppRouter";
 import { authService } from "./services/AuthService";
+import { AuthProvider } from "./context/AuthProvider";
 import { AuthEvent } from "./types/enums";
 
 const App = () => {
@@ -16,7 +17,11 @@ const App = () => {
     return () => unsubscribe();
   }, []);
 
-  return <RouterProvider router={router} />;
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  );
 };
 
 export default App;

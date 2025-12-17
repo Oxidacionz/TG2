@@ -8,9 +8,9 @@ if (!container) {
   throw new Error("Could not find root element to mount to");
 }
 
-const root = createRoot(container);
+const ROOT = createRoot(container);
 
-root.render(
+ROOT.render(
   <StrictMode>
     <App />
   </StrictMode>,

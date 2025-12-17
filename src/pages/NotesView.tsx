@@ -3,9 +3,10 @@ import { Card } from "../components/atoms/Card";
 import { Button } from "../components/atoms/Button";
 import { ICONS } from "../components/atoms/Icons";
 import { Modal } from "../components/organisms/Modal";
+import { Note } from "../types";
 
 export const NotesView = () => {
-  const [notes] = useState<any[]>([
+  const [notes] = useState<Note[]>([
     {
       id: 1,
       content: "Nota mock 1",

@@ -1,19 +1,9 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Session } from "@supabase/supabase-js";
 import { AppSession, AppUser, Role } from "../types";
 import { authService } from "../services/AuthService";
 import { AuthEvent } from "../types/enums";
-
-interface AuthContextType {
-  user: AppUser | null;
-  session: AppSession | null;
-  loading: boolean;
-}
-
-const AuthContext = createContext<AuthContextType>({
-  user: null,
-  session: null,
-  loading: true,
-});
+import { AuthContext } from "./AuthContext";
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -23,25 +13,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     // Initial load
-    authService.getSession().then((sess: any) => {
-      // Mocking AppSession structure for now to fit strict types
-      // In real world, we extract this from Supabase session metadata
-      if (sess?.session?.user) {
-        const user = {
-          id: sess.session.user.id,
-          email: sess.session.user.email,
-          role: Role.ADMIN, // Defaulting to ADMIN for dev, should come from user_metadata
-        };
-        setSession({ user });
-      }
-      setLoading(false);
-    });
+    authService
+      .getSession()
+      .then((sess: { session: Session | null } | null) => {
+        // Mocking AppSession structure for now to fit strict types
+        // In real world, we extract this from Supabase session metadata
+        if (sess?.session?.user) {
+          const user: AppUser = {
+            id: sess.session.user.id,
+            email: sess.session.user.email,
+            role: Role.ADMIN, // Defaulting to ADMIN for dev, should come from user_metadata
+          };
+          setSession({ user });
+        }
+        setLoading(false);
+      });
 
     const { unsubscribe } = authService.subscribeToAuthChanges(
-      (event, session: any) => {
+      (event, session: Session | null) => {
         if (event === AuthEvent.SIGNED_IN || event === AuthEvent.SIGNED_OUT) {
           if (session?.user) {
-            const user = {
+            const user: AppUser = {
               id: session.user.id,
               email: session.user.email,
               role: Role.ADMIN, // Defaulting to ADMIN
@@ -66,4 +58,4 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+// Export useAuth moved to src/hooks/useAuth.ts

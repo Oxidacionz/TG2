@@ -1,5 +1,5 @@
-export * from "./finance";
-export * from "./auth";
-export * from "./business";
-export * from "./ui";
+export type * from "./finance";
+export type * from "./auth";
+export type * from "./business";
+export type * from "./ui";
 export * from "./enums";

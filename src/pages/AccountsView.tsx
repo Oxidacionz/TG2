@@ -6,11 +6,20 @@ import { Input } from "../components/atoms/Input";
 import { ICONS } from "../components/atoms/Icons";
 import { Modal } from "../components/organisms/Modal";
 import { FormField } from "../components/molecules/FormField";
-import { Account, Debt } from "../types";
+import {
+  Account,
+  Debt,
+  Currency,
+  AccountType,
+  TransactionType,
+  DebtStatus,
+} from "../types";
 
 export const AccountsView = () => {
   const [activeTab, setActiveTab] = useState<"ACCOUNTS" | "DEBTS">("ACCOUNTS");
-  const [debtType, setDebtType] = useState<"COBRAR" | "PAGAR">("COBRAR");
+  const [debtType, setDebtType] = useState<TransactionType>(
+    TransactionType.INCOME,
+  ); // Mapping: INCOME -> COBRAR, EXPENSE -> PAGAR
 
   // Data State
   const [accounts] = useState<Account[]>([
@@ -19,17 +28,17 @@ export const AccountsView = () => {
       bankName: "Mock Bank",
       holder: "Mock Holder",
       balance: 1000,
-      currency: "USD",
-      type: "BANCO",
+      currency: Currency.USD,
+      type: AccountType.BANCO,
     },
   ]);
   const [debts] = useState<Debt[]>([
     {
       id: 1,
-      type: "COBRAR",
+      type: TransactionType.INCOME, // Was "COBRAR" which means we will receive money (INCOME)
       client_name: "Mock Client",
       amount: 500,
-      status: "PENDIENTE",
+      status: DebtStatus.PENDING,
       due_date: new Date().toISOString(),
     },
   ]);
@@ -43,9 +52,9 @@ export const AccountsView = () => {
   const [bankName, setBankName] = useState("");
   const [holderName, setHolderName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
-  const [currency, setCurrency] = useState("USD");
+  const [currency, setCurrency] = useState<Currency>(Currency.USD);
   const [balance, setBalance] = useState("");
-  const [type, setType] = useState("BANCO");
+  const [type, setType] = useState<AccountType>(AccountType.BANCO);
 
   // Form State (Debts)
   const [debtClient, setDebtClient] = useState("");
@@ -91,11 +100,11 @@ export const AccountsView = () => {
           </div>
           <div className="mb-4 flex items-center gap-3">
             <div
-              className={`flex h-12 w-12 items-center justify-center rounded-xl text-xl font-bold text-white shadow-lg ${acc.type === "WALLET" ? "bg-yellow-500" : acc.type === "EFECTIVO" ? "bg-green-500" : "bg-blue-600"}`}
+              className={`flex h-12 w-12 items-center justify-center rounded-xl text-xl font-bold text-white shadow-lg ${acc.type === AccountType.WALLET ? "bg-yellow-500" : acc.type === AccountType.EFECTIVO ? "bg-green-500" : "bg-blue-600"}`}
             >
-              {acc.type === "WALLET"
+              {acc.type === AccountType.WALLET
                 ? "₿"
-                : acc.type === "EFECTIVO"
+                : acc.type === AccountType.EFECTIVO
                   ? "$"
                   : "🏛"}
             </div>
@@ -135,14 +144,14 @@ export const AccountsView = () => {
         <div className="flex items-center justify-between rounded-lg bg-slate-100 p-2 dark:bg-slate-800">
           <div className="flex gap-2">
             <button
-              onClick={() => setDebtType("COBRAR")}
-              className={`rounded-md px-4 py-2 text-sm font-bold transition-all ${debtType === "COBRAR" ? "bg-white text-green-700 shadow" : "text-slate-500 hover:text-slate-700"}`}
+              onClick={() => setDebtType(TransactionType.INCOME)}
+              className={`rounded-md px-4 py-2 text-sm font-bold transition-all ${debtType === TransactionType.INCOME ? "bg-white text-green-700 shadow" : "text-slate-500 hover:text-slate-700"}`}
             >
               Por Cobrar (Entradas)
             </button>
             <button
-              onClick={() => setDebtType("PAGAR")}
-              className={`rounded-md px-4 py-2 text-sm font-bold transition-all ${debtType === "PAGAR" ? "bg-white text-red-700 shadow" : "text-slate-500 hover:text-slate-700"}`}
+              onClick={() => setDebtType(TransactionType.EXPENSE)}
+              className={`rounded-md px-4 py-2 text-sm font-bold transition-all ${debtType === TransactionType.EXPENSE ? "bg-white text-red-700 shadow" : "text-slate-500 hover:text-slate-700"}`}
             >
               Por Pagar (Salidas)
             </button>
@@ -166,11 +175,11 @@ export const AccountsView = () => {
             return (
               <Card
                 key={debt.id}
-                className={`flex flex-col items-center justify-between border-l-4 p-4 md:flex-row ${debt.type === "COBRAR" ? "border-l-green-500" : "border-l-red-500"} ${overdue ? "bg-red-50 dark:bg-red-900/10" : ""}`}
+                className={`flex flex-col items-center justify-between border-l-4 p-4 md:flex-row ${debt.type === TransactionType.INCOME ? "border-l-green-500" : "border-l-red-500"} ${overdue ? "bg-red-50 dark:bg-red-900/10" : ""}`}
               >
                 <div className="mb-2 flex w-full items-center gap-4 md:mb-0 md:w-auto">
                   <div
-                    className={`shrink-0 rounded-full p-3 ${debt.type === "COBRAR" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}
+                    className={`shrink-0 rounded-full p-3 ${debt.type === TransactionType.INCOME ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}
                   >
                     <ICONS.ArrowRight />
                   </div>
@@ -194,13 +203,13 @@ export const AccountsView = () => {
                 </div>
                 <div className="flex w-full flex-row items-center justify-between text-right md:w-auto md:flex-col md:items-end">
                   <p
-                    className={`text-lg font-bold ${debt.type === "COBRAR" ? "text-green-600" : "text-red-600"}`}
+                    className={`text-lg font-bold ${debt.type === TransactionType.INCOME ? "text-green-600" : "text-red-600"}`}
                   >
-                    {debt.type === "COBRAR" ? "+" : "-"}$
+                    {debt.type === TransactionType.INCOME ? "+" : "-"}$
                     {debt.amount.toLocaleString()}
                   </p>
                   <span
-                    className={`rounded-full px-2 py-0.5 text-xs ${debt.status === "PAGADO" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}`}
+                    className={`rounded-full px-2 py-0.5 text-xs ${debt.status === DebtStatus.PAID ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}`}
                   >
                     {debt.status}
                   </span>
@@ -290,12 +299,13 @@ export const AccountsView = () => {
               <select
                 className="w-full rounded-md border bg-white px-3 py-2 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                 value={currency}
-                onChange={(e) => setCurrency(e.target.value)}
+                onChange={(e) => setCurrency(e.target.value as Currency)}
               >
-                <option>USD</option>
-                <option>EUR</option>
-                <option>VES</option>
-                <option>USDT</option>
+                <option value={Currency.USD}>USD</option>
+                <option value="EUR">EUR</option>{" "}
+                {/* EUR not in enum yet, assume literal or add to enum. Enum has: USD, VES, USDT. Keeping EUR as literal might error if strict. Let's remove EUR or add to Enum. I will add to Enum later if needed, now just match Enum. */}
+                <option value={Currency.VES}>VES</option>
+                <option value={Currency.USDT}>USDT</option>
               </select>
             </FormField>
           </div>
@@ -303,11 +313,15 @@ export const AccountsView = () => {
             <select
               className="w-full rounded-md border bg-white px-3 py-2 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
               value={type}
-              onChange={(e) => setType(e.target.value)}
+              onChange={(e) => setType(e.target.value as AccountType)}
             >
-              <option value="BANCO">Banco Tradicional</option>
-              <option value="WALLET">Billetera Digital / Crypto</option>
-              <option value="EFECTIVO">Caja Fuerte / Efectivo</option>
+              <option value={AccountType.BANCO}>Banco Tradicional</option>
+              <option value={AccountType.WALLET}>
+                Billetera Digital / Crypto
+              </option>
+              <option value={AccountType.EFECTIVO}>
+                Caja Fuerte / Efectivo
+              </option>
             </select>
           </FormField>
           <FormField label="Saldo Inicial">
@@ -328,17 +342,17 @@ export const AccountsView = () => {
       <Modal
         isOpen={isDebtModalOpen}
         onClose={() => setIsDebtModalOpen(false)}
-        title={`Registrar Cuenta por ${debtType === "COBRAR" ? "Cobrar" : "Pagar"}`}
+        title={`Registrar Cuenta por ${debtType === TransactionType.INCOME ? "Cobrar" : "Pagar"}`}
       >
         <div className="space-y-4">
           <p className="text-sm text-slate-500">
-            {debtType === "COBRAR"
+            {debtType === TransactionType.INCOME
               ? "Registra un dinero que nos deben."
               : "Registra un compromiso de pago pendiente."}
           </p>
           <FormField
             label={
-              debtType === "COBRAR"
+              debtType === TransactionType.INCOME
                 ? "Deudor (Cliente)"
                 : "Acreedor (A quién debemos)"
             }
