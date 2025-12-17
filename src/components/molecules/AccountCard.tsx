@@ -1,3 +1,4 @@
+import React from "react";
 import { Account, AccountType } from "../../types";
 import { Card } from "../atoms/Card";
 
@@ -5,7 +6,7 @@ interface Props {
   account: Account;
 }
 
-export const AccountCard = (props: Props) => {
+export const AccountCard = React.memo((props: Props) => {
   const { account: acc } = props;
 
   return (
@@ -50,4 +51,6 @@ export const AccountCard = (props: Props) => {
       </div>
     </Card>
   );
-};
+});
+
+AccountCard.displayName = "AccountCard";

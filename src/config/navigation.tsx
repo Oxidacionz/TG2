@@ -1,9 +1,7 @@
 import { ReactNode } from "react";
 import { MdSpaceDashboard, MdAttachMoney } from "react-icons/md";
-import { IoScan, IoPeople, IoDocuments } from "react-icons/io5";
+import { IoScan } from "react-icons/io5";
 import { GrTransaction } from "react-icons/gr";
-import { FaUserTie } from "react-icons/fa";
-import { TbReportAnalytics } from "react-icons/tb";
 
 import { Role } from "../types";
 

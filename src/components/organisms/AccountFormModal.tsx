@@ -5,10 +5,19 @@ import { Input } from "../atoms/Input";
 import { FormField } from "../molecules/FormField";
 import { Modal } from "./Modal";
 
+export interface AccountFormData {
+  bankName: string;
+  holderName: string;
+  accountNumber: string;
+  currency: Currency;
+  balance: string;
+  type: AccountType;
+}
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: any) => void;
+  onSubmit: (data: AccountFormData) => void;
 }
 
 export const AccountFormModal = (props: Props) => {

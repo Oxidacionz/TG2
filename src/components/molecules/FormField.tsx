@@ -1,3 +1,4 @@
+import React from "react";
 import type { ReactNode } from "react";
 
 interface Props {
@@ -6,7 +7,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const FormField = (props: Props) => {
+export const FormField = React.memo((props: Props) => {
   const { label, icon, children } = props;
   return (
     <div className="space-y-1">
@@ -23,4 +24,6 @@ export const FormField = (props: Props) => {
       </div>
     </div>
   );
-};
+});
+
+FormField.displayName = "FormField";

@@ -1,3 +1,4 @@
+import React from "react";
 import type { ReactNode } from "react";
 
 interface Props {
@@ -7,7 +8,7 @@ interface Props {
   onClick: () => void;
 }
 
-export const SidebarItem = (props: Props) => {
+export const SidebarItem = React.memo((props: Props) => {
   const { icon, label, active, onClick } = props;
   return (
     <button
@@ -22,4 +23,6 @@ export const SidebarItem = (props: Props) => {
       <span>{label}</span>
     </button>
   );
-};
+});
+
+SidebarItem.displayName = "SidebarItem";

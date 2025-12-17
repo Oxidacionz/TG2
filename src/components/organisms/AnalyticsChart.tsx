@@ -16,9 +16,22 @@ import { MdSpaceDashboard } from "react-icons/md";
 import { IoIosStats } from "react-icons/io";
 import { Card } from "../atoms/Card";
 
+interface LineDataPoint {
+  name: string;
+  volume: number;
+  profit: number;
+}
+
+interface PieDataPoint {
+  name: string;
+  value: number;
+  color?: string;
+  [key: string]: any;
+}
+
 interface Props {
-  lineData: any[];
-  pieData: any[];
+  lineData: LineDataPoint[];
+  pieData: PieDataPoint[];
 }
 
 export const AnalyticsChart = (props: Props) => {
@@ -112,7 +125,7 @@ export const AnalyticsChart = (props: Props) => {
                 paddingAngle={5}
                 dataKey="value"
               >
-                {pieData.map((entry: any, index: number) => (
+                {pieData.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
                     fill={COLORS[index % COLORS.length]}

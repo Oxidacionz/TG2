@@ -1,3 +1,4 @@
+import React from "react";
 import { FaHandHoldingDollar } from "react-icons/fa6";
 import { MdModeEdit } from "react-icons/md";
 
@@ -6,7 +7,7 @@ interface Props {
   onEdit: () => void;
 }
 
-export const GlobalRateCard = (props: Props) => {
+export const GlobalRateCard = React.memo((props: Props) => {
   const { rate, onEdit } = props;
 
   return (
@@ -36,4 +37,6 @@ export const GlobalRateCard = (props: Props) => {
       <div className="absolute top-2 right-0 bottom-2 hidden w-px bg-blue-500/50 md:block"></div>
     </div>
   );
-};
+});
+
+GlobalRateCard.displayName = "GlobalRateCard";

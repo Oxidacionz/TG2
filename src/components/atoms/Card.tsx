@@ -5,7 +5,7 @@ interface Props {
   className?: string;
 }
 
-export const Card = (props: Props) => {
+export const Card = React.memo((props: Props) => {
   const { children, className = "" } = props;
   return (
     <div
@@ -14,4 +14,6 @@ export const Card = (props: Props) => {
       {children}
     </div>
   );
-};
+});
+
+Card.displayName = "Card";

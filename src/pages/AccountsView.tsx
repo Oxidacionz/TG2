@@ -15,8 +15,14 @@ import { LuPlus } from "react-icons/lu";
 // Organisms/Molecules
 import { AccountsList } from "../components/organisms/AccountsList";
 import { DebtsList } from "../components/organisms/DebtsList";
-import { AccountFormModal } from "../components/organisms/AccountFormModal";
-import { DebtFormModal } from "../components/organisms/DebtFormModal";
+import {
+  AccountFormModal,
+  AccountFormData,
+} from "../components/organisms/AccountFormModal";
+import {
+  DebtFormModal,
+  DebtFormData,
+} from "../components/organisms/DebtFormModal";
 
 export const AccountsView = () => {
   const [activeTab, setActiveTab] = useState<"ACCOUNTS" | "DEBTS">("ACCOUNTS");
@@ -51,12 +57,12 @@ export const AccountsView = () => {
   const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
   const [isDebtModalOpen, setIsDebtModalOpen] = useState(false);
 
-  const handleCreateAccount = (data: any) => {
+  const handleCreateAccount = (data: AccountFormData) => {
     console.log("Mock Create Account:", data);
     // fetchAll();
   };
 
-  const handleCreateDebt = (data: any) => {
+  const handleCreateDebt = (data: DebtFormData) => {
     console.log("Mock Create Debt:", data);
     // fetchAll();
   };

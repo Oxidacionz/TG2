@@ -6,7 +6,7 @@ interface Props {
   label?: string;
 }
 
-export const Toggle = (props: Props) => {
+export const Toggle = React.memo((props: Props) => {
   const { checked, onChange, label } = props;
   return (
     <div
@@ -27,4 +27,6 @@ export const Toggle = (props: Props) => {
       )}
     </div>
   );
-};
+});
+
+Toggle.displayName = "Toggle";

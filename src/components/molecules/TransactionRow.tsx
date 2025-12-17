@@ -1,3 +1,4 @@
+import React from "react";
 import { Badge } from "../atoms/Badge";
 import { Transaction } from "../../types";
 
@@ -5,7 +6,7 @@ interface Props {
   transaction: Transaction;
 }
 
-export const TransactionRow = (props: Props) => {
+export const TransactionRow = React.memo((props: Props) => {
   const { transaction: tx } = props;
 
   return (
@@ -114,4 +115,6 @@ export const TransactionRow = (props: Props) => {
       </td>
     </tr>
   );
-};
+});
+
+TransactionRow.displayName = "TransactionRow";

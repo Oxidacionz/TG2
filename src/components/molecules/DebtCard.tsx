@@ -1,3 +1,4 @@
+import React from "react";
 import { LuArrowRight } from "react-icons/lu";
 import { Debt, DebtStatus, TransactionType } from "../../types";
 import { Card } from "../atoms/Card";
@@ -6,7 +7,7 @@ interface Props {
   debt: Debt;
 }
 
-export const DebtCard = (props: Props) => {
+export const DebtCard = React.memo((props: Props) => {
   const { debt } = props;
 
   const isOverdue = (dateString?: string) => {
@@ -76,4 +77,6 @@ export const DebtCard = (props: Props) => {
       </div>
     </Card>
   );
-};
+});
+
+DebtCard.displayName = "DebtCard";

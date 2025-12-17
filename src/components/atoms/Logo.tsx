@@ -5,7 +5,7 @@ interface Props {
   invert?: boolean;
 }
 
-export const Logo = (props: Props) => {
+export const Logo = React.memo((props: Props) => {
   const { size = "sm", invert = false } = props;
   return (
     <div
@@ -40,4 +40,6 @@ export const Logo = (props: Props) => {
       )}
     </div>
   );
-};
+});
+
+Logo.displayName = "Logo";

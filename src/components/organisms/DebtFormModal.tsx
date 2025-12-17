@@ -5,10 +5,18 @@ import { Input } from "../atoms/Input";
 import { FormField } from "../molecules/FormField";
 import { Modal } from "./Modal";
 
+export interface DebtFormData {
+  debtClient: string;
+  debtPlatform: string;
+  debtAmount: string;
+  debtDueDate: string;
+  type: TransactionType;
+}
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: any) => void;
+  onSubmit: (data: DebtFormData) => void;
   type: TransactionType;
 }
 
