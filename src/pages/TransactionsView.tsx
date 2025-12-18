@@ -11,7 +11,8 @@ import { TransactionsFilterBar } from "../components/organisms/TransactionsFilte
 import { TransactionsTable } from "../components/organisms/TransactionsTable";
 
 export const TransactionsView = ({ onScan }: { onScan?: () => void }) => {
-  const { refreshTrigger } = useOutletContext<DashboardContextType>();
+  const { refreshTrigger, openTransactionModal } =
+    useOutletContext<DashboardContextType>();
 
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(false);
@@ -33,7 +34,7 @@ export const TransactionsView = ({ onScan }: { onScan?: () => void }) => {
 
   return (
     <div className="flex flex-col gap-6">
-      <TransactionsHeader onScan={onScan} />
+      <TransactionsHeader onScan={openTransactionModal} />
       <TransactionsFilterBar />
       <TransactionsTable
         transactions={transactions}

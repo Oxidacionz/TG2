@@ -1,3 +1,5 @@
+// important
+
 import { IoScan } from "react-icons/io5";
 import { Button } from "../atoms/Button";
 
@@ -7,6 +9,7 @@ interface Props {
 
 export const TransactionsHeader = (props: Props) => {
   const { onScan } = props;
+
   return (
     <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
       <div>

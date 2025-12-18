@@ -16,4 +16,5 @@ export interface Note {
 
 export interface DashboardContextType {
   refreshTrigger: number;
+  openTransactionModal: () => void;
 }

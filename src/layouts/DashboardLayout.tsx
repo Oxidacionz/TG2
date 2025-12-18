@@ -1,5 +1,4 @@
 import { Outlet } from "react-router";
-// Use "react-router" instead of "react-router-dom" as requested in REFACTOR_PLAN
 import DashboardTemplate from "../components/templates/DashboardTemplate";
 import { Sidebar } from "../components/organisms/Sidebar";
 import { Header } from "../components/organisms/Header";
@@ -16,11 +15,6 @@ export const DashboardLayout = () => {
     <DashboardTemplate
       sidebar={
         <Sidebar
-          // onViewChange will be ignored or we can just pass a no-op if the prop is still there,
-          // but better to remove it from usage since I removed it from Sidebar component.
-          // However, Sidebar might still expect onClose to close mobile menu.
-          // Let's check Sidebar definition again. I used `onClose` in `handleNavigation`.
-
           isOpen={ui.isSidebarOpen}
           onClose={() => ui.setSidebarOpen(false)}
           onScan={() => {
@@ -43,10 +37,13 @@ export const DashboardLayout = () => {
         />
       }
     >
-      {/* Outlet renders the child route (the specific View) */}
-      <Outlet context={{ refreshTrigger: data.refreshTrigger }} />
+      <Outlet
+        context={{
+          refreshTrigger: data.refreshTrigger,
+          openTransactionModal: () => ui.setTransactionModalOpen(true),
+        }}
+      />
 
-      {/* Global Modals */}
       <Modal
         isOpen={ui.isTransactionModalOpen}
         onClose={() => ui.setTransactionModalOpen(false)}
