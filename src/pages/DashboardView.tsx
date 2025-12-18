@@ -63,7 +63,7 @@ export const DashboardView = () => {
           }}
         />
         <DigitalClock />
-        <TickerBoard bcvRate={bcvRate} />
+        <TickerBoard />
       </div>
 
       {/* --- STATS OVERVIEW --- */}

@@ -1,85 +1,77 @@
-import { MdRefresh, MdModeEdit } from "react-icons/md";
+import { MdRefresh } from "react-icons/md";
 import { GrTransaction } from "react-icons/gr";
-import { FaBoltLightning, FaGlobe } from "react-icons/fa6";
-import { ReactNode } from "react";
+import { FaBoltLightning } from "react-icons/fa6";
+import { TickerCard } from "../molecules/TickerCard";
+import { useExchangeRates } from "../../hooks/useExchangeRates";
+import { RATES_CONFIG } from "../../config/constants";
 
-interface Props {
-  bcvRate: { usd: number; eur: number } | null;
-}
+/**
+ * Componente Smart para BCV
+ * Responsabilidad: Obtener y formatear datos del BCV
+ */
+const BCVTicker = () => {
+  const { rates, loading, refetch } = useExchangeRates("bcv", {
+    scheduledRefresh: {
+      time: RATES_CONFIG.BCV.SCHEDULED_TIME,
+      timezoneOffset: RATES_CONFIG.BCV.TIMEZONE_OFFSET,
+    },
+  });
 
-interface TickerItemProps {
-  label: string;
-  icon: ReactNode;
-  actionIcon?: ReactNode;
-  children: ReactNode;
-}
-
-const TickerItem = ({ label, icon, actionIcon, children }: TickerItemProps) => {
   return (
-    <article className="bg-brand-900 flex w-full flex-col justify-center gap-1 p-4 md:justify-start">
-      <header className="mb-1 flex min-w-max items-center gap-1 text-[10px] font-bold text-slate-500 uppercase">
-        {icon}
-        <span>{label}</span>
-        {actionIcon && (
-          <span className="ml-1 text-slate-600">{actionIcon}</span>
-        )}
-      </header>
-      <div className="flex flex-col gap-0.5">{children}</div>
-    </article>
+    <TickerCard
+      label="BCV Oficial"
+      icon={<GrTransaction className="h-4 w-4" />}
+      actionIcon={<MdRefresh className="h-4 w-4" />}
+      onAction={refetch}
+      loading={loading}
+    >
+      <data className="text-sm font-bold text-white">
+        $ {rates.usd ? rates.usd.toFixed(2) : "--"}
+      </data>
+      <data className="text-xs text-slate-400">
+        € {rates.eur ? rates.eur.toFixed(2) : "--"}
+      </data>
+    </TickerCard>
   );
 };
 
-export const TickerBoard = (props: Props) => {
-  const { bcvRate } = props;
+/**
+ * Componente Smart para Binance
+ * Responsabilidad: Obtener y formatear datos de Binance
+ */
+const BinanceTicker = () => {
+  const { rates, loading, refetch } = useExchangeRates("binance", {
+    pollingIntervalMs: RATES_CONFIG.BINANCE.REFRESH_INTERVAL_MS,
+  });
+  const rate = rates.usdt || 0;
 
+  return (
+    <TickerCard
+      label="Binance P2P"
+      icon={<FaBoltLightning className="h-4 w-4" />}
+      actionIcon={<MdRefresh className="h-4 w-4" />}
+      onAction={refetch}
+      loading={loading}
+    >
+      <data className="text-sm font-bold text-yellow-500">
+        USDT {rate ? rate.toFixed(2) : "--"}
+      </data>
+    </TickerCard>
+  );
+};
+
+/**
+ * Organismo TickerBoard
+ * Responsabilidad: Layout y orquestación de los Tickers disponibles
+ */
+export const TickerBoard = () => {
   return (
     <section
       aria-label="Market Rates"
-      className="grid grid-cols-1 overflow-hidden bg-slate-800 text-white shadow-lg min-[500px]:grid-cols-2 lg:grid-cols-4"
+      className="flex flex-1 flex-col overflow-hidden bg-slate-800 text-white shadow-lg sm:flex-row"
     >
-      {/* BCV */}
-      <TickerItem
-        label="BCV Oficial"
-        icon={<GrTransaction className="h-4 w-4" />}
-        actionIcon={<MdRefresh className="h-4 w-4" />}
-      >
-        <data value={bcvRate?.usd} className="text-sm font-bold text-white">
-          $ {bcvRate ? bcvRate.usd.toFixed(2) : "--"}
-        </data>
-        <data value={bcvRate?.eur} className="text-xs text-slate-400">
-          € {bcvRate ? bcvRate.eur.toFixed(2) : "--"}
-        </data>
-      </TickerItem>
-
-      {/* Binance */}
-      <TickerItem
-        label="Binance P2P"
-        icon={<FaBoltLightning className="h-4 w-4" />}
-        actionIcon={<MdRefresh className="h-4 w-4" />}
-      >
-        <data className="text-sm font-bold text-yellow-500">BUY 36.10</data>
-        <data className="text-xs font-medium text-orange-400">SELL 35.90</data>
-      </TickerItem>
-
-      {/* Zelle */}
-      <TickerItem
-        label="Zelle"
-        icon={<FaGlobe className="h-4 w-4" />}
-        actionIcon={<MdModeEdit className="h-4 w-4" />}
-      >
-        <div className="overflow-hidden py-1 font-mono text-sm whitespace-nowrap text-green-400">
-          36.00
-        </div>
-      </TickerItem>
-
-      {/* Euro */}
-      <TickerItem
-        label="Euro (Intl)"
-        icon={<FaGlobe className="h-4 w-4" />}
-        actionIcon={<MdModeEdit className="h-4 w-4" />}
-      >
-        <data className="text-sm font-bold text-blue-400">€ 39.00</data>
-      </TickerItem>
+      <BCVTicker />
+      <BinanceTicker />
     </section>
   );
 };

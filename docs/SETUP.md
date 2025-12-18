@@ -29,6 +29,11 @@ Variables requeridas:
 ```env
 VITE_SUPABASE_URL=tu_url_de_proyecto_supabase
 VITE_SUPABASE_ANON_KEY=tu_clave_anon_de_supabase
+
+# Configuración del Servicio de Tasas (Exchange Core)
+VITE_EXCHANGE_CORE_URL=https://tu-api-exchange-core.vercel.app/api/v1
+VITE_EXCHANGE_CORE_KEY=tu_api_key_secreta
+
 ```
 
 ## Ejecución del Proyecto

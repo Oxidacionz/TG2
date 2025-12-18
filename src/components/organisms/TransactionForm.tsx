@@ -1,10 +1,12 @@
 import { Button } from "../atoms/Button";
 import { Input } from "../atoms/Input";
 import { FormField } from "../molecules/FormField";
-import { FaCamera } from "react-icons/fa6";
 import { TransactionType } from "../../types";
 import { useTransactionController } from "../../hooks/useTransactionController";
 import { FormProvider } from "react-hook-form";
+import { TransactionSummaryCard } from "../molecules/TransactionSummaryCard";
+import { FileUploadZone } from "../molecules/FileUploadZone";
+import { TransactionTypeSelector } from "../molecules/TransactionTypeSelector";
 
 interface Props {
   onSuccess: () => void;
@@ -25,129 +27,35 @@ export const TransactionForm = (props: Props) => {
 
   const { totalVES, calculatedProfit } = calculations;
   const { loading, previewImage, fileInputRef } = ui;
-  const { type, amount, rate, profitPercent, customProfit } = values;
+  const { type, profitPercent } = values;
 
   return (
     <FormProvider {...methods}>
       <div className="flex h-full flex-col gap-6 md:flex-row">
         {/* Panel Izquierdo: Visualización y Comprobante */}
         <div className="flex w-full flex-col gap-4 p-2 md:w-5/12">
-          {/* Tarjeta de Resumen en Tiempo Real */}
-          <div
-            className={`rounded-2xl p-6 text-white shadow-lg ${type === TransactionType.INCOME ? "bg-linear-to-br from-green-600 to-teal-800" : "bg-linear-to-br from-red-600 to-rose-800"}`}
-          >
-            <div className="mb-4 flex items-center justify-between">
-              <span className="rounded bg-black/20 px-2 py-1 text-[10px] font-bold tracking-wider uppercase">
-                {type === TransactionType.INCOME ? "Recibimos" : "Enviamos"}
-              </span>
-              <span className="text-sm font-medium opacity-80">
-                {type === TransactionType.INCOME
-                  ? "Cliente Paga"
-                  : "Cliente Recibe"}
-              </span>
-            </div>
+          <TransactionSummaryCard
+            type={type}
+            amount={values.amount}
+            rate={values.rate}
+            totalVES={totalVES}
+            calculatedProfit={calculatedProfit}
+          />
 
-            <div className="mb-2 flex items-center justify-between">
-              <h2 className="text-4xl font-bold">${amount || "0.00"}</h2>
-              <div className="text-right">
-                <p className="text-xs uppercase opacity-70">Tasa</p>
-                <p className="font-bold">{rate}</p>
-              </div>
-            </div>
-
-            {/* Flow Visualizer */}
-            <div className="my-3 flex items-center justify-between rounded-lg bg-black/10 p-3">
-              <div className="text-center">
-                <p className="text-xs opacity-70">
-                  {type === TransactionType.INCOME ? "USD" : "VES"}
-                </p>
-                <p className="text-sm font-bold">
-                  {type === TransactionType.INCOME
-                    ? `$${amount || 0}`
-                    : `Bs ${totalVES}`}
-                </p>
-              </div>
-              <div className="text-white/50">➜</div>
-              <div className="text-center">
-                <p className="text-xs opacity-70">
-                  {type === TransactionType.INCOME ? "VES" : "USD"}
-                </p>
-                <p className="text-sm font-bold">
-                  {type === TransactionType.INCOME
-                    ? `Bs ${totalVES}`
-                    : `$${amount || 0}`}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between border-t border-white/10 pt-2">
-              <span className="text-sm text-white/80">Ganancia Estimada</span>
-              <span className="rounded-full bg-white px-3 py-1 text-sm font-bold text-slate-900 shadow-sm">
-                +${calculatedProfit.toFixed(2)}
-              </span>
-            </div>
-          </div>
-
-          {/* Zona de Comprobante / Cámara */}
-          <div
-            className="group hover:border-brand-500 relative flex min-h-[200px] flex-1 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-slate-300 bg-slate-100 p-4 dark:border-slate-600 dark:bg-slate-800"
+          <FileUploadZone
+            previewImage={previewImage}
+            fileInputRef={fileInputRef}
+            onFileChange={actions.handleFileChange}
             onClick={actions.triggerFileInput}
-          >
-            <input
-              type="file"
-              ref={fileInputRef}
-              className="hidden"
-              accept="image/*"
-              onChange={actions.handleFileChange}
-            />
-
-            {previewImage ? (
-              <>
-                <img
-                  src={previewImage}
-                  alt="Comprobante"
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
-                  <FaCamera className="h-6 w-6" />
-                  <p className="mt-2 font-medium text-white">Cambiar Imagen</p>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-slate-200 text-slate-400 transition-transform group-hover:scale-110 dark:bg-slate-700">
-                  <FaCamera className="h-6 w-6" />
-                </div>
-                <p className="text-sm font-bold text-slate-600 dark:text-slate-300">
-                  Subir Comprobante
-                </p>
-                <p className="mt-1 text-center text-xs text-slate-400">
-                  Arrastra o haz clic
-                </p>
-              </>
-            )}
-          </div>
+          />
         </div>
 
         {/* Panel Derecho: Inputs del Formulario */}
         <div className="flex w-full flex-col gap-4 overflow-y-auto p-2 md:w-7/12">
-          {/* Selector de Tipo */}
-          <div className="grid grid-cols-2 gap-3 rounded-lg bg-slate-100 p-1 dark:bg-slate-800">
-            <button
-              onClick={() => setValue("type", TransactionType.INCOME)}
-              type="button"
-              className={`flex items-center justify-center gap-2 rounded-md py-2 text-sm font-bold transition-all ${type === TransactionType.INCOME ? "bg-white text-green-600 shadow-sm dark:bg-slate-700" : "text-slate-500 hover:text-slate-700"}`}
-            >
-              <span className="text-lg">↘</span> COMPRA (Entrada)
-            </button>
-            <button
-              onClick={() => setValue("type", TransactionType.EXPENSE)}
-              type="button"
-              className={`flex items-center justify-center gap-2 rounded-md py-2 text-sm font-bold transition-all ${type === TransactionType.EXPENSE ? "bg-white text-red-600 shadow-sm dark:bg-slate-700" : "text-slate-500 hover:text-slate-700"}`}
-            >
-              <span className="text-lg">↗</span> VENTA (Salida)
-            </button>
-          </div>
+          <TransactionTypeSelector
+            type={type}
+            onChange={(newType) => setValue("type", newType)}
+          />
 
           <div className="space-y-4">
             <FormField label="Cliente" error={errors.clientName?.message}>

@@ -85,3 +85,19 @@ export interface ReportRow {
   operator_name: string;
   status: string;
 }
+
+export interface ExchangeRateData {
+  from: string;
+  to: string;
+  rate: number;
+  source: string;
+  timestamp: string;
+}
+
+export interface ExchangeRateResponse {
+  success: boolean;
+  data: ExchangeRateData | ExchangeRateData[];
+  error?: string;
+}
+
+export type ExchangeProvider = "bcv" | "binance";
