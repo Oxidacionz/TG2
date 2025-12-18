@@ -1,7 +1,7 @@
 import { useLocation } from "react-router";
 import { UserDropdown } from "../molecules/UserDropdown";
 import { NotificationDropdown } from "../molecules/NotificationDropdown";
-import { FaRegMoon } from "react-icons/fa";
+import { ThemeToggle } from "../atoms/ThemeToggle";
 import { FaBars } from "react-icons/fa6";
 
 interface Props {
@@ -23,12 +23,7 @@ export const Header = (props: Props) => (
       <HeadingTitle />
     </div>
     <div className="flex items-center gap-2 md:gap-4">
-      <button
-        type="button"
-        className="transition-rotate cursor-pointer p-2 text-slate-500 duration-300 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white"
-      >
-        <FaRegMoon className="h-6 w-6" />
-      </button>
+      <ThemeToggle />
 
       <NotificationDropdown />
 

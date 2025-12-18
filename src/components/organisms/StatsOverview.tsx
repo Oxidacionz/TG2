@@ -18,7 +18,7 @@ export const StatsOverview = (props: Props) => {
       <StatCard
         title="Volumen Total"
         value={`$${stats.totalVolume.toLocaleString()}`}
-        subtext="↗ General"
+        subtext="General"
         icon={<GrTransaction />}
         color="blue"
       />

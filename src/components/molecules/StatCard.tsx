@@ -22,7 +22,7 @@ export const StatCard = React.memo((props: Props) => {
     <Card className="flex h-32 flex-col justify-between p-4">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+          <p className="text-sm font-bold text-slate-500 dark:text-slate-400">
             {title}
           </p>
           <h3 className="mt-1 text-2xl font-bold text-slate-900 dark:text-white">
