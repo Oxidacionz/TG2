@@ -4,6 +4,7 @@ import { exchangeRateService } from "../services/ExchangeRateService";
 import { transactionService } from "../services/TransactionService";
 import { TransactionType } from "../types";
 import { TransactionType as TransactionTypeEnum } from "../types/enums";
+import { PROFIT_PERCENTAGES } from "../constants/transactionConfig";
 
 export interface TransactionFormData {
   type: TransactionType;
@@ -37,7 +38,7 @@ export const useTransactionController = ({
       type: TransactionTypeEnum.INCOME,
       amount: "",
       rate: "36.00",
-      profitPercent: 5,
+      profitPercent: PROFIT_PERCENTAGES[2], // 5%
       customProfit: "",
       clientName: "",
       clientBank: "",

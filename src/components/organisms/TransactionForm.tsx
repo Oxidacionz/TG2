@@ -7,6 +7,10 @@ import { FormProvider } from "react-hook-form";
 import { TransactionSummaryCard } from "../molecules/TransactionSummaryCard";
 import { FileUploadZone } from "../molecules/FileUploadZone";
 import { TransactionTypeSelector } from "../molecules/TransactionTypeSelector";
+import {
+  TRANSACTION_ACCOUNTS,
+  PROFIT_PERCENTAGES,
+} from "../../constants/transactionConfig";
 
 interface Props {
   onSuccess: () => void;
@@ -106,13 +110,11 @@ export const TransactionForm = (props: Props) => {
                   })}
                 >
                   <option value="">Seleccionar cuenta...</option>
-                  <option value="Banesco Panama">Banesco Panamá</option>
-                  <option value="Binance">Binance (USDT)</option>
-                  <option value="Zelle">Zelle</option>
-                  <option value="Efectivo (Caja)">
-                    Efectivo (Caja Fuerte)
-                  </option>
-                  <option value="Banco Nacional">Banco Nacional (VES)</option>
+                  {TRANSACTION_ACCOUNTS.map((account) => (
+                    <option key={account.value} value={account.value}>
+                      {account.label}
+                    </option>
+                  ))}
                 </select>
                 {errors.targetAccount && (
                   <p className="text-xs text-rose-500">
@@ -144,7 +146,7 @@ export const TransactionForm = (props: Props) => {
                 </span>
               </div>
               <div className="flex gap-2">
-                {[1, 3, 5, 10].map((pct) => (
+                {PROFIT_PERCENTAGES.map((pct) => (
                   <button
                     key={pct}
                     type="button"

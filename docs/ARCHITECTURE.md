@@ -28,6 +28,7 @@ src/
 │   ├── organisms/    # Widgets complejos (TransactionsTable, Sidebar)
 │   └── templates/    # Diseños de página (DashboardTemplate)
 ├── config/           # Configuración de toda la aplicación (constantes, navegación)
+├── constants/        # Constantes de negocio (transactionConfig.ts)
 ├── context/          # Contextos de React (AuthContext, etc.)
 ├── hooks/            # Hooks personalizados (useAuth, useDashboardController)
 ├── layouts/          # Diseños de rutas (DashboardLayout)
@@ -56,4 +57,4 @@ La lógica de negocio y las llamadas a la API están encapsuladas en el director
 
 ### Context API y Gestión de Estado
 
-El estado global (como la Autenticación de Usuario) se gestiona a través de proveedores de React Context en `context/`. El estado local específico de cada funcionalidad se maneja dentro de las páginas o mediante hooks personalizados (ej. `useDashboardController`).
+El estado global (como la Autenticación de Usuario) se gestiona a través de proveedores de React Context en `context/`. El Layout principal (`DashboardLayout`) también provee un contexto compartido (`DashboardContext`) para comunicar acciones como "Abrir Modal de Transacción" entre componentes dispersos (ej. `Header` y `Layout`).

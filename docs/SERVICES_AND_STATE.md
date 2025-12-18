@@ -56,6 +56,7 @@ Gestiona el estado para la vista del Panel de Control (Dashboard).
   - Obtención de estadísticas resumidas.
   - Manejo de listas de transacciones recientes.
   - Gestión de estados de modales para "Nueva Transacción" o "Editar Tasa".
+  - Exposición de acciones (como abrir modales) a través del contexto del Dashboard.
 
 #### `useTransactionController`
 

@@ -40,6 +40,10 @@ Diseños a nivel de página sin contenido específico.
 
 - **Ejemplos**:
   - `DashboardTemplate.tsx`: Diseño de cuadrícula para la vista del panel de control.
+  
+### Componentes Configurables
+
+Algunos componentes, como `TransactionForm`, utilizan configuraciones extraídas en `src/constants/` para facilitar la mantenibilidad (ej. listas de bancos, porcentajes de ganancia) cumpliendo con el principio Open/Closed.
 
 ## Estilos
 
