@@ -25,11 +25,7 @@ export const DashboardView = () => {
     totalCapital: 0,
   });
 
-  // BCV State
-  const [bcvRate] = useState<{ usd: number; eur: number } | null>({
-    usd: 247.3003,
-    eur: 286.40342343,
-  });
+  // BCV State removed (unused)
 
   // Config State (Tasa Global)
   const [globalRate, setGlobalRate] = useState("36.00");

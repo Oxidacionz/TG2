@@ -2,8 +2,8 @@ import { TransactionType } from "../../types";
 
 interface TransactionSummaryCardProps {
   type: TransactionType;
-  amount: number;
-  rate: number;
+  amount: number | string;
+  rate: number | string;
   totalVES: string;
   calculatedProfit: number;
 }

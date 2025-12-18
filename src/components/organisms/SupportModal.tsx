@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useEffect } from "react";
 import { Modal } from "./Modal";
 import { Button } from "../atoms/Button";
@@ -19,7 +19,7 @@ export const SupportModal = (props: Props) => {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     reset,
     formState: { errors },
   } = useForm<SupportFormData>({
@@ -29,7 +29,10 @@ export const SupportModal = (props: Props) => {
     },
   });
 
-  const supportIssue = watch("issue");
+  const supportIssue = useWatch({
+    control,
+    name: "issue",
+  });
 
   useEffect(() => {
     if (isOpen) {
