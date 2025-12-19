@@ -1,51 +1,55 @@
-# UI System: The Visual Language
+# Sistema UI: El Lenguaje Visual
 
-The visual consistency of Toro Group Financial relies on the discipline of using `@core`.
+La consistencia visual de Toro Group Financial depende de la disciplina al usar `@core`.
 
-## 1. The Core Library (`src/core`)
+## 1. La Librería Core (`src/core`)
 
-This folder is our "Internal UI Kit". Treat it as a third-party dependency.
+Esta carpeta es nuestro "UI Kit Interno". Trátala como una dependencia de terceros.
 
-### Atomic Components (`@core/ui`)
-*   **Button**: Use for all actions. Supports `variant` (primary, ghost, danger).
-*   **Badge**: Use for status labels (Paid, Pending).
-*   **ThemeToggle**: Standard mode switcher.
+### Componentes Atómicos (`@core/ui`)
 
-### Layout Blocks (`@core/layout`)
-*   **Card**: The fundamental container.
-    ```tsx
-    <Card>
-      <div className="p-4">Content</div>
-    </Card>
-    ```
-*   **Header / Sidebar**: Global shell components. Do not modify these for specific feature needs.
+- **Button**: Usar para todas las acciones. Soporta `variant` (primary, ghost, danger).
+- **Badge**: Usar para etiquetas de estado (Pagado, Pendiente).
+- **ThemeToggle**: Cambiador de modo estándar.
+
+### Bloques de Layout (`@core/layout`)
+
+- **Card**: El contenedor fundamental.
+  ```tsx
+  <Card>
+    <div className="p-4">Contenido</div>
+  </Card>
+  ```
+- **Header / Sidebar**: Componentes shell globales. No modificarlos para necesidades específicas de una feature.
 
 ### Feedback (`@core/feedback`)
-*   **Spinner**: Use for loading states.
 
-## 2. Form Architecture (`@core/form`)
+- **Spinner**: Usar para estados de carga.
 
-We standardize forms to ensure accessibility and consistent error handling.
+## 2. Arquitectura de Formularios (`@core/form`)
 
-*   **FormField**: Wrapper that handles labels and error messages.
-*   **Input**: Styled HTML input.
+Estandarizamos los formularios para asegurar accesibilidad y manejo de errores consistente.
 
-**Example Usage**:
+- **FormField**: Envoltorio que maneja etiquetas y mensajes de error.
+- **Input**: Input HTML estilizado.
+
+**Ejemplo de Uso**:
+
 ```tsx
 import { FormField, Input } from "@core/form";
 
 <FormField label="Monto" error={errors.amount?.message}>
   <Input {...register("amount")} placeholder="0.00" />
-</FormField>
+</FormField>;
 ```
 
-## 3. Styles & Tailwind
+## 3. Estilos y Tailwind
 
-*   We use **TailwindCSS** for utility styling.
-*   **Theme Colors**: Defined in `tailwind.config.js`. Use `bg-brand-900` or `text-brand-500` instead of arbitrary hex values.
-*   **Dark Mode**: Supported natively via the `dark:` prefix.
+- Usamos **TailwindCSS** para estilos utilitarios.
+- **Colores del Tema**: Definidos en `tailwind.config.js`. Usa `bg-brand-900` o `text-brand-500` en lugar de valores hex arbitrarios.
+- **Modo Oscuro**: Soportado nativamente vía el prefijo `dark:`.
 
-## 4. Overlay System (`@core/overlay`)
+## 4. Sistema de Overlay (`@core/overlay`)
 
-*   **Modal**: The base window for creating/editing records.
-*   **Specific Modals**: `SupportModal`, `SettingsModal` are global overlays available in the Layout.
+- **Modal**: La ventana base para crear/editar registros.
+- **Modales Específicos**: `SupportModal`, `SettingsModal` son overlays globales disponibles en el Layout.

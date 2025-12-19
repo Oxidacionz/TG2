@@ -1,26 +1,29 @@
-# Contributing Guide: The Code of Conduct
+# Guía de Contribución: El Código de Conducta
 
-Welcome to the development team. Follow these guidelines to keep the codebase clean and scalable.
+Bienvenido al equipo de desarrollo. Sigue estas pautas para mantener el código limpio y escalable.
 
-## 1. Golden Rules
+## 1. Reglas de Oro
 
-1.  **Respect the Architecture**: Do not create files in the `src` root. Place them in the correct feature or core module.
-2.  **No Cross-contamination**: Feature A (`debts`) should not import internal components of Feature B (`accounts`).
-3.  **Core is Holy**: Never add business logic to `@core`. If it fetches data, it belongs in a `@feature`.
-4.  **No `any`**: We are strict about types. Define interfaces.
+1.  **Respeta la Arquitectura**: No crees archivos en la raíz `src`. Colócalos en la feature correcta o módulo core.
+2.  **No Contaminación Cruzada**: La Feature A (`debts`) no debe importar componentes internos de la Feature B (`accounts`).
+3.  **Core es Sagrado**: Nunca añadas lógica de negocio a `@core`. Si busca datos, pertenece a una `@feature`.
+4.  **Sin `any`**: Somos estrictos con los tipos. Define interfaces.
 
-## 2. How to Create a New Feature
+## 2. Cómo Crear una Nueva Feature
 
-Want to add "Investments"? Follow this scaffolding recipe:
+¿Quieres añadir "Inversiones"? Sigue esta receta de andamiaje:
 
-### Step 1: Create Directory Structure
+### Paso 1: Crear Estructura de Directorios
+
 ```bash
 mkdir src/features/investments
 mkdir src/features/investments/{components,hooks,services,types,pages}
 ```
 
-### Step 2: Define Types
-Create `src/features/investments/types/index.ts`.
+### Paso 2: Definir Tipos
+
+Crea `src/features/investments/types/index.ts`.
+
 ```ts
 export interface Investment {
   id: number;
@@ -29,22 +32,26 @@ export interface Investment {
 }
 ```
 
-### Step 3: Create Service
-Create `src/features/investments/services/InvestmentService.ts`. Connect to Supabase here.
+### Paso 3: Crear Servicio
 
-### Step 4: Create Hooks
-Create `useInvestments.ts` to manage the state and call the service.
+Crea `src/features/investments/services/InvestmentService.ts`. Conecta a Supabase aquí.
 
-### Step 5: Build Components
-Create UI in `components/`. Import atoms from `@core/ui`.
+### Paso 4: Crear Hooks
 
-### Step 6: Export Page
-Expose the main view in `pages/InvestmentsPage.tsx` and add it to `AppRouter.tsx`.
+Crea `useInvestments.ts` para gestionar el estado y llamar al servicio.
 
-## 3. Development Workflow
+### Paso 5: Construir Componentes
 
-1.  **Branch off**: `git checkout -b feature/my-cool-feature`
-2.  **Develop**: Follow the steps above.
-3.  **Verify**: Run `pnpm tsc` to check for type errors.
-4.  **Lint**: Run `pnpm run lint` to clean code style.
-5.  **Commit**: Use conventional commits (e.g., `feat: add investments module`).
+Crea la UI en `components/`. Importa átomos de `@core/ui`.
+
+### Paso 6: Exportar Página
+
+Expón la vista principal en `pages/InvestmentsPage.tsx` y añádela a `AppRouter.tsx`.
+
+## 3. Flujo de Trabajo de Desarrollo
+
+1.  **Rama nueva**: `git checkout -b feature/mi-feature-genial`
+2.  **Desarrollar**: Sigue los pasos anteriores.
+3.  **Verificar**: Corre `pnpm tsc` para chequear errores de tipo.
+4.  **Lint**: Corre `pnpm run lint` para limpiar estilo de código.
+5.  **Commit**: Usa conventional commits (ej., `feat: add investments module`).

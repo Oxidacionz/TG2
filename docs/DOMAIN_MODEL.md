@@ -1,47 +1,58 @@
-# Domain Model: The Rules of the Pharmacy
+# Modelo de Dominio: Las Reglas de la Farmacia
 
-This document outlines the core business entities and the critical rules that govern the **Toro Group Financial** application.
+Este documento describe las entidades de negocio principales y las reglas críticas que gobiernan la aplicación **Toro Group Financial**.
 
-## 1. Prime Entities
+## 1. Entidades Principales
 
 ### 🏛️ Account (Cuenta)
-Represents a source of funds. Can be a bank account, cash wallet, or digital wallet.
-*   **Attributes**: `id`, `bankName`, `holder`, `balance`, `currency`, `type`.
-*   **Rules**:
-    *   `balance` is the absolute truth of available liquidity.
-    *   `currency` determines the symbol and formatting rules.
+
+Representa una fuente de fondos. Puede ser una cuenta bancaria, efectivo o billetera digital.
+
+- **Atributos**: `id`, `bankName`, `holder`, `balance` (saldo), `currency` (moneda), `type`.
+- **Reglas**:
+  - `balance` es la verdad absoluta de la liquidez disponible.
+  - `currency` determina el símbolo y reglas de formato.
 
 ### 💸 Transaction (Transacción)
-The immutable record of money movement.
-*   **Attributes**: `id`, `amount`, `type` (INCOME/EXPENSE), `status`, `account_id`, `date`.
-*   **Rules**:
-    *   **Immutability**: Once reconciled, a transaction should ideally not change (though editing is allowed for corrections).
-    *   **Impact**: Every transaction directly mutates an `Account` balance (conceptually).
+
+El registro inmutable del movimiento de dinero.
+
+- **Atributos**: `id`, `amount`, `type` (INGRESO/GASTO), `status`, `account_id`, `date`.
+- **Reglas**:
+  - **Inmutabilidad**: Una vez conciliada, una transacción idealmente no debería cambiar (aunque se permite editar para correcciones).
+  - **Impacto**: Cada transacción muta directamente el saldo de una `Account` (conceptualmente).
 
 ### 🤝 Debt (Deuda)
-Represents money owed **to** us (Receivable) or **by** us (Payable).
-*   **Attributes**: `client_name`, `amount`, `due_date`, `status` (PENDING/PAID).
-*   **Rules**:
-    *   A debt typically starts as `PENDING`.
-    *   When a debt is `PAID`, it triggers a `Transaction` that increases/decreases an Account balance.
+
+Representa dinero que nos deben (**Por Cobrar**) o que debemos (**Por Pagar**).
+
+- **Atributos**: `client_name`, `amount`, `due_date`, `status` (PENDIENTE/PAGADO).
+- **Reglas**:
+  - Una deuda típicamente comienza como `PENDIENTE`.
+  - Cuando una deuda es `PAGADA`, dispara una `Transaction` que aumenta/disminuye el saldo de una Cuenta.
 
 ### 💱 Exchange Rate (Tasa de Cambio)
-Global configuration for currency conversion.
-*   **Attributes**: `from`, `to`, `rate`, `source`.
-*   **Rules**:
-    *   **Reference Rate**: Often anchored to the BCV (Banco Central de Venezuela) or Parallel market.
-    *   **Usage**: Used to normalize reporting when viewing total equity in a single currency (e.g., USD equivalent).
 
-## 2. Business Logic Highlights
+Configuración global para conversión de monedas.
 
-### Profit Calculation
-*   Standard Formula: `Profit = (Sell Price - Buy Price) - Expenses`
-*   In multi-currency scenarios, all values are normalized to USD using the rate effective *at the time of the transaction*.
+- **Atributos**: `from`, `to`, `rate`, `source`.
+- **Reglas**:
+  - **Tasa de Referencia**: A menudo anclada al BCV (Banco Central de Venezuela) o mercado Paralelo.
+  - **Uso**: Usado para normalizar reportes al ver el patrimonio total en una sola moneda (ej. equivalente en USD).
 
-### Currency Handling (VES/USD)
-*   **VES (Bolivars)**: Treated as a volatile currency.
-*   **USD/USDT**: Treated as stable store of value.
-*   System Interface prioritizes USD visualization but supports entry in VES with automatic rate suggestion.
+## 2. Puntos Clave de Lógica de Negocio
 
-### The "Client" Concept
-*   Currently treated as a string literal (`client_name`) attached to Debts or Transactions, rather than a heavy relational entity. Keep it lightweight for speed.
+### Cálculo de Ganancias
+
+- Fórmula Estándar: `Ganancia = (Precio Venta - Precio Compra) - Gastos`
+- En escenarios multi-moneda, todos los valores se normalizan a USD usando la tasa efectiva _al momento de la transacción_.
+
+### Manejo de Monedas (VES/USD)
+
+- **VES (Bolívares)**: Tratado como moneda volátil.
+- **USD/USDT**: Tratado como reserva de valor estable.
+- La interfaz del sistema prioriza la visualización en USD pero soporta entrada en VES con sugerencia automática de tasa.
+
+### El Concepto de "Cliente"
+
+- Actualmente tratado como un literal de texto (`client_name`) adjunto a Deudas o Transacciones, en lugar de una entidad relacional pesada. Se mantiene ligero por velocidad.

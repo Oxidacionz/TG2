@@ -1,51 +1,52 @@
-# State & Data Flow: The Pipeline
+# Estado y Flujo de Datos: La Tubería
 
-**Data Flow Philosophy**: Unidirectional, Explicit, and Typed.
+**Filosofía de Flujo de Datos**: Unidireccional, Explícito y Tipado.
 
-## 1. The Pipeline Architecture
+## 1. La Arquitectura de Tubería
 
-Data travels through four strict layers before reaching the user.
+Los datos viajan a través de cuatro capas estrictas antes de llegar al usuario.
 
 ```text
-[ Database (Supabase) ] 
-       ⬇️ (Raw Data)
-   [ Service Layer ]  <-- (Clean, Validate, Transform to DTO)
-       ⬇️ (Typed Promises)
-    [ React Hook ]    <-- (Manage Loading, Error, Local State)
-       ⬇️ (State Values)
-    [ Component ]     <-- (Render UI)
+[ Base de Datos (Supabase) ]
+       ⬇️ (Datos Crudos)
+   [ Capa de Servicio ]  <-- (Limpiar, Validar, Transformar a DTO)
+       ⬇️ (Promesas Tipadas)
+    [ React Hook ]       <-- (Gestionar Loading, Error, Estado Local)
+       ⬇️ (Valores de Estado)
+    [ Componente ]       <-- (Renderizar UI)
 ```
 
-### Layer Details:
+### Detalles de las Capas:
 
-1.  **The Lib (`src/lib/supabaseClient.ts`)**:
-    *   Raw connection to the DB. Singleton instance.
-    *   Use this ONLY inside Services.
+1.  **La Lib (`src/lib/supabaseClient.ts`)**:
+    - Conexión cruda a la BD. Instancia Singleton.
+    - Usar esto SOLO dentro de Servicios.
 
-2.  **The Service (`src/features/*/services/*.ts`)**:
-    *   **Responsibility**: Communicate with the outside world.
-    *   **Pure TS**: No React code here.
-    *   **Output**: Returns `Promise<Data[]>`. Handle API errors here (e.g., throw standardized error).
+2.  **El Servicio (`src/features/*/services/*.ts`)**:
+    - **Responsabilidad**: Comunicarse con el mundo exterior.
+    - **TypeScript Puro**: Aquí no va código React.
+    - **Salida**: Retorna `Promise<Data[]>`. Maneja errores de API aquí.
 
-3.  **The Hook (`src/features/*/hooks/*.ts`)**:
-    *   **Responsibility**: Bind data to the React Lifecycle.
-    *   **State**: Manages `loading`, `error`, and `data` state variables.
-    *   **Action**: Exposes methods like `refresh()`, `create()`.
+3.  **El Hook (`src/features/*/hooks/*.ts`)**:
+    - **Responsabilidad**: Atar los datos al Ciclo de Vida de React.
+    - **Estado**: Gestiona variables de `loading`, `error` y `data`.
+    - **Acción**: Expone métodos como `refresh()`, `create()`.
 
-4.  **The Component (`src/features/*/components/*.tsx`)**:
-    *   **Responsibility**: Display valid state.
-    *   **Dumb**: Should ideally just call `useHook()` and render.
+4.  **El Componente (`src/features/*/components/*.tsx`)**:
+    - **Responsabilidad**: Mostrar estado válido.
+    - **Tonto**: Idealmente solo debería llamar a `useHook()` y renderizar.
 
-## 2. Global State Management
+## 2. Gestión de Estado Global
 
-We avoid Redux/Zustand for now because the app domain is clearly segmented.
+Evitamos Redux/Zustand por ahora porque el dominio de la app está claramente segmentado.
 
 ### AuthContext (`src/features/auth/context`)
-*   **Purpose**: The **only** global state needed.
-*   **Why**: User session data (`AppSession`) is needed everywhere (Sidebar, Headers, Protected Routes).
-*   **Persistance**: Handled via Supabase Auth listener + LocalStorage backup if necessary.
 
-## 3. Local State Management
+- **Propósito**: El **único** estado global necesario.
+- **Por qué**: Los datos de sesión de usuario (`AppSession`) se necesitan en todas partes (Sidebar, Headers, Rutas Protegidas).
+- **Persistencia**: Manejada vía listener de Auth de Supabase + respaldo en LocalStorage si es necesario.
 
-*   **Forms**: `react-hook-form`. Do not use `useState` for complex forms.
-*   **UI State**: Modals/Tabs use simple `useState` within the Page/Controller.
+## 3. Gestión de Estado Local
+
+- **Formularios**: `react-hook-form`. No uses `useState` para formularios complejos.
+- **Estado UI**: Modales/Tabs usan `useState` simple dentro de la Página/Controlador.

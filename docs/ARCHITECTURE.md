@@ -1,54 +1,56 @@
-# Architecture Documentation: The Map
+# Documentación de Arquitectura: El Mapa
 
-> **Philosophy**: Feature-based (Screaming) Architecture.
-> **Goal**: The directory structure should scream *what the application does*, not just *what it is built with*.
+> **Filosofía**: Arquitectura Basada en Features ("Screaming Architecture").
+> **Objetivo**: La estructura de directorios debe gritar _qué hace la aplicación_, no solo _con qué está construida_.
 
-## 1. Overview & Philosophy
+## 1. Visión General y Filosofía
 
-We have transitioned from a generic **Atomic Design** approach to a **Feature-based Architecture**.
+Hemos hecho la transición de un enfoque genérico de **Atomic Design** a una **Arquitectura Basada en Features**.
 
-### Why change?
-Atomic Design sorts code by technical nature (atoms, molecules, organisms), which scatters related business logic across the codebase. As the project grew, adding a feature like "Debts" required touching 5 different folders.
+### ¿Por qué el cambio?
 
-**Feature-based Architecture** groups code by **Business Domain**. Everything related to "Debts" lives in one place. This improves maintainability, scalability, and cognitive load.
+Atomic Design ordena el código por naturaleza técnica (átomos, moléculas, organismos), lo que dispersa la lógica de negocio relacionada por todo el código. A medida que el proyecto crecía, añadir una feature como "Deudas" requiera tocar 5 carpetas diferentes.
 
-## 2. Directory Structure
+La **Arquitectura Basada en Features** agrupa el código por **Dominio de Negocio**. Todo lo relacionado con "Deudas" vive en un solo lugar. Esto mejora la mantenibilidad, escalabilidad y reduce la carga cognitiva.
 
-The codebase is strictly divided into four distinct layers:
+## 2. Estructura de Directorios
+
+El código base está estrictamente dividido en cuatro capas distintas:
 
 ```text
 src/
-├── features/        # THE CORE BUSINESS LOGIC (Domain Driven)
-│   ├── auth/        # Authentication domain
-│   ├── dashboard/   # Dashboard widgets and logic
-│   ├── accounts/    # Bank accounts management
-│   ├── debts/       # Debt tracking
-│   └── transactions/# Ledger and records
+├── features/        # LA LÓGICA DE NEGOCIO (Domain Driven)
+│   ├── auth/        # Dominio de autenticación
+│   ├── dashboard/   # Widgets y lógica del dashboard
+│   ├── accounts/    # Gestión de cuentas bancarias
+│   ├── debts/       # Rastreo de deudas
+│   └── transactions/# Libro mayor y registros
 │
-├── core/            # SHARED TECHNICAL FOUNDATION (Domain Agnostic)
-│   ├── ui/          # Primitive components (Button, Badge)
-│   ├── form/        # Form primitives (Input, FileUpload)
-│   ├── layout/      # Shell components (Header, Sidebar)
-│   └── navigation/  # Navigation logic
+├── core/            # FUNDAMENTOS TÉCNICOS COMPARTIDOS (Agnóstico del Dominio)
+│   ├── ui/          # Componentes primitivos (Botón, Badge)
+│   ├── form/        # Primitivos de formulario (Input, FileUpload)
+│   ├── layout/      # Componentes shell (Header, Sidebar)
+│   └── navigation/  # Lógica de navegación
 │
-├── layouts/         # APP COMPOSITION LAYERS
+├── layouts/         # CAPAS DE COMPOSICIÓN DE APP
 │   └── DashboardLayout.tsx
 │
-└── types/           # GLOBAL & SHARED TYPES
-    ├── domain.ts    # Shared Business Entities (Account, Debt)
-    └── enums/       # Global constants
+└── types/           # TIPOS GLOBALES Y COMPARTIDOS
+    ├── domain.ts    # Entidades de Negocio Compartidas (Account, Debt)
+    └── enums/       # Constantes globales
 ```
 
-## 3. Communication Patterns
+## 3. Patrones de Comunicación
 
-### Rules of Engagement
-1.  **Features are Independent**: Use strict encapsulation. Feature A should not import deep into Feature B.
-    *   *Bad*: `import { .. } from "@features/transactions/components/InternalForm"`
-    *   *Good*: `import { TransactionModal } from "@features/transactions"` (Public API)
-2.  **Core is Pure**: `@core` components **NEVER** import from `@features`. They are dumb UI bricks.
-3.  **One Way Flow**: Features consume Core. Layouts consume Features and Core.
+### Reglas de Combate
 
-### Visual Dependency Hierarchy
+1.  **Las Features son Independientes**: Usa encapsulamiento estricto. La Feature A no debe importar profundamente dentro de la Feature B.
+    - _Mal_: `import { .. } from "@features/transactions/components/InternalForm"`
+    - _Bien_: `import { TransactionModal } from "@features/transactions"` (API Pública)
+2.  **Core es Puro**: Los componentes de `@core` **NUNCA** importan de `@features`. Son ladrillos de UI tontos.
+3.  **Flujo Unidireccional**: Las Features consumen Core. Los Layouts consumen Features y Core.
+
+### Jerarquía Visual de Dependencias
 
 ```mermaid
 graph TD
@@ -59,11 +61,11 @@ graph TD
     Core --> DomainTypes
 ```
 
-## 4. Aliases (The Glue)
+## 4. Alias (El Pegamento)
 
-We use Path Aliases to enforce this structure:
+Usamos Path Aliases para imponer esta estructura:
 
-- `@features/*`: Direct access to feature modules.
-- `@core/*`: Direct access to UI primitives.
-- `@domain`: Access to shared business entities.
-- `@layouts/*`: Access to page wrappers.
+- `@features/*`: Acceso directo a módulos de features.
+- `@core/*`: Acceso directo a primitivos de UI.
+- `@domain`: Acceso a entidades de negocio compartidas.
+- `@layouts/*`: Acceso a envoltorios de página.

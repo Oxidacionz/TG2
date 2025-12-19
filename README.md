@@ -1,48 +1,49 @@
 # Toro Group Financial
 
-**Toro Group Financial** is a modern financial management dashboard built with React 19, TypeScript, and a scalable **Feature-based Architecture**.
+**Toro Group Financial** es un dashboard de gestión financiera moderno construido con React 19, TypeScript y una **Arquitectura Basada en Features** escalable.
 
-## 🚀 Key Features
+## 🚀 Características Clave
 
-*   **Modular Architecture**: Built with a "Screaming Architecture" approach where business features (`@features/debts`, `@features/accounts`) are decoupled from the core UI (`@core`).
-*   **Type Safety**: 100% strict TypeScript coverage with a sanitized `@domain` layer.
-*   **Modern Stack**: React 19, React Router v7, TailwindCSS v4, Supabase.
-*   **Performance**: Optimized build with Vite.
+- **Arquitectura Modular**: Construido con un enfoque de "Screaming Architecture" donde las features de negocio (`@features/debts`, `@features/accounts`) están desacopladas de la UI core (`@core`).
+- **Seguridad de Tipos**: 100% cobertura estricta de TypeScript con una capa saneada `@domain`.
+- **Stack Moderno**: React 19, React Router v7, TailwindCSS v4, Supabase.
+- **Rendimiento**: Build optimizado con Vite.
 
-## 📚 Documentation
+## 📚 Documentación
 
-The technical documentation is located in the `docs/` folder. We strictly follow these guidelines:
+La documentación técnica se encuentra en la carpeta `docs/`. Seguimos estrictamente estas pautas:
 
-*   **[🗺️ Architecture Map](./docs/ARCHITECTURE.md)**: Understand the `@features` vs `@core` separation.
-*   **[⚖️ Domain Model](./docs/DOMAIN_MODEL.md)**: Business rules for Accounts, Transactions, and Exchange Rates.
-*   **[🌊 State & Data Flow](./docs/STATE_DATA_FLOW.md)**: How data moves from Supabase to the UI.
-*   **[🎨 UI System](./docs/UI_SYSTEM.md)**: How to use the `@core` UI kit.
-*   **[🛠️ Contributing Guide](./docs/CONTRIBUTING.md)**: **READ THIS** before creating a new feature.
-*   **[⚙️ Setup Guide](./docs/SETUP.md)**: Installation and Environment variables.
+- **[🗺️ Mapa de Arquitectura](./docs/ARCHITECTURE.md)**: Entiende la separación `@features` vs `@core`.
+- **[⚖️ Modelo de Dominio](./docs/DOMAIN_MODEL.md)**: Reglas de negocio para Cuentas, Transacciones y Tasas de Cambio.
+- **[🌊 Estado y Flujo de Datos](./docs/STATE_DATA_FLOW.md)**: Cómo se mueven los datos desde Supabase a la UI.
+- **[🎨 Sistema UI](./docs/UI_SYSTEM.md)**: Cómo usar el kit de UI `@core`.
+- **[🛠️ Guía de Contribución](./docs/CONTRIBUTING.md)**: **LEE ESTO** antes de crear una nueva feature.
+- **[⚙️ Guía de Configuración](./docs/SETUP.md)**: Instalación y variables de entorno.
 
-## ⚡ Quick Start
+## ⚡ Inicio Rápido
 
 ```bash
-# 1. Install dependencies
+# 1. Instalar dependencias
 pnpm install
 
-# 2. Configure Environment
-# Copy .env.example to .env and add Supabase keys
+# 2. Configurar Entorno
+# Copia .env.example a .env y añade tus llaves de Supabase
 
-# 3. Run Dev Server
+# 3. Correr Servidor Dev
 pnpm dev
 ```
 
-## 🏗️ Project Structure
+## 🏗️ Estructura del Proyecto
 
 ```text
 src/
-├── features/        # Business Logic (Auth, Dashboard, Accounts, Debts)
-├── core/            # Shared UI Primitives (Button, Layout, Nav)
-├── layouts/         # Page Wrappers
-├── types/           # Domain Entities (@domain)
-└── lib/             # External services (Supabase client)
+├── features/        # Lógica de Negocio (Auth, Dashboard, Accounts, Debts)
+├── core/            # Primitivos UI Compartidos (Button, Layout, Nav)
+├── layouts/         # Envoltorios de Página
+├── types/           # Entidades de Dominio (@domain)
+└── lib/             # Servicios Externos (Supabase client)
 ```
 
 ---
-Developed by **Toro Group Financial**.
+
+Desarrollado por **Toro Group Financial**.
