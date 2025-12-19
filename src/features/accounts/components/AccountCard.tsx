@@ -1,5 +1,5 @@
 import React from "react";
-import { Account } from "@shared";
+import { Account } from "@domain";
 import { AccountType } from "@/types/enums";
 import { Card } from "@core/layout/Card";
 

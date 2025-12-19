@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useLoaderData } from "react-router"; // Importar hook del router
 import { authService } from "@features/auth/services/AuthService";
-import { AppSession } from "../types";
+import { AppSession } from "@/types";
 
 export const useDashboardController = () => {
   // Global State (Recuperado del Loader del Router)
   const loaderData = useLoaderData() as { session: AppSession | null };
-  // User asked to replace any.
+
   // Let's import AppSession definitions.
   const session = loaderData?.session || null;
 

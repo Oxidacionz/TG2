@@ -1,13 +1,13 @@
 import { Outlet } from "react-router";
-import DashboardTemplate from "../components/templates/DashboardTemplate";
+import DashboardTemplate from "@core/layout/DashboardTemplate";
 import { Sidebar } from "@core/layout/Sidebar";
 import { Header } from "@core/layout/Header";
 import { Modal } from "@core/overlay/Modal";
 import { TransactionForm } from "@features/transactions/components/TransactionForm";
 // TODO: refactor these modals
-import { SettingsModal } from "../components/organisms/SettingsModal";
-import { SupportModal } from "../components/organisms/SupportModal";
-import { useDashboardController } from "../hooks/useDashboardController";
+import { SettingsModal } from "@core/overlay/SettingsModal";
+import { SupportModal } from "@core/overlay/SupportModal";
+import { useDashboardController } from "@features/dashboard/hooks/useDashboardController";
 
 export const DashboardLayout = () => {
   const { session, userRole, ui, data, handlers } = useDashboardController();

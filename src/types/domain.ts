@@ -4,7 +4,7 @@ import {
   DebtStatus,
   TransactionType,
   ExpenseCategory,
-} from "../enums";
+} from "./enums";
 
 export interface Account {
   id: number;

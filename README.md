@@ -1,56 +1,48 @@
 # Toro Group Financial
 
-Bienvenido a **Toro Group Financial**, una aplicación web moderna para la gestión financiera y visualización de datos en tiempo real. Este proyecto está construido con una arquitectura SPA (Single Page Application) robusta y escalable.
+**Toro Group Financial** is a modern financial management dashboard built with React 19, TypeScript, and a scalable **Feature-based Architecture**.
 
-## 🚀 Tecnologías Principales
+## 🚀 Key Features
 
-Este proyecto utiliza un stack moderno y eficiente:
+*   **Modular Architecture**: Built with a "Screaming Architecture" approach where business features (`@features/debts`, `@features/accounts`) are decoupled from the core UI (`@core`).
+*   **Type Safety**: 100% strict TypeScript coverage with a sanitized `@domain` layer.
+*   **Modern Stack**: React 19, React Router v7, TailwindCSS v4, Supabase.
+*   **Performance**: Optimized build with Vite.
 
-- **Frontend**: [React 19](https://react.dev/)
-- **Build Tool**: [Vite](https://vitejs.dev/)
-- **Lenguaje**: [TypeScript](https://www.typescriptlang.org/)
-- **Estilos**: [Tailwind CSS v4](https://tailwindcss.com/)
-- **Enrutamiento**: React Router v7
-- **Backend / Base de Datos**: [Supabase](https://supabase.com/)
+## 📚 Documentation
 
-## 📚 Documentación
+The technical documentation is located in the `docs/` folder. We strictly follow these guidelines:
 
-Hemos preparado una documentación detallada para cada aspecto del sistema. Puedes encontrarla en la carpeta `docs/`:
+*   **[🗺️ Architecture Map](./docs/ARCHITECTURE.md)**: Understand the `@features` vs `@core` separation.
+*   **[⚖️ Domain Model](./docs/DOMAIN_MODEL.md)**: Business rules for Accounts, Transactions, and Exchange Rates.
+*   **[🌊 State & Data Flow](./docs/STATE_DATA_FLOW.md)**: How data moves from Supabase to the UI.
+*   **[🎨 UI System](./docs/UI_SYSTEM.md)**: How to use the `@core` UI kit.
+*   **[🛠️ Contributing Guide](./docs/CONTRIBUTING.md)**: **READ THIS** before creating a new feature.
+*   **[⚙️ Setup Guide](./docs/SETUP.md)**: Installation and Environment variables.
 
-- **[Arquitectura del Sistema](./docs/ARCHITECTURE.md)**: Visión general de la estructura, patrones de diseño y stack tecnológico.
-- **[Guía de Instalación y Configuración](./docs/SETUP.md)**: Pasos para clonar, instalar dependencias y configurar variables de entorno.
-- **[Modelo de Dominio](./docs/DOMAIN_MODEL.md)**: Explicación de las entidades de negocio (Transacciones, Cuentas, Deudas) y tipos de datos.
-- **[Componentes y UI](./docs/COMPONENTS_AND_UI.md)**: Detalles sobre el sistema de diseño Atómico y componentes visuales.
-- **[Servicios y Estado](./docs/SERVICES_AND_STATE.md)**: Cómo manejamos la lógica de negocio, autenticación y estado global.
-
-## ⚡ Inicio Rápido
-
-### Requisitos Previos
-
-- Node.js v18+
-- pnpm (recomendado) o npm
-
-### Instalación
+## ⚡ Quick Start
 
 ```bash
-# Clonar el proyecto
-git clone <url-del-repositorio>
-
-# Entrar al directorio
-cd toro-group-financial
-
-# Instalar dependencias
+# 1. Install dependencies
 pnpm install
-```
 
-### Ejecutar Localmente
+# 2. Configure Environment
+# Copy .env.example to .env and add Supabase keys
 
-```bash
+# 3. Run Dev Server
 pnpm dev
 ```
 
-La aplicación estará disponible en `http://localhost:5173`.
+## 🏗️ Project Structure
+
+```text
+src/
+├── features/        # Business Logic (Auth, Dashboard, Accounts, Debts)
+├── core/            # Shared UI Primitives (Button, Layout, Nav)
+├── layouts/         # Page Wrappers
+├── types/           # Domain Entities (@domain)
+└── lib/             # External services (Supabase client)
+```
 
 ---
-
-Desarrollado por el equipo de **Toro Group Financial**.
+Developed by **Toro Group Financial**.

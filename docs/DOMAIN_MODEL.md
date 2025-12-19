@@ -1,65 +1,47 @@
-# Domain Model
+# Domain Model: The Rules of the Pharmacy
 
-This document outlines the core business entities and data structures used in the application.
+This document outlines the core business entities and the critical rules that govern the **Toro Group Financial** application.
 
-## 📊 Core Entities
+## 1. Prime Entities
 
-### 1. Transaction
+### 🏛️ Account (Cuenta)
+Represents a source of funds. Can be a bank account, cash wallet, or digital wallet.
+*   **Attributes**: `id`, `bankName`, `holder`, `balance`, `currency`, `type`.
+*   **Rules**:
+    *   `balance` is the absolute truth of available liquidity.
+    *   `currency` determines the symbol and formatting rules.
 
-The central entity representing a financial operation.
+### 💸 Transaction (Transacción)
+The immutable record of money movement.
+*   **Attributes**: `id`, `amount`, `type` (INCOME/EXPENSE), `status`, `account_id`, `date`.
+*   **Rules**:
+    *   **Immutability**: Once reconciled, a transaction should ideally not change (though editing is allowed for corrections).
+    *   **Impact**: Every transaction directly mutates an `Account` balance (conceptually).
 
-| Field      | Type              | Description                                                        |
-| ---------- | ----------------- | ------------------------------------------------------------------ |
-| `id`       | `string`          | Unique identifier (e.g., "#t1").                                   |
-| `type`     | `TransactionType` | Enum: `INCOME` (Ingreso), `EXPENSE` (Egreso), `EXCHANGE` (Cambio). |
-| `amount`   | `number`          | The amount of money involved.                                      |
-| `currency` | `Currency`        | Enum: `USD`, `VES`, `EUR`, `USDT`.                                 |
-| `rate`     | `number`          | Exchange rate applied at the time of transaction.                  |
-| `profit`   | `number`          | Calculated profit from the transaction.                            |
-| `status`   | `string`          | Status of the transaction (e.g., "Completado").                    |
-| `client`   | `string`          | Name of the client involved.                                       |
-| `operator` | `string`          | ID/Name of the operator who processed it.                          |
+### 🤝 Debt (Deuda)
+Represents money owed **to** us (Receivable) or **by** us (Payable).
+*   **Attributes**: `client_name`, `amount`, `due_date`, `status` (PENDING/PAID).
+*   **Rules**:
+    *   A debt typically starts as `PENDING`.
+    *   When a debt is `PAID`, it triggers a `Transaction` that increases/decreases an Account balance.
 
-### 2. Account
+### 💱 Exchange Rate (Tasa de Cambio)
+Global configuration for currency conversion.
+*   **Attributes**: `from`, `to`, `rate`, `source`.
+*   **Rules**:
+    *   **Reference Rate**: Often anchored to the BCV (Banco Central de Venezuela) or Parallel market.
+    *   **Usage**: Used to normalize reporting when viewing total equity in a single currency (e.g., USD equivalent).
 
-Represents a storage of value, such as a bank account, cash drawer, or digital wallet.
-
-| Field      | Type          | Description                                                |
-| ---------- | ------------- | ---------------------------------------------------------- |
-| `id`       | `number`      | Unique ID.                                                 |
-| `bankName` | `string`      | Name of the bank or platform (e.g., "Banesco", "Binance"). |
-| `currency` | `Currency`    | The currency held in this account.                         |
-| `balance`  | `number`      | Current funds available.                                   |
-| `type`     | `AccountType` | Enum identifying the category (Cash vs Bank).              |
-
-### 3. Debt (Deudas)
-
-Tracks money owed to the business or by the business.
-
-- **Types**:
-  - `COBRAR`: Accounts Receivable (Money incoming).
-  - `PAGAR`: Accounts Payable (Money outgoing).
-- **Status**: `PENDING`, `PAID` (from `DebtStatus`).
-
-## 💱 Business Logic
+## 2. Business Logic Highlights
 
 ### Profit Calculation
+*   Standard Formula: `Profit = (Sell Price - Buy Price) - Expenses`
+*   In multi-currency scenarios, all values are normalized to USD using the rate effective *at the time of the transaction*.
 
-Profit is calculated dynamically based on the transaction margin.
+### Currency Handling (VES/USD)
+*   **VES (Bolivars)**: Treated as a volatile currency.
+*   **USD/USDT**: Treated as stable store of value.
+*   System Interface prioritizes USD visualization but supports entry in VES with automatic rate suggestion.
 
-- **Formula**: `Profit = Amount * (ProfitPercentage / 100)` (simplified).
-- In `TransactionForm`, this is handled by `useTransactionController`.
-
-### Exchange Rates
-
-Rates are fetched from external providers ("bcv", "binance").
-
-- **Structure**: `{ from: "USD", to: "VES", rate: 36.5 }`
-- **Service**: `ExchangeRateService` handles fetching and caching these rates.
-
-## 🔑 Enumerations (Enums)
-
-- **Currency**: `USD`, `VES`, `EUR`, `USDT`, `COP`.
-- **TransactionType**: Defines the direction of money flow.
-- **AccountType**: `CASH` (Efectivo), `BANK` (Bancos), `WALLET` (Digital).
-- **Role**: `ADMIN`, `OPERATOR` (User permissions).
+### The "Client" Concept
+*   Currently treated as a string literal (`client_name`) attached to Debts or Transactions, rather than a heavy relational entity. Keep it lightweight for speed.

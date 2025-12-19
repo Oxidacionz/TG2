@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { exchangeRateService } from "../../../services/ExchangeRateService";
+import { exchangeRateService } from "@features/exchange-rates/services/ExchangeRateService";
 import { transactionService } from "../services/transaction.service";
 import { TransactionType } from "../types";
 import { TransactionType as TransactionTypeEnum } from "@/types/enums";

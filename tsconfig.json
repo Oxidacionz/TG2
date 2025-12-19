@@ -21,8 +21,8 @@
       "@/*": ["./src/*"],
       "@core/*": ["./src/core/*"],
       "@features/*": ["./src/features/*"],
-      "@shared": ["./src/types/shared/index.ts"],
-      "@shared/*": ["./src/types/shared/*"]
+      "@domain": ["src/types/domain.ts"],
+      "@layouts/*": ["./src/layouts/*"]
     },
 
     "allowJs": false,

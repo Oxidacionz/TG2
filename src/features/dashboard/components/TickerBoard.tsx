@@ -1,8 +1,8 @@
 import { MdRefresh } from "react-icons/md";
 import { GrTransaction } from "react-icons/gr";
 import { FaBoltLightning } from "react-icons/fa6";
-import { TickerCard } from "../molecules/TickerCard";
-import { useExchangeRates } from "../../hooks/useExchangeRates";
+import { TickerCard } from "./TickerCard";
+import { useExchangeRates } from "@features/exchange-rates/hooks/useExchangeRates";
 import { RATES_CONFIG } from "@core/config/constants";
 
 /**

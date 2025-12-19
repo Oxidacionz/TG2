@@ -1,5 +1,5 @@
 import { LuPlus } from "react-icons/lu";
-import { Debt } from "@shared";
+import { Debt } from "@domain";
 import { TransactionType } from "@/types/enums";
 import { Button } from "@core/ui/Button";
 import { DebtCard } from "./DebtCard";

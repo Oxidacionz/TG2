@@ -1,13 +1,3 @@
-import {
-  TransactionType,
-  Currency,
-  AccountType,
-  DebtStatus,
-  ExpenseCategory,
-} from "./enums";
-
-// Removed type alias as it's now an Enum imported above
-
 export interface ExchangeRateData {
   from: string;
   to: string;
@@ -15,6 +5,8 @@ export interface ExchangeRateData {
   source: string;
   timestamp: string;
 }
+
+export type ExchangeRate = ExchangeRateData;
 
 export interface ExchangeRateResponse {
   success: boolean;

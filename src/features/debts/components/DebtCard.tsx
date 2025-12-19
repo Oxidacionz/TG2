@@ -1,6 +1,6 @@
 import React from "react";
 import { LuArrowRight } from "react-icons/lu";
-import { Debt } from "@shared";
+import { Debt } from "@domain";
 import { DebtStatus, TransactionType } from "@/types/enums";
 import { Card } from "@core/layout/Card";
 

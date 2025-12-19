@@ -1,67 +1,51 @@
-# UI Design System
+# UI System: The Visual Language
 
-This project implements a strict **Atomic Design** methodology to ensure component reusability and scalability.
+The visual consistency of Toro Group Financial relies on the discipline of using `@core`.
 
-## 🎨 Atomic Structure
+## 1. The Core Library (`src/core`)
 
-### 1. Atoms (`src/components/atoms`)
+This folder is our "Internal UI Kit". Treat it as a third-party dependency.
 
-The smallest building blocks. They have no dependencies on other components.
+### Atomic Components (`@core/ui`)
+*   **Button**: Use for all actions. Supports `variant` (primary, ghost, danger).
+*   **Badge**: Use for status labels (Paid, Pending).
+*   **ThemeToggle**: Standard mode switcher.
 
-- **Examples**:
-  - `Button.tsx`: Standardized actionable element.
-  - `Input.tsx`: Form input wrapper with styling.
-  - `Badge.tsx`: Status indicators (e.g., for transaction status).
-  - `Spinner.tsx`: Loading state indicator.
+### Layout Blocks (`@core/layout`)
+*   **Card**: The fundamental container.
+    ```tsx
+    <Card>
+      <div className="p-4">Content</div>
+    </Card>
+    ```
+*   **Header / Sidebar**: Global shell components. Do not modify these for specific feature needs.
 
-### 2. Molecules (`src/components/molecules`)
+### Feedback (`@core/feedback`)
+*   **Spinner**: Use for loading states.
 
-Combinations of atoms that form functional units.
+## 2. Form Architecture (`@core/form`)
 
-- **Examples**:
-  - `TransactionRow.tsx`: Combines text and Badges to show a single list item.
-  - `StatCard.tsx`: Combines an Icon, Label, and Value for dashboard metrics.
-  - `FormField.tsx`: Combines a Label and an Input with error messaging.
+We standardize forms to ensure accessibility and consistent error handling.
 
-### 3. Organisms (`src/components/organisms`)
+*   **FormField**: Wrapper that handles labels and error messages.
+*   **Input**: Styled HTML input.
 
-Complex, distinct sections of an interface. They handle business logic or group multiple molecules.
+**Example Usage**:
+```tsx
+import { FormField, Input } from "@core/form";
 
-- **Examples**:
-  - `TransactionsTable.tsx`: A complete table managing headers and rows.
-  - `TransactionForm.tsx`: The entire form for creating transactions.
-  - `Sidebar.tsx`: The main navigation menu.
+<FormField label="Monto" error={errors.amount?.message}>
+  <Input {...register("amount")} placeholder="0.00" />
+</FormField>
+```
 
-### 4. Templates (`src/components/templates`)
+## 3. Styles & Tailwind
 
-Page-level layouts that define where organisms are placed.
+*   We use **TailwindCSS** for utility styling.
+*   **Theme Colors**: Defined in `tailwind.config.js`. Use `bg-brand-900` or `text-brand-500` instead of arbitrary hex values.
+*   **Dark Mode**: Supported natively via the `dark:` prefix.
 
-- **Examples**:
-  - `DashboardTemplate.tsx`: Defines the grid layout for the dashboard view.
+## 4. Overlay System (`@core/overlay`)
 
-## 🖌 Styling & Theming
-
-### CSS Variables
-
-We use CSS 5 variables for global theming, defined in `src/styles/theme.css`.
-
-| Variable         | Description                      |
-| ---------------- | -------------------------------- |
-| `--primary`      | Main brand color.                |
-| `--bg-main`      | Application background.          |
-| `--text-primary` | Main text color.                 |
-| `--card-bg`      | Background for cards and panels. |
-
-### Dark Mode
-
-Dark mode is implemented via the `data-theme="dark"` attribute on the `<html>` or `<body>` tag.
-
-- **Mechanism**: The variables in `theme.css` change values based on `[data-theme='dark']`.
-- **Toggle**: Managed by the `ThemeToggle` atom and `useTheme` hook.
-
-### Fonts
-
-We use **Inter** as the primary typeface.
-
-- Font files are located in `public/assets/fonts/Inter`.
-- CSS definitions are in `src/styles/fonts.css`.
+*   **Modal**: The base window for creating/editing records.
+*   **Specific Modals**: `SupportModal`, `SettingsModal` are global overlays available in the Layout.

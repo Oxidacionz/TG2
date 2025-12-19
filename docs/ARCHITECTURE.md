@@ -1,67 +1,69 @@
-# Architecture Overview
+# Architecture Documentation: The Map
 
-This document provides a high-level overview of the technical architecture for the **Toro Group Financial** application.
+> **Philosophy**: Feature-based (Screaming) Architecture.
+> **Goal**: The directory structure should scream *what the application does*, not just *what it is built with*.
 
-## 🛠 Tech Stack
+## 1. Overview & Philosophy
 
-- **Framework**: [React](https://react.dev/) (v18)
-- **Build Tool**: [Vite](https://vitejs.dev/)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Styles**: Custom CSS Modules + Global Themes (Variables)
-- **Backend/Database**: [Supabase](https://supabase.com/) (Integration in progress)
-- **Package Manager**: pnpm
+We have transitioned from a generic **Atomic Design** approach to a **Feature-based Architecture**.
 
-## 📂 Project Structure
+### Why change?
+Atomic Design sorts code by technical nature (atoms, molecules, organisms), which scatters related business logic across the codebase. As the project grew, adding a feature like "Debts" required touching 5 different folders.
 
-The project follows a hybrid structure combining **Atomic Design** for UI components and **Feature-based** organization for logic.
+**Feature-based Architecture** groups code by **Business Domain**. Everything related to "Debts" lives in one place. This improves maintainability, scalability, and cognitive load.
+
+## 2. Directory Structure
+
+The codebase is strictly divided into four distinct layers:
 
 ```text
 src/
-├── components/          # UI Components (Atomic Design)
-│   ├── atoms/           # Basic building blocks (Buttons, Inputs, Badges)
-│   ├── molecules/       # Simple combinations (Cards, FormFields)
-│   ├── organisms/       # Complex sections (Forms, Tables, Charts)
-│   └── templates/       # Page layouts
-├── hooks/               # Custom React Hooks (Logic Controllers)
-├── services/            # API & Data Access Layer
-├── context/             # Global State (Auth, Theme)
-├── types/               # TypeScript Definitions (Domain & UI)
-├── pages/               # Route Views
-└── styles/              # Global CSS & Design Tokens
+├── features/        # THE CORE BUSINESS LOGIC (Domain Driven)
+│   ├── auth/        # Authentication domain
+│   ├── dashboard/   # Dashboard widgets and logic
+│   ├── accounts/    # Bank accounts management
+│   ├── debts/       # Debt tracking
+│   └── transactions/# Ledger and records
+│
+├── core/            # SHARED TECHNICAL FOUNDATION (Domain Agnostic)
+│   ├── ui/          # Primitive components (Button, Badge)
+│   ├── form/        # Form primitives (Input, FileUpload)
+│   ├── layout/      # Shell components (Header, Sidebar)
+│   └── navigation/  # Navigation logic
+│
+├── layouts/         # APP COMPOSITION LAYERS
+│   └── DashboardLayout.tsx
+│
+└── types/           # GLOBAL & SHARED TYPES
+    ├── domain.ts    # Shared Business Entities (Account, Debt)
+    └── enums/       # Global constants
 ```
 
-## 🏗 Core Architectural Patterns
+## 3. Communication Patterns
 
-### 1. Service Layer Pattern
+### Rules of Engagement
+1.  **Features are Independent**: Use strict encapsulation. Feature A should not import deep into Feature B.
+    *   *Bad*: `import { .. } from "@features/transactions/components/InternalForm"`
+    *   *Good*: `import { TransactionModal } from "@features/transactions"` (Public API)
+2.  **Core is Pure**: `@core` components **NEVER** import from `@features`. They are dumb UI bricks.
+3.  **One Way Flow**: Features consume Core. Layouts consume Features and Core.
 
-We abstract all data access and external API calls into `services/`.
+### Visual Dependency Hierarchy
 
-- **Purpose**: To decouple the UI from the backend implementation.
-- **Current State**: Services like `TransactionService` currently use mocks (`MockTransactionService`) but are designed to be easily swapped for Supabase implementations without changing frontend code.
+```mermaid
+graph TD
+    Layouts --> Features
+    Layouts --> Core
+    Features --> Core
+    Features --> DomainTypes
+    Core --> DomainTypes
+```
 
-### 2. Controller Pattern (Custom Hooks)
+## 4. Aliases (The Glue)
 
-Complex component logic is extracted into custom hooks (e.g., `useTransactionController`).
+We use Path Aliases to enforce this structure:
 
-- **Benefit**: Keeps UI components "dumb" and focused on rendering. The hook manages form state, calculations, and side effects.
-
-### 3. Atomic Design
-
-UI components are organized by complexity.
-
-- **Atoms**: Indivisible elements (e.g., `<Button />`).
-- **Molecules**: Groups of atoms functioning together (e.g., `<TransactionRow />`).
-- **Organisms**: Complex interface parts (e.g., `<TransactionsTable />`).
-
-## 🔐 Security & Configuration
-
-### Environment Variables
-
-Sensitive data and configuration are managed via `.env` files.
-
-- `VITE_SUPABASE_URL`: Supabase project URL.
-- `VITE_SUPABASE_ANON_KEY`: Public API key.
-
-### Authentication
-
-Authentication is handled via `AuthContext`, which persists session state. The actual authentication logic resides in `AuthService`.
+- `@features/*`: Direct access to feature modules.
+- `@core/*`: Direct access to UI primitives.
+- `@domain`: Access to shared business entities.
+- `@layouts/*`: Access to page wrappers.

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { exchangeRateService } from "../services/ExchangeRateService";
-import { ExchangeRateData, ExchangeRateResponse } from "../types/finance";
+import { ExchangeRateData, ExchangeRateResponse } from "@/types";
 
 export type ExchangeProviderType = "bcv" | "binance";
 

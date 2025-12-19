@@ -2,7 +2,7 @@ import { createBrowserRouter, redirect, RouteObject } from "react-router";
 import { authService } from "@features/auth/services/AuthService";
 import { DashboardLayout } from "./layouts/DashboardLayout";
 import { LoginPage } from "@features/auth/pages/LoginPage";
-import { DashboardView } from "./pages/DashboardView";
+import { DashboardPage } from "@features/dashboard/pages/DashboardPage";
 import { TransactionsPage } from "@features/transactions/pages/TransactionsPage";
 import { TreasuryPage } from "./pages/TreasuryPage";
 
@@ -53,7 +53,7 @@ const routes: RouteObject[] = [
     children: [
       {
         index: true,
-        Component: DashboardView,
+        Component: DashboardPage,
       },
       {
         path: "transactions",

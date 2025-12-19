@@ -1,6 +1,4 @@
-import { Role } from "./enums";
-
-// Removed type alias as it's now an Enum imported above
+import { Role } from "@/types/enums";
 
 export interface AppUser {
   id: string;

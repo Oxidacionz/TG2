@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router";
 import { MOCK_TRANSACTIONS } from "../mocks/mockTransactions";
 import { Transaction } from "../types";
-import { DashboardContextType } from "@/types/ui";
+import { DashboardContextType } from "@layouts/types";
 
 // Organisms/Molecules
 import { TransactionsHeader } from "../components/TransactionsHeader";

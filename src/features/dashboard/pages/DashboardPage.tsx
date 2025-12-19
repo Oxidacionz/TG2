@@ -3,17 +3,17 @@
 import { useState } from "react";
 import { useOutletContext } from "react-router";
 import { MOCK_DATA } from "../mocks/mockData";
-import { DashboardContextType } from "../types";
+import { DashboardContextType } from "@/types";
 
 // Organisms/Molecules
-import { GlobalRateCard } from "../components/molecules/GlobalRateCard";
+import { GlobalRateCard } from "@features/exchange-rates/components/GlobalRateCard";
 import { DigitalClock } from "@core/display/DigitalClock";
-import { TickerBoard } from "../components/organisms/TickerBoard";
-import { StatsOverview } from "../components/organisms/StatsOverview";
-import { AnalyticsChart } from "../components/organisms/AnalyticsChart";
-import { EditRateModal } from "../components/organisms/EditRateModal";
+import { StatsOverview } from "../components/StatsOverview";
+import { AnalyticsChart } from "../components/AnalyticsChart";
+import { TickerBoard } from "../components/TickerBoard";
+import { EditRateModal } from "@features/exchange-rates/components/EditRateModal";
 
-export const DashboardView = () => {
+export const DashboardPage = () => {
   const { refreshTrigger } = useOutletContext<DashboardContextType>();
   // To avoid unused warning if we want to keep it available for future use:
   console.log("Dashboard refreshed", refreshTrigger);

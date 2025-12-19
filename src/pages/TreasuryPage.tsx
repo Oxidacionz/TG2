@@ -1,10 +1,6 @@
-// COMPONENTE CRITICO
 import { useState } from "react";
-
 import { Button } from "@core/ui/Button";
 import { LuPlus } from "react-icons/lu";
-
-// Organisms/Molecules
 import { AccountsList } from "@features/accounts/components/AccountsList";
 import { DebtsList } from "@features/debts/components/DebtsList";
 import {
@@ -21,7 +17,6 @@ import { useDebts } from "@features/debts/hooks/useDebts";
 export const TreasuryPage = () => {
   const [activeTab, setActiveTab] = useState<"ACCOUNTS" | "DEBTS">("ACCOUNTS");
 
-  // Data State
   const { accounts, loading, createAccount } = useAccounts();
   const {
     debts,
@@ -31,7 +26,6 @@ export const TreasuryPage = () => {
     createDebt,
   } = useDebts();
 
-  // Modals
   const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
   const [isDebtModalOpen, setIsDebtModalOpen] = useState(false);
 
