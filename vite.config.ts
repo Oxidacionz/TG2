@@ -13,6 +13,17 @@ const CONFIG: UserConfig = {
       "@shared": path.resolve(__dirname, "src/types/shared"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            return "vendor";
+          }
+        },
+      },
+    },
+  },
 };
 
 export default defineConfig(CONFIG);

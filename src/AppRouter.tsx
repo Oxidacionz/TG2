@@ -1,10 +1,6 @@
 import { createBrowserRouter, redirect, RouteObject } from "react-router";
 import { authService } from "@features/auth/services/AuthService";
 import { DashboardLayout } from "./layouts/DashboardLayout";
-import { LoginPage } from "@features/auth/pages/LoginPage";
-import { DashboardPage } from "@features/dashboard/pages/DashboardPage";
-import { TransactionsPage } from "@features/transactions/pages/TransactionsPage";
-import { TreasuryPage } from "./pages/TreasuryPage";
 
 import { Spinner } from "@core/feedback/Spinner";
 
@@ -28,41 +24,50 @@ const publicLoader = async () => {
   return null;
 };
 
+const Fallback = (
+  <div className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-900">
+    <Spinner size="lg" />
+  </div>
+);
+
 // --- DEFINICIÓN DE RUTAS ---
 
 const routes: RouteObject[] = [
   {
     path: "/login",
-    Component: LoginPage,
+    lazy: () =>
+      import("@features/auth/pages/LoginPage").then((m) => ({
+        Component: m.LoginPage,
+      })),
     loader: publicLoader,
-    hydrateFallbackElement: (
-      <div className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-900">
-        <Spinner size="lg" />
-      </div>
-    ),
+    hydrateFallbackElement: Fallback,
   },
   {
     path: "/",
     Component: DashboardLayout,
     loader: protectedLoader,
-    hydrateFallbackElement: (
-      <div className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-900">
-        <Spinner size="lg" />
-      </div>
-    ),
+    hydrateFallbackElement: Fallback,
     children: [
       {
         index: true,
-        Component: DashboardPage,
+        lazy: () =>
+          import("@features/dashboard/pages/DashboardPage").then((m) => ({
+            Component: m.DashboardPage,
+          })),
       },
       {
         path: "transactions",
-        Component: TransactionsPage,
+        lazy: () =>
+          import("@features/transactions/pages/TransactionsPage").then((m) => ({
+            Component: m.TransactionsPage,
+          })),
       },
-
       {
         path: "accounts",
-        Component: TreasuryPage,
+        lazy: () =>
+          import("./pages/TreasuryPage").then((m) => ({
+            Component: m.TreasuryPage,
+          })),
       },
     ],
   },

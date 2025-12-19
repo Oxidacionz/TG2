@@ -17,14 +17,17 @@ export const DigitalClock = () => {
         </div>
         <div>
           <p className="font-mono text-lg font-bold tracking-widest text-white">
-            {time.toLocaleTimeString("en-US", { hour12: true })}
+            {time.toLocaleTimeString("en-US", {
+              hour12: true,
+              minute: "2-digit",
+              hour: "numeric",
+            })}
           </p>
           <p className="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase">
-            {time.toLocaleDateString("es-ES", {
+            {time.toLocaleDateString("es-VE", {
               weekday: "long",
               day: "numeric",
               month: "long",
-              year: "numeric",
             })}
           </p>
         </div>
