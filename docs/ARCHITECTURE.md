@@ -1,60 +1,67 @@
-# Descripción General de la Arquitectura
+# Architecture Overview
 
-## Introducción
+This document provides a high-level overview of the technical architecture for the **Toro Group Financial** application.
 
-El proyecto `toro-group-financial` es una aplicación web moderna diseñada para la gestión financiera y paneles de control (dashboards). Está construida utilizando una arquitectura de Aplicación de Una Sola Página (SPA), aprovechando React para la interfaz de usuario y Supabase para el backend.
+## 🛠 Tech Stack
 
-## Stack Tecnológico
+- **Framework**: [React](https://react.dev/) (v18)
+- **Build Tool**: [Vite](https://vitejs.dev/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styles**: Custom CSS Modules + Global Themes (Variables)
+- **Backend/Database**: [Supabase](https://supabase.com/) (Integration in progress)
+- **Package Manager**: pnpm
 
-- **Framework de Frontend**: React 19
-- **Herramienta de Construcción**: Vite
-- **Lenguaje**: TypeScript
-- **Estilos**: Tailwind CSS v4
-- **Enrutamiento**: React Router v7
-- **Backend / BaaS**: Supabase (Autenticación, Base de Datos, Tiempo Real)
-- **Gráficos**: Recharts
-- **Iconos**: React Icons
-- **Formateo/Linting**: ESLint, Prettier
+## 📂 Project Structure
 
-## Estructura de Directorios
-
-El proyecto sigue una estructura híbrida basada en funcionalidades y diseño atómico:
+The project follows a hybrid structure combining **Atomic Design** for UI components and **Feature-based** organization for logic.
 
 ```text
 src/
-├── components/       # Componentes de diseño atómico
-│   ├── atoms/        # Componentes base (Botón, Input, Badge)
-│   ├── molecules/    # Combinaciones simples (FormField, SidebarItem)
-│   ├── organisms/    # Widgets complejos (TransactionsTable, Sidebar)
-│   └── templates/    # Diseños de página (DashboardTemplate)
-├── config/           # Configuración de toda la aplicación (constantes, navegación)
-├── constants/        # Constantes de negocio (transactionConfig.ts)
-├── context/          # Contextos de React (AuthContext, etc.)
-├── hooks/            # Hooks personalizados (useAuth, useDashboardController)
-├── layouts/          # Diseños de rutas (DashboardLayout)
-├── lib/              # Configuraciones de librerías externas (supabaseClient)
-├── mocks/            # Datos ficticios para desarrollo/pruebas
-├── pages/            # Componentes de página que mapean a rutas
-├── services/         # Capa de API y lógica (TransactionService, AuthService)
-├── styles/           # CSS global y definiciones de temas
-└── types/            # Definiciones de tipos TypeScript (Dominio, API, UI)
+├── components/          # UI Components (Atomic Design)
+│   ├── atoms/           # Basic building blocks (Buttons, Inputs, Badges)
+│   ├── molecules/       # Simple combinations (Cards, FormFields)
+│   ├── organisms/       # Complex sections (Forms, Tables, Charts)
+│   └── templates/       # Page layouts
+├── hooks/               # Custom React Hooks (Logic Controllers)
+├── services/            # API & Data Access Layer
+├── context/             # Global State (Auth, Theme)
+├── types/               # TypeScript Definitions (Domain & UI)
+├── pages/               # Route Views
+└── styles/              # Global CSS & Design Tokens
 ```
 
-## Patrones Arquitectónicos
+## 🏗 Core Architectural Patterns
 
-### Diseño Atómico (Atomic Design)
+### 1. Service Layer Pattern
 
-Utilizamos el Diseño Atómico para organizar los componentes. Esto fomenta la reutilización y la consistencia.
+We abstract all data access and external API calls into `services/`.
 
-- **Atoms**: Componentes indivisibles (ej. `Button`, `Input`).
-- **Molecules**: Grupos de átomos que funcionan juntos (ej. `FormField`).
-- **Organisms**: Secciones complejas de la interfaz (ej. `Sidebar`, `Header`).
-- **Templates**: Estructuras a nivel de página a la espera de contenido.
+- **Purpose**: To decouple the UI from the backend implementation.
+- **Current State**: Services like `TransactionService` currently use mocks (`MockTransactionService`) but are designed to be easily swapped for Supabase implementations without changing frontend code.
 
-### Capa de Servicio (Service Layer)
+### 2. Controller Pattern (Custom Hooks)
 
-La lógica de negocio y las llamadas a la API están encapsuladas en el directorio `services/`. Los componentes NO deben realizar llamadas directas a la API, sino que deben usar estos servicios o hooks personalizados que los envuelvan. Esto desacopla la interfaz de usuario de la implementación del backend.
+Complex component logic is extracted into custom hooks (e.g., `useTransactionController`).
 
-### Context API y Gestión de Estado
+- **Benefit**: Keeps UI components "dumb" and focused on rendering. The hook manages form state, calculations, and side effects.
 
-El estado global (como la Autenticación de Usuario) se gestiona a través de proveedores de React Context en `context/`. El Layout principal (`DashboardLayout`) también provee un contexto compartido (`DashboardContext`) para comunicar acciones como "Abrir Modal de Transacción" entre componentes dispersos (ej. `Header` y `Layout`).
+### 3. Atomic Design
+
+UI components are organized by complexity.
+
+- **Atoms**: Indivisible elements (e.g., `<Button />`).
+- **Molecules**: Groups of atoms functioning together (e.g., `<TransactionRow />`).
+- **Organisms**: Complex interface parts (e.g., `<TransactionsTable />`).
+
+## 🔐 Security & Configuration
+
+### Environment Variables
+
+Sensitive data and configuration are managed via `.env` files.
+
+- `VITE_SUPABASE_URL`: Supabase project URL.
+- `VITE_SUPABASE_ANON_KEY`: Public API key.
+
+### Authentication
+
+Authentication is handled via `AuthContext`, which persists session state. The actual authentication logic resides in `AuthService`.

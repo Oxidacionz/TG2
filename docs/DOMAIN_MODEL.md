@@ -1,56 +1,65 @@
-# Modelo de Dominio y Datos
+# Domain Model
 
-## Entidades Principales
+This document outlines the core business entities and data structures used in the application.
 
-La aplicación gestiona datos financieros centrados en Transacciones, Cuentas y Deudas.
+## 📊 Core Entities
 
-### Transacción (Transaction)
+### 1. Transaction
 
-La entidad central que representa un intercambio de divisas o una transferencia.
+The central entity representing a financial operation.
 
-- **Propiedades**:
-  - `id`: Identificador único (string)
-  - `amount`: Valor monetario
-  - `currency`: Divisa involucrada (USD, VES, COP)
-  - `type`: Dirección del flujo (ENTRADA, SALIDA)
-  - `rate`: Tasa de cambio aplicada
-  - `status`: Estado actual (Completado, Pendiente)
-  - `client`: Nombre del cliente
+| Field      | Type              | Description                                                        |
+| ---------- | ----------------- | ------------------------------------------------------------------ |
+| `id`       | `string`          | Unique identifier (e.g., "#t1").                                   |
+| `type`     | `TransactionType` | Enum: `INCOME` (Ingreso), `EXPENSE` (Egreso), `EXCHANGE` (Cambio). |
+| `amount`   | `number`          | The amount of money involved.                                      |
+| `currency` | `Currency`        | Enum: `USD`, `VES`, `EUR`, `USDT`.                                 |
+| `rate`     | `number`          | Exchange rate applied at the time of transaction.                  |
+| `profit`   | `number`          | Calculated profit from the transaction.                            |
+| `status`   | `string`          | Status of the transaction (e.g., "Completado").                    |
+| `client`   | `string`          | Name of the client involved.                                       |
+| `operator` | `string`          | ID/Name of the operator who processed it.                          |
 
-### Cuenta (Account)
+### 2. Account
 
-Representa una cuenta bancaria o tenencia de efectivo.
+Represents a storage of value, such as a bank account, cash drawer, or digital wallet.
 
-- **Propiedades**:
-  - `bankName`: Nombre de la institución
-  - `holder`: Nombre del titular de la cuenta
-  - `balance`: Fondos actuales
-  - `currency`: Divisa de la cuenta
-  - `type`: Clasificación (EFECTIVO, BANCO, PLATAFORMA)
+| Field      | Type          | Description                                                |
+| ---------- | ------------- | ---------------------------------------------------------- |
+| `id`       | `number`      | Unique ID.                                                 |
+| `bankName` | `string`      | Name of the bank or platform (e.g., "Banesco", "Binance"). |
+| `currency` | `Currency`    | The currency held in this account.                         |
+| `balance`  | `number`      | Current funds available.                                   |
+| `type`     | `AccountType` | Enum identifying the category (Cash vs Bank).              |
 
-### Deuda (Debt)
+### 3. Debt (Deudas)
 
-Representa cuentas por cobrar o por pagar.
+Tracks money owed to the business or by the business.
 
-- **Propiedades**:
-  - `type`: "COBRAR" (Por cobrar) o "PAGAR" (Por pagar)
-  - `amount`: Monto adeudado
-  - `status`: Estado del pago (PENDIENTE, PAGADO, VENCIDO)
-  - `due_date`: Fecha en la que se espera el pago
+- **Types**:
+  - `COBRAR`: Accounts Receivable (Money incoming).
+  - `PAGAR`: Accounts Payable (Money outgoing).
+- **Status**: `PENDING`, `PAID` (from `DebtStatus`).
 
-## Enums y Constantes
+## 💱 Business Logic
 
-Utilizamos tipado estricto para estados y categorías usando Enums de TypeScript.
+### Profit Calculation
 
-- **Currency**: `USD`, `VES`, `COP`, `EUR`
-- **TransactionType**: `ENTRADA` (Ingreso), `SALIDA` (Egreso/Salida)
-- **Role**: `ADMIN`, `OPERADOR`, `VISITOR`
-- **DebtStatus**: `PENDIENTE`, `PAGADO`, `VENCIDO`
+Profit is calculated dynamically based on the transaction margin.
 
-## Tipos de TypeScript
+- **Formula**: `Profit = Amount * (ProfitPercentage / 100)` (simplified).
+- In `TransactionForm`, this is handled by `useTransactionController`.
 
-Las definiciones de tipos se encuentran en `src/types/`.
+### Exchange Rates
 
-- `finance.d.ts`: Entidades de negocio principales (Transacción, Cuenta, Deuda, Gasto).
-- `auth.d.ts`: Definiciones de Usuario y Sesión.
-- `ui.d.ts`: Tipos específicos de la interfaz de usuario (ej. opciones de tema).
+Rates are fetched from external providers ("bcv", "binance").
+
+- **Structure**: `{ from: "USD", to: "VES", rate: 36.5 }`
+- **Service**: `ExchangeRateService` handles fetching and caching these rates.
+
+## 🔑 Enumerations (Enums)
+
+- **Currency**: `USD`, `VES`, `EUR`, `USDT`, `COP`.
+- **TransactionType**: Defines the direction of money flow.
+- **AccountType**: `CASH` (Efectivo), `BANK` (Bancos), `WALLET` (Digital).
+- **Role**: `ADMIN`, `OPERATOR` (User permissions).

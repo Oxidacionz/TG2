@@ -1,3 +1,5 @@
+// COMPONENTE CRITICO
+
 import { LoginForm } from "../components/organisms/LoginForm";
 import { Logo } from "../components/atoms/Logo";
 

@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { MdSpaceDashboard, MdAttachMoney } from "react-icons/md";
-import { IoScan } from "react-icons/io5";
+
 import { GrTransaction } from "react-icons/gr";
 
 import { Role } from "../types";
@@ -57,11 +57,4 @@ export const SIDEBAR_ITEMS: SidebarItemConfig[] = [
 */
 ];
 
-export const DEV_SIDEBAR_ITEMS: SidebarItemConfig[] = [
-  {
-    label: "Modo Dev",
-    path: "/dev",
-    icon: <IoScan className="h-6 w-6" />, // Using IoScan as generic/placeholder or we can import specific
-    roles: [Role.DEV],
-  },
-];
+export const DEV_SIDEBAR_ITEMS: SidebarItemConfig[] = [];
