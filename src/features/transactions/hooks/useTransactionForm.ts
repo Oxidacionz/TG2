@@ -1,6 +1,10 @@
 import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { exchangeRateService } from "@features/exchange-rates/services/ExchangeRateService";
+// import { exchangeRateService } from "@features/exchange-rates/services/ExchangeRateService"; // DELETED
+import {
+  calculateVES,
+  calculateProfit as calcProfitUtils,
+} from "@/utils/currency";
 import { transactionService } from "../services/transaction.service";
 import { TransactionType } from "../types";
 import { TransactionType as TransactionTypeEnum } from "@/types/enums";
@@ -37,7 +41,7 @@ export const useTransactionForm = ({
     defaultValues: {
       type: TransactionTypeEnum.INCOME,
       amount: "",
-      rate: "36.00",
+      rate: "36.00", // Default static rate
       profitPercent: PROFIT_PERCENTAGES[2], // 5%
       customProfit: "",
       clientName: "",
@@ -63,12 +67,14 @@ export const useTransactionForm = ({
   // Calculations
   const amountNum = parseFloat(amount) || 0;
   const rateNum = parseFloat(rate) || 0;
-  const totalVES = exchangeRateService.calculateVES(amountNum, rateNum);
+
+  // Use independent utility instead of service
+  const totalVES = calculateVES(amountNum, rateNum);
 
   const calculatedProfit =
     profitPercent === "custom"
       ? parseFloat(customProfit) || 0
-      : exchangeRateService.calculateProfit(amountNum, Number(profitPercent));
+      : calcProfitUtils(amountNum, Number(profitPercent));
 
   // File Handling
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

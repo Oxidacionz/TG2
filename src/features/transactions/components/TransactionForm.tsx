@@ -61,8 +61,13 @@ export const TransactionForm = (props: Props) => {
           />
 
           <div className="space-y-4">
-            <FormField label="Cliente" error={errors.clientName?.message}>
+            <FormField
+              label="Cliente"
+              error={errors.clientName?.message}
+              htmlFor="clientName"
+            >
               <Input
+                id="clientName"
                 placeholder="Nombre del cliente..."
                 {...register("clientName", {
                   required: "El nombre del cliente es requerido",
@@ -72,8 +77,13 @@ export const TransactionForm = (props: Props) => {
             </FormField>
 
             <div className="grid grid-cols-2 gap-4">
-              <FormField label="Monto (USD)" error={errors.amount?.message}>
+              <FormField
+                label="Monto (USD)"
+                error={errors.amount?.message}
+                htmlFor="amount"
+              >
                 <Input
+                  id="amount"
                   type="number"
                   step="0.01"
                   placeholder="0.00"
@@ -84,25 +94,35 @@ export const TransactionForm = (props: Props) => {
                   })}
                 />
               </FormField>
-              <FormField label="Tasa (VES)">
-                <Input type="number" step="0.01" {...register("rate")} />
+              <FormField label="Tasa (VES)" htmlFor="rate">
+                <Input
+                  id="rate"
+                  type="number"
+                  step="0.01"
+                  {...register("rate")}
+                />
               </FormField>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <FormField label="Comisión (VES)">
+              <FormField label="Comisión (VES)" htmlFor="commission">
                 <Input
+                  id="commission"
                   type="number"
                   placeholder="0.00"
                   {...register("commission")}
                 />
               </FormField>
               <div className="space-y-1">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                <label
+                  htmlFor="targetAccount"
+                  className="text-sm font-medium text-slate-700 dark:text-slate-300"
+                >
                   Cuenta {type === TransactionType.INCOME ? "RECIBE" : "ENVÍA"}{" "}
                   Dinero
                 </label>
                 <select
+                  id="targetAccount"
                   className="focus:ring-brand-500 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:ring-2 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                   {...register("targetAccount", {
                     required: "Seleccione una cuenta",
@@ -165,16 +185,19 @@ export const TransactionForm = (props: Props) => {
               </div>
               {profitPercent === "custom" && (
                 <Input
+                  id="customProfit"
                   type="number"
                   placeholder="Ganancia manual en USD"
                   className="mt-2"
+                  aria-label="Ganancia manual"
                   {...register("customProfit")}
                 />
               )}
             </div>
 
-            <FormField label="Notas Adicionales">
+            <FormField label="Notas Adicionales" htmlFor="notes">
               <textarea
+                id="notes"
                 rows={2}
                 className="focus:ring-brand-500 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:ring-2 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                 placeholder="Detalles opcionales..."

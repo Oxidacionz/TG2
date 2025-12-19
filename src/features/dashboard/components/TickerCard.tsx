@@ -27,6 +27,7 @@ export const TickerCard = ({
           <button
             type="button"
             onClick={onAction}
+            aria-label={`Actualizar ${label}`}
             className="ml-1 cursor-pointer border-none bg-transparent p-0 text-slate-600 transition-colors hover:text-white"
           >
             {actionIcon}
