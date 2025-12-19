@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-import { Modal } from "./Modal";
-import { FormField } from "../molecules/FormField";
-import { Input } from "../atoms/Input";
-import { Button } from "../atoms/Button";
+import { Modal } from "@core/overlay/Modal";
+import { FormField } from "@core/form/FormField";
+import { Input } from "@core/form/Input";
+import { Button } from "@core/ui/Button";
 
 interface Props {
   isOpen: boolean;

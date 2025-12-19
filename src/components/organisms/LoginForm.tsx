@@ -1,7 +1,7 @@
 import { useState, memo } from "react";
-import { Input } from "../atoms/Input";
-import { Button } from "../atoms/Button";
-import { FormField } from "../molecules/FormField";
+import { Input } from "@core/form/Input";
+import { Button } from "@core/ui/Button";
+import { FormField } from "@core/form/FormField";
 import { authService } from "../../services/AuthService";
 import { FaEye, FaEyeSlash, FaLock, FaUser } from "react-icons/fa6";
 import { BiSupport } from "react-icons/bi";

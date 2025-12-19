@@ -7,7 +7,7 @@ import { DashboardContextType } from "../types";
 
 // Organisms/Molecules
 import { GlobalRateCard } from "../components/molecules/GlobalRateCard";
-import { DigitalClock } from "../components/molecules/DigitalClock";
+import { DigitalClock } from "@core/display/DigitalClock";
 import { TickerBoard } from "../components/organisms/TickerBoard";
 import { StatsOverview } from "../components/organisms/StatsOverview";
 import { AnalyticsChart } from "../components/organisms/AnalyticsChart";

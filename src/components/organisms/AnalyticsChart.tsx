@@ -14,7 +14,7 @@ import {
 } from "recharts";
 import { MdSpaceDashboard } from "react-icons/md";
 import { IoIosStats } from "react-icons/io";
-import { Card } from "../atoms/Card";
+import { Card } from "@core/layout/Card";
 
 interface LineDataPoint {
   name: string;

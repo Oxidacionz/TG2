@@ -1,7 +1,7 @@
 // COMPONENTE CRITICO
 
 import { LoginForm } from "../components/organisms/LoginForm";
-import { Logo } from "../components/atoms/Logo";
+import { Logo } from "@core/ui/Logo";
 
 export const LoginView = () => {
   return (

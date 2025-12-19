@@ -1,8 +1,8 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router";
 
-import { SidebarItem } from "../molecules/SidebarItem";
-import { Logo } from "../atoms/Logo";
+import { SidebarItem } from "@core/navigation/SidebarItem";
+import { Logo } from "@core/ui/Logo";
 import { SIDEBAR_ITEMS, DEV_SIDEBAR_ITEMS } from "../../config/navigation";
 import { MdClose } from "react-icons/md";
 import { IoScan } from "react-icons/io5";

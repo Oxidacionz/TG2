@@ -1,5 +1,5 @@
 import { MOCK_CHART_DATA } from "./mockChartData";
-import { MOCK_TRANSACTIONS } from "./mockTransactions";
+import { MOCK_TRANSACTIONS } from "@features/transactions/mocks/mockTransactions";
 
 export const MOCK_USER = {
   id: "mock-user-id",

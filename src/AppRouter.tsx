@@ -3,10 +3,10 @@ import { authService } from "./services/AuthService";
 import { DashboardLayout } from "./layouts/DashboardLayout";
 import { LoginView } from "./pages/LoginView";
 import { DashboardView } from "./pages/DashboardView";
-import { TransactionsView } from "./pages/TransactionsView";
-import { AccountsView } from "./pages/AccountsView";
+import { TransactionsPage } from "@features/transactions/pages/TransactionsPage";
+import { TreasuryPage } from "./pages/TreasuryPage";
 
-import { Spinner } from "./components/atoms/Spinner";
+import { Spinner } from "@core/feedback/Spinner";
 
 // --- LÓGICA DE PROTECCIÓN ---
 
@@ -57,12 +57,12 @@ const routes: RouteObject[] = [
       },
       {
         path: "transactions",
-        Component: TransactionsView,
+        Component: TransactionsPage,
       },
 
       {
         path: "accounts",
-        Component: AccountsView,
+        Component: TreasuryPage,
       },
     ],
   },

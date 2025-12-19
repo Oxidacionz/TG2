@@ -1,7 +1,7 @@
 import { useLocation } from "react-router";
-import { UserDropdown } from "../molecules/UserDropdown";
+import { UserDropdown } from "@core/navigation/UserDropdown";
 import { NotificationDropdown } from "../molecules/NotificationDropdown";
-import { ThemeToggle } from "../atoms/ThemeToggle";
+import { ThemeToggle } from "@core/ui/ThemeToggle";
 import { FaBars } from "react-icons/fa6";
 
 interface Props {

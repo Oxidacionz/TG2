@@ -16,8 +16,13 @@
     "skipLibCheck": true,
     "noEmit": true,
 
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./src/*"],
+      "@core/*": ["./src/core/*"],
+      "@features/*": ["./src/features/*"],
+      "@shared": ["./src/types/shared/index.ts"],
+      "@shared/*": ["./src/types/shared/*"]
     },
 
     "allowJs": false,

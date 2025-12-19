@@ -1,7 +1,7 @@
 import { useForm, useWatch } from "react-hook-form";
 import { useEffect } from "react";
-import { Modal } from "./Modal";
-import { Button } from "../atoms/Button";
+import { Modal } from "@core/overlay/Modal";
+import { Button } from "@core/ui/Button";
 
 interface Props {
   isOpen: boolean;
