@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLoaderData } from "react-router"; // Importar hook del router
-import { authService } from "../services/AuthService";
+import { authService } from "@features/auth/services/AuthService";
 import { AppSession } from "../types";
 
 export const useDashboardController = () => {

@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router";
 
 import { SidebarItem } from "@core/navigation/SidebarItem";
 import { Logo } from "@core/ui/Logo";
-import { SIDEBAR_ITEMS, DEV_SIDEBAR_ITEMS } from "../../config/navigation";
+import { SIDEBAR_ITEMS, DEV_SIDEBAR_ITEMS } from "@core/config/navigation";
 import { MdClose } from "react-icons/md";
 import { IoScan } from "react-icons/io5";
 import { BiSupport } from "react-icons/bi";

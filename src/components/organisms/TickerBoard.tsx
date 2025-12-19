@@ -3,7 +3,7 @@ import { GrTransaction } from "react-icons/gr";
 import { FaBoltLightning } from "react-icons/fa6";
 import { TickerCard } from "../molecules/TickerCard";
 import { useExchangeRates } from "../../hooks/useExchangeRates";
-import { RATES_CONFIG } from "../../config/constants";
+import { RATES_CONFIG } from "@core/config/constants";
 
 /**
  * Componente Smart para BCV

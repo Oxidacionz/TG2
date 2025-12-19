@@ -1,7 +1,7 @@
 import { createBrowserRouter, redirect, RouteObject } from "react-router";
-import { authService } from "./services/AuthService";
+import { authService } from "@features/auth/services/AuthService";
 import { DashboardLayout } from "./layouts/DashboardLayout";
-import { LoginView } from "./pages/LoginView";
+import { LoginPage } from "@features/auth/pages/LoginPage";
 import { DashboardView } from "./pages/DashboardView";
 import { TransactionsPage } from "@features/transactions/pages/TransactionsPage";
 import { TreasuryPage } from "./pages/TreasuryPage";
@@ -33,7 +33,7 @@ const publicLoader = async () => {
 const routes: RouteObject[] = [
   {
     path: "/login",
-    Component: LoginView,
+    Component: LoginPage,
     loader: publicLoader,
     hydrateFallbackElement: (
       <div className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-900">

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Session } from "@supabase/supabase-js";
-import { AppSession, AppUser, Role } from "../types";
+import { AppSession, AppUser, Role } from "@/types";
 import { authService } from "../services/AuthService";
-import { AuthEvent } from "../types/enums";
+import { AuthEvent } from "@/types/enums";
 import { AuthContext } from "./AuthContext";
 
 interface Props {

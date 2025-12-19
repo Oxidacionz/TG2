@@ -3,7 +3,7 @@ import { MdSpaceDashboard, MdAttachMoney } from "react-icons/md";
 
 import { GrTransaction } from "react-icons/gr";
 
-import { Role } from "../types";
+import { Role } from "@/types";
 
 export interface SidebarItemConfig {
   label: string;

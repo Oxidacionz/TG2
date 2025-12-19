@@ -1,9 +1,9 @@
 // COMPONENTE CRITICO
 
-import { LoginForm } from "../components/organisms/LoginForm";
+import { LoginForm } from "../components/LoginForm";
 import { Logo } from "@core/ui/Logo";
 
-export const LoginView = () => {
+export const LoginPage = () => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-slate-50 dark:bg-slate-900">
       <div className="flex w-full max-w-sm flex-col items-center justify-center gap-8 p-4">

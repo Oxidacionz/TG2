@@ -2,10 +2,10 @@ import { useState, memo } from "react";
 import { Input } from "@core/form/Input";
 import { Button } from "@core/ui/Button";
 import { FormField } from "@core/form/FormField";
-import { authService } from "../../services/AuthService";
+import { authService } from "../services/AuthService";
 import { FaEye, FaEyeSlash, FaLock, FaUser } from "react-icons/fa6";
 import { BiSupport } from "react-icons/bi";
-import { SupportModal } from "./SupportModal";
+import { SupportModal } from "../../../components/organisms/SupportModal";
 import { FormProvider, useForm } from "react-hook-form";
 
 interface LoginFormValues {

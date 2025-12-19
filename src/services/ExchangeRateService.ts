@@ -1,4 +1,6 @@
 import { ExchangeProvider, ExchangeRateResponse } from "../types";
+// TODO: Move to a dedicated exchange-rate feature in Phase 4
+import { createClient } from "@supabase/supabase-js";
 
 /**
  * Interfaz principal del servicio de tasas de cambio.

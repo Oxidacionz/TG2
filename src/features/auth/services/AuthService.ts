@@ -1,4 +1,4 @@
-import { supabase } from "../lib/supabaseClient";
+import { supabase } from "@/lib/supabaseClient";
 import { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
 
 // Abstraction (Interface)

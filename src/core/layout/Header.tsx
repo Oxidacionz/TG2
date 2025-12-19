@@ -1,6 +1,6 @@
 import { useLocation } from "react-router";
 import { UserDropdown } from "@core/navigation/UserDropdown";
-import { NotificationDropdown } from "../molecules/NotificationDropdown";
+import { NotificationDropdown } from "@core/navigation/NotificationDropdown";
 import { ThemeToggle } from "@core/ui/ThemeToggle";
 import { FaBars } from "react-icons/fa6";
 

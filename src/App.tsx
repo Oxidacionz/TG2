@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { RouterProvider } from "react-router";
 import { router } from "./AppRouter";
-import { authService } from "./services/AuthService";
-import { AuthProvider } from "./context/AuthProvider";
-import { AuthEvent } from "./types/enums";
+import { authService } from "@features/auth/services/AuthService";
+import { AuthProvider } from "@features/auth/context/AuthProvider";
+import { AuthEvent } from "@/types/enums";
 
 const App = () => {
   useEffect(() => {
