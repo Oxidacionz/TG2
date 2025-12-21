@@ -14,7 +14,10 @@ export const StatsOverview = (props: Props) => {
   const { stats } = props;
 
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+    <section
+      aria-label="Estadísticas Generales"
+      className="grid grid-cols-1 gap-6 md:grid-cols-3"
+    >
       <StatCard
         title="Volumen Total"
         value={`$${stats.totalVolume.toLocaleString()}`}
@@ -36,6 +39,6 @@ export const StatsOverview = (props: Props) => {
         icon={<FaWallet />}
         color="yellow"
       />
-    </div>
+    </section>
   );
 };
