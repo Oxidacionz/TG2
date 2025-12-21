@@ -16,32 +16,32 @@ export const TransactionSummaryCard = ({
   calculatedProfit,
 }: TransactionSummaryCardProps) => {
   return (
-    <div
+    <article
       className={`rounded-2xl p-6 text-white shadow-lg ${
         type === TransactionType.INCOME
           ? "bg-linear-to-br from-green-600 to-teal-800"
           : "bg-linear-to-br from-red-600 to-rose-800"
       }`}
     >
-      <div className="mb-4 flex items-center justify-between">
+      <header className="mb-4 flex items-center justify-between">
         <span className="rounded bg-black/20 px-2 py-1 text-[10px] font-bold tracking-wider uppercase">
           {type === TransactionType.INCOME ? "Recibimos" : "Enviamos"}
         </span>
         <span className="text-sm font-medium opacity-80">
           {type === TransactionType.INCOME ? "Cliente Paga" : "Cliente Recibe"}
         </span>
-      </div>
+      </header>
 
-      <div className="mb-2 flex items-center justify-between">
+      <section className="mb-2 flex items-center justify-between">
         <h2 className="text-4xl font-bold">${amount || "0.00"}</h2>
         <div className="text-right">
           <p className="text-xs uppercase opacity-70">Tasa</p>
           <p className="font-bold">{rate}</p>
         </div>
-      </div>
+      </section>
 
       {/* Flow Visualizer */}
-      <div className="my-3 flex items-center justify-between rounded-lg bg-black/10 p-3">
+      <figure className="my-3 flex items-center justify-between rounded-lg bg-black/10 p-3">
         <div className="text-center">
           <p className="text-xs opacity-70">
             {type === TransactionType.INCOME ? "USD" : "VES"}
@@ -52,7 +52,9 @@ export const TransactionSummaryCard = ({
               : `Bs ${totalVES}`}
           </p>
         </div>
-        <div className="text-white/50">➜</div>
+        <div className="text-white/50" aria-hidden="true">
+          ➜
+        </div>
         <div className="text-center">
           <p className="text-xs opacity-70">
             {type === TransactionType.INCOME ? "VES" : "USD"}
@@ -63,14 +65,14 @@ export const TransactionSummaryCard = ({
               : `$${amount || 0}`}
           </p>
         </div>
-      </div>
+      </figure>
 
-      <div className="flex items-center justify-between border-t border-white/10 pt-2">
+      <footer className="flex items-center justify-between border-t border-white/10 pt-2">
         <span className="text-sm text-white/80">Ganancia Estimada</span>
         <span className="rounded-full bg-white px-3 py-1 text-sm font-bold text-slate-900 shadow-sm">
           +${calculatedProfit.toFixed(2)}
         </span>
-      </div>
-    </div>
+      </footer>
+    </article>
   );
 };
