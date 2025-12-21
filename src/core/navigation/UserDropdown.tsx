@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// Supabase removed
 import { useAuth } from "@features/auth/hooks/useAuth";
 import { Role } from "../../types";
 import { FaGear } from "react-icons/fa6";
