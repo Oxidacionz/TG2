@@ -4,9 +4,6 @@ import { DashboardLayout } from "./layouts/DashboardLayout";
 
 import { Spinner } from "@core/feedback/Spinner";
 
-// --- LÓGICA DE PROTECCIÓN ---
-
-// Protege el Dashboard
 const protectedLoader = async () => {
   const { session } = await authService.getSession();
 
@@ -15,7 +12,6 @@ const protectedLoader = async () => {
   return { session };
 };
 
-// Evita ver el Login si ya entraste
 const publicLoader = async () => {
   const { session } = await authService.getSession();
 
@@ -29,8 +25,6 @@ const Fallback = (
     <Spinner size="lg" />
   </div>
 );
-
-// --- DEFINICIÓN DE RUTAS ---
 
 const routes: RouteObject[] = [
   {
