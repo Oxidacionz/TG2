@@ -17,10 +17,10 @@ export const BinanceTicker = () => {
       loading={isLoading}
     >
       <data className="text-sm font-bold text-yellow-500">
-        BUY: {BINANCE_RATES.BUY > 0 ? BINANCE_RATES.BUY.toFixed(2) : "--"}
+        BUY: {BINANCE_RATES.BUY.toFixed(2)}
       </data>
       <data className="text-xs text-slate-400">
-        SELL: {BINANCE_RATES.SELL > 0 ? BINANCE_RATES.SELL.toFixed(2) : "--"}
+        SELL: {BINANCE_RATES.SELL.toFixed(2)}
       </data>
     </TickerCard>
   );

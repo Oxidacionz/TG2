@@ -16,4 +16,20 @@ export const ExchangeRateService = {
 
     return data as ExchangeRate[];
   },
+
+  /**
+   * Updates the internal exchange rate.
+   * Only works for source='Internal' and symbol='VES' due to RLS policies.
+   */
+  async updateInternalRate(value: number): Promise<void> {
+    const { error } = await supabase
+      .from("current_rates")
+      .update({ value, updated_at: new Date().toISOString() })
+      .match({ source: "Internal", symbol: "VES" });
+
+    if (error) {
+      console.error("Error updating internal rate:", error);
+      throw new Error(error.message);
+    }
+  },
 };

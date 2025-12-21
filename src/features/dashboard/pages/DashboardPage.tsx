@@ -1,11 +1,7 @@
-// COMPONENTE CRITICO
-
 import { useState } from "react";
 import { useOutletContext } from "react-router";
 import { MOCK_DATA } from "../mocks/mockData";
 import { DashboardContextType } from "@/types";
-
-// Organisms/Molecules
 import { GlobalRateCard } from "@features/exchange-rates/components/GlobalRateCard";
 import { DigitalClock } from "@core/display/DigitalClock";
 import { StatsOverview } from "../components/StatsOverview";
@@ -15,7 +11,6 @@ import { EditRateModal } from "@features/exchange-rates/components/EditRateModal
 
 export const DashboardPage = () => {
   const { refreshTrigger } = useOutletContext<DashboardContextType>();
-  // To avoid unused warning if we want to keep it available for future use:
   console.log("Dashboard refreshed", refreshTrigger);
 
   const [stats] = useState({
@@ -25,13 +20,9 @@ export const DashboardPage = () => {
     totalCapital: 0,
   });
 
-  // BCV State removed (unused)
-
-  // Config State (Tasa Global)
   const [globalRate, setGlobalRate] = useState("36.00");
   const [isEditRateOpen, setIsEditRateOpen] = useState(false);
 
-  // Chart State
   const [lineData] = useState(MOCK_DATA.chartData);
   const [pieData] = useState<{ name: string; value: number; color?: string }[]>(
     [],
@@ -42,7 +33,6 @@ export const DashboardPage = () => {
     setGlobalRate(formattedRate);
     localStorage.setItem("globalRate", formattedRate);
 
-    // Try to update DB if table exists (MOCKED)
     console.log("Mock update rate:", formattedRate);
 
     setIsEditRateOpen(false);
@@ -53,7 +43,6 @@ export const DashboardPage = () => {
       {/* --- TOP BANNER --- */}
       <div className="flex flex-col overflow-hidden rounded-xl border border-slate-800 bg-[#0f172a] xl:flex-row">
         <GlobalRateCard
-          rate={globalRate}
           onEdit={() => {
             setIsEditRateOpen(true);
           }}

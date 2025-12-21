@@ -16,7 +16,8 @@ export type ExchangeRateKey =
   | "BCV-TRY"
   | "BCV-RUB"
   | "Binance-USDT_BUY"
-  | "Binance-USDT_SELL";
+  | "Binance-USDT_SELL"
+  | "Internal-VES";
 
 export interface ExchangeRateResponse {
   success: boolean;

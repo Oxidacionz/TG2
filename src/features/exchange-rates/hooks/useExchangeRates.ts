@@ -16,5 +16,7 @@ export const useExchangeRates = () => {
     rates: Object.values(state.rates),
     isLoading: state.isLoading,
     error: state.error,
+    updateInternalRate:
+      exchangeRatesStore.updateInternalRate.bind(exchangeRatesStore),
   };
 };

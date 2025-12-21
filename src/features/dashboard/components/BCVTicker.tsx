@@ -17,10 +17,10 @@ export const BCVTicker = () => {
       loading={isLoading}
     >
       <data className="text-sm font-bold text-white">
-        $ {BCV_RATES.USD ? BCV_RATES.USD.toFixed(2) : "--"}
+        $ {BCV_RATES.USD.toFixed(2)}
       </data>
       <data className="text-xs text-slate-400">
-        € {BCV_RATES.EUR ? BCV_RATES.EUR.toFixed(2) : "--"}
+        € {BCV_RATES.EUR.toFixed(2)}
       </data>
     </TickerCard>
   );

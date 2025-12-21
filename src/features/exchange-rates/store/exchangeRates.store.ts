@@ -68,14 +68,7 @@ class ExchangeRatesStore {
         this.updateState({ isLoading: true, error: null });
 
         // 1. Initial Fetch
-        const initialRates = await ExchangeRateService.getInitialRates();
-        const ratesMap: Partial<Record<ExchangeRateKey, ExchangeRate>> = {};
-        initialRates.forEach((r) => {
-          const key = this.generateKey(r.source, r.symbol);
-          ratesMap[key] = r;
-        });
-
-        this.updateState({ rates: ratesMap, isLoading: false });
+        await this.refreshRates();
 
         // 2. Setup Realtime Subscription (current_rates ONLY)
         this.setupRealtimeSubscription();
@@ -93,6 +86,21 @@ class ExchangeRatesStore {
     })();
 
     return this.initPromise;
+  }
+
+  private async refreshRates() {
+    try {
+      const initialRates = await ExchangeRateService.getInitialRates();
+      const ratesMap: Partial<Record<ExchangeRateKey, ExchangeRate>> = {};
+      initialRates.forEach((r) => {
+        const key = this.generateKey(r.source, r.symbol);
+        ratesMap[key] = r;
+      });
+      this.updateState({ rates: ratesMap, isLoading: false });
+    } catch (error) {
+      console.error("Failed to refresh rates:", error);
+      // We don't set global error here to avoid blocking UI on background refreshes
+    }
   }
 
   private generateKey(source: string, symbol: string): ExchangeRateKey {
@@ -126,7 +134,20 @@ class ExchangeRatesStore {
           );
         },
       )
-      .subscribe();
+      .subscribe((status) => {
+        // AUTO-HEALING LOGIC
+        if (status === "SUBSCRIBED") {
+          // Connection established (or re-established).
+          // We fetch latest rates to ensure we didn't miss events while disconnected.
+          this.refreshRates();
+        } else if (status === "CLOSED") {
+          console.warn(
+            "Realtime connection closed. Attempting to reconnect...",
+          );
+        } else if (status === "CHANNEL_ERROR") {
+          console.error("Realtime channel error. Connection may be unstable.");
+        }
+      });
   }
 
   private handleRealtimeEvent(payload: {
@@ -176,6 +197,24 @@ class ExchangeRatesStore {
       error: null,
     };
     this.emitChange();
+  }
+  /**
+   * Updates the internal exchange rate manually.
+   * This is an optimistic action - the store will update via Realtime subscription.
+   */
+  public async updateInternalRate(value: number) {
+    try {
+      this.updateState({ isLoading: true });
+      await ExchangeRateService.updateInternalRate(value);
+      // We don't manually update state.rates here.
+      // We rely on the Realtime 'UPDATE' event to ensure source-of-truth consistency.
+    } catch (error) {
+      this.updateState({
+        isLoading: false,
+        error: error instanceof Error ? error.message : "Failed to update rate",
+      });
+      throw error;
+    }
   }
 }
 

@@ -5,8 +5,26 @@ interface Props {
   icon: ReactNode;
   loading?: boolean;
   children: ReactNode;
-  className?: string;
 }
+
+interface IsLoadingProps {
+  loading: boolean;
+  children: ReactNode;
+}
+
+const Skeleton = () => {
+  return (
+    <div className="flex animate-pulse flex-col gap-1">
+      <div className="h-4 w-20 rounded bg-slate-700"></div>
+      <div className="h-3 w-16 rounded bg-slate-700"></div>
+    </div>
+  );
+};
+
+const IsLoading = (loadingProps: IsLoadingProps) => {
+  if (loadingProps.loading) return <Skeleton />;
+  return loadingProps.children;
+};
 
 const TickerCard = (props: Props) => {
   return (
@@ -16,14 +34,7 @@ const TickerCard = (props: Props) => {
         <span>{props.label}</span>
       </header>
       <div className="flex min-h-[40px] flex-col justify-center gap-0.5">
-        {props.loading ? (
-          <div className="flex animate-pulse flex-col gap-1">
-            <div className="h-4 w-20 rounded bg-slate-700"></div>
-            <div className="h-3 w-16 rounded bg-slate-700"></div>
-          </div>
-        ) : (
-          props.children
-        )}
+        <IsLoading loading={props.loading}>{props.children}</IsLoading>
       </div>
     </article>
   );

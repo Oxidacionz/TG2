@@ -1,14 +1,16 @@
 import React from "react";
 import { FaHandHoldingDollar } from "react-icons/fa6";
 import { MdModeEdit } from "react-icons/md";
+import { useExchangeRates } from "@features/exchange-rates";
 
 interface Props {
-  rate: string;
   onEdit: () => void;
 }
 
 export const GlobalRateCard = React.memo((props: Props) => {
-  const { rate, onEdit } = props;
+  const { ratesMap, isLoading } = useExchangeRates();
+  const globalRate = ratesMap["Internal-VES"]?.value;
+  const { onEdit } = props;
 
   return (
     <div className="group relative flex flex-1 items-center justify-between bg-blue-600 p-4">
@@ -19,10 +21,12 @@ export const GlobalRateCard = React.memo((props: Props) => {
         <div>
           <div className="flex items-center gap-2">
             <p className="text-[10px] font-bold tracking-wider text-blue-100 uppercase">
-              Tasa Promedio Global
+              Tasa Global
             </p>
           </div>
-          <p className="text-2xl font-bold text-white">{rate} VES</p>
+          <p className="text-2xl font-bold text-white">
+            {globalRate > 0 ? globalRate.toFixed(2) : "--"} Bs
+          </p>
         </div>
       </div>
       {/* Edit Button (Absolute) */}
