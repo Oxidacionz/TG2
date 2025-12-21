@@ -6,8 +6,8 @@ export const BinanceTicker = () => {
   const { ratesMap, isLoading } = useExchangeRates();
 
   const BINANCE_RATES = {
-    BUY: ratesMap["Binance-USDT_BUY"]?.value,
-    SELL: ratesMap["Binance-USDT_SELL"]?.value,
+    BUY: ratesMap["Binance-USDT_BUY"]?.value.toFixed(2),
+    SELL: ratesMap["Binance-USDT_SELL"]?.value.toFixed(2),
   };
 
   return (
@@ -17,11 +17,9 @@ export const BinanceTicker = () => {
       loading={isLoading}
     >
       <data className="text-sm font-bold text-yellow-500">
-        BUY: {BINANCE_RATES.BUY.toFixed(2)}
+        BUY: {BINANCE_RATES.BUY}
       </data>
-      <data className="text-xs text-slate-400">
-        SELL: {BINANCE_RATES.SELL.toFixed(2)}
-      </data>
+      <data className="text-xs text-slate-400">SELL: {BINANCE_RATES.SELL}</data>
     </TickerCard>
   );
 };

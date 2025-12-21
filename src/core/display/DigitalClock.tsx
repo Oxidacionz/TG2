@@ -10,7 +10,7 @@ export const DigitalClock = () => {
   }, []);
 
   return (
-    <div className="bg-brand-900 hidden items-center justify-center border-b border-slate-800 p-4 sm:flex xl:border-r xl:border-b-0">
+    <div className="bg-brand-900 hidden items-center justify-center border-t border-b border-slate-800 p-4 sm:flex xl:border-t-0 xl:border-r xl:border-b-0 xl:border-l">
       <div className="flex items-center gap-4">
         <div className="rounded-xl bg-slate-800 p-3 text-blue-500">
           <FaClock className="h-4 w-4" />

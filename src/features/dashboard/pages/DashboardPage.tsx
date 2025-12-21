@@ -40,30 +40,23 @@ export const DashboardPage = () => {
 
   return (
     <div className="flex w-full flex-col gap-6 overflow-x-hidden">
-      {/* --- TOP BANNER --- */}
-      <div className="flex flex-col overflow-hidden rounded-xl border border-slate-800 bg-[#0f172a] xl:flex-row">
-        <GlobalRateCard
-          onEdit={() => {
-            setIsEditRateOpen(true);
-          }}
-        />
+      <div className="bg-brand-900 flex flex-col overflow-hidden rounded-xl border border-slate-800 xl:flex-row">
+        <GlobalRateCard />
         <DigitalClock />
         <TickerBoard />
       </div>
 
-      {/* --- STATS OVERVIEW --- */}
       <StatsOverview stats={stats} />
 
-      {/* --- ANALYTICS CHART --- */}
       <AnalyticsChart lineData={lineData} pieData={pieData} />
-
-      {/* --- MODALS --- */}
+      {/* 
       <EditRateModal
         isOpen={isEditRateOpen}
         onClose={() => setIsEditRateOpen(false)}
         onSave={handleUpdateRate}
         currentRate={globalRate}
-      />
+      /> 
+      */}
     </div>
   );
 };
