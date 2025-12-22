@@ -40,7 +40,6 @@ export const TransactionSummaryCard = ({
         </div>
       </section>
 
-      {/* Flow Visualizer */}
       <figure className="my-3 flex items-center justify-between rounded-lg bg-black/10 p-3">
         <div className="text-center">
           <p className="text-xs opacity-70">

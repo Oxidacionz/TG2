@@ -20,9 +20,7 @@ export const useAccounts = () => {
 
   const createAccount = (data: AccountFormData) => {
     console.log("Mock Create Account:", data);
-    // Here we would call a service
-    // const newAccount = await accountService.create(data);
-    // setAccounts([...accounts, newAccount]);
+    console.log("Mock Create Account:", data);
   };
 
   return {

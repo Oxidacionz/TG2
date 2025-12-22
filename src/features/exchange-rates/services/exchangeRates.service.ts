@@ -2,10 +2,6 @@ import { supabase } from "@/lib/supabaseClient";
 import { ExchangeRate } from "../types";
 
 export const ExchangeRateService = {
-  /**
-   * Fetches the initial state of exchange rates from Supabase.
-   * Returns a list of current rates.
-   */
   async getInitialRates(): Promise<ExchangeRate[]> {
     const { data, error } = await supabase.from("current_rates").select("*");
 
@@ -17,10 +13,6 @@ export const ExchangeRateService = {
     return data as ExchangeRate[];
   },
 
-  /**
-   * Updates the internal exchange rate.
-   * Only works for source='Internal' and symbol='VES' due to RLS policies.
-   */
   async updateInternalRate(value: number): Promise<void> {
     const { error } = await supabase
       .from("current_rates")

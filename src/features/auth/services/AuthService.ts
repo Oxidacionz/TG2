@@ -1,7 +1,6 @@
 import { supabase } from "@/lib/supabaseClient";
 import { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
 
-// Abstraction (Interface)
 export interface IAuthService {
   getSession(): Promise<{ session: Session | null }>;
   signOut(): Promise<void>;
@@ -17,7 +16,6 @@ export interface IAuthService {
   ): { unsubscribe: () => void };
 }
 
-// Low-level Module (Implementation)
 class SupabaseAuthService implements IAuthService {
   async getSession() {
     const { data } = await supabase.auth.getSession();
@@ -45,5 +43,4 @@ class SupabaseAuthService implements IAuthService {
   }
 }
 
-// Dependency Injection (Singleton for now)
 export const authService = new SupabaseAuthService();

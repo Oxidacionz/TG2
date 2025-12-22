@@ -1,5 +1,3 @@
-// important
-
 import { IoScan } from "react-icons/io5";
 import { Button } from "@core/ui/Button";
 

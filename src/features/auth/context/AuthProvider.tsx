@@ -15,17 +15,14 @@ export const AuthProvider = (props: Props) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Initial load
     authService
       .getSession()
       .then((sess: { session: Session | null } | null) => {
-        // Mocking AppSession structure for now to fit strict types
-        // In real world, we extract this from Supabase session metadata
         if (sess?.session?.user) {
           const user: AppUser = {
             id: sess.session.user.id,
             email: sess.session.user.email,
-            role: Role.ADMIN, // Defaulting to ADMIN for dev, should come from user_metadata
+            role: Role.ADMIN,
           };
           setSession({ user });
         }
@@ -39,7 +36,7 @@ export const AuthProvider = (props: Props) => {
             const user: AppUser = {
               id: session.user.id,
               email: session.user.email,
-              role: Role.ADMIN, // Defaulting to ADMIN
+              role: Role.ADMIN,
             };
             setSession({ user });
           } else {
@@ -60,5 +57,3 @@ export const AuthProvider = (props: Props) => {
     </AuthContext.Provider>
   );
 };
-
-// Export useAuth moved to src/hooks/useAuth.ts

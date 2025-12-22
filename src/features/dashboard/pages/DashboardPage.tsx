@@ -7,7 +7,6 @@ import { DigitalClock } from "@core/display/DigitalClock";
 import { StatsOverview } from "../components/StatsOverview";
 import { AnalyticsChart } from "../components/AnalyticsChart";
 import { TickerBoard } from "../components/TickerBoard";
-import { EditRateModal } from "@features/exchange-rates/components/EditRateModal";
 
 export const DashboardPage = () => {
   const { refreshTrigger } = useOutletContext<DashboardContextType>();
@@ -20,23 +19,10 @@ export const DashboardPage = () => {
     totalCapital: 0,
   });
 
-  const [globalRate, setGlobalRate] = useState("36.00");
-  const [isEditRateOpen, setIsEditRateOpen] = useState(false);
-
   const [lineData] = useState(MOCK_DATA.chartData);
   const [pieData] = useState<{ name: string; value: number; color?: string }[]>(
     [],
   );
-
-  const handleUpdateRate = (newRate: string) => {
-    const formattedRate = parseFloat(newRate).toFixed(2);
-    setGlobalRate(formattedRate);
-    localStorage.setItem("globalRate", formattedRate);
-
-    console.log("Mock update rate:", formattedRate);
-
-    setIsEditRateOpen(false);
-  };
 
   return (
     <div className="flex w-full flex-col gap-6 overflow-x-hidden">
@@ -49,14 +35,6 @@ export const DashboardPage = () => {
       <StatsOverview stats={stats} />
 
       <AnalyticsChart lineData={lineData} pieData={pieData} />
-      {/* 
-      <EditRateModal
-        isOpen={isEditRateOpen}
-        onClose={() => setIsEditRateOpen(false)}
-        onSave={handleUpdateRate}
-        currentRate={globalRate}
-      /> 
-      */}
     </div>
   );
 };

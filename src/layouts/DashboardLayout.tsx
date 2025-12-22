@@ -4,7 +4,7 @@ import { Sidebar } from "@core/layout/Sidebar";
 import { Header } from "@core/layout/Header";
 import { Modal } from "@core/overlay/Modal";
 import { TransactionForm } from "@features/transactions/components/TransactionForm";
-// TODO: refactor these modals
+
 import { SettingsModal } from "@core/overlay/SettingsModal";
 import { SupportModal } from "@core/overlay/SupportModal";
 import { useDashboardController } from "@features/dashboard/hooks/useDashboardController";

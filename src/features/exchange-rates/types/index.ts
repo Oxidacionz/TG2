@@ -1,14 +1,13 @@
 export interface ExchangeRate {
   id: number;
-  source: string; // e.g., 'bcv', 'binance'
-  symbol: string; // e.g., 'USD', 'USDT_BUY', 'USDT_SELL'
+  source: string;
+  symbol: string;
   value: number;
   updated_at: string;
 }
 
 export type ExchangeProvider = "bcv" | "binance";
 
-// Define supported keys for autocomplete
 export type ExchangeRateKey =
   | "BCV-USD"
   | "BCV-EUR"

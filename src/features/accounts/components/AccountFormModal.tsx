@@ -36,7 +36,6 @@ export const AccountFormModal = (props: Props) => {
   });
 
   const onFormSubmit = (data: AccountFormData) => {
-    // Reset form logic would go here ideally
     console.log("AccountFormModal Data:", data);
     onSubmit(data);
     reset();

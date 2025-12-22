@@ -33,7 +33,7 @@ const TickerCard = (props: Props) => {
         {props.icon}
         <span>{props.label}</span>
       </header>
-      <div className="flex min-h-[40px] flex-col justify-center gap-0.5">
+      <div className="flex min-h-10 flex-col justify-center gap-0.5">
         <IsLoading loading={props.loading}>{props.children}</IsLoading>
       </div>
     </article>

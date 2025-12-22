@@ -4,7 +4,7 @@ import { ExchangeRate, ExchangeRateKey } from "../types";
 import { ExchangeRateService } from "../services/exchangeRates.service";
 
 interface ExchangeRatesState {
-  rates: Partial<Record<ExchangeRateKey, ExchangeRate>>; // Key format: "SOURCE-SYMBOL"
+  rates: Partial<Record<ExchangeRateKey, ExchangeRate>>;
   isLoading: boolean;
   error: string | null;
 }
@@ -34,9 +34,6 @@ class ExchangeRatesStore {
     return ExchangeRatesStore.instance;
   }
 
-  /**
-   * Subscribe to store changes. Compatible with useSyncExternalStore.
-   */
   public subscribe = (listener: Listener): (() => void) => {
     this.listeners.add(listener);
     return () => {
@@ -44,21 +41,13 @@ class ExchangeRatesStore {
     };
   };
 
-  /**
-   * Get current state snapshot.
-   */
   public getSnapshot = (): ExchangeRatesState => {
     return this.state;
   };
 
-  /**
-   * Initialize the store: fetch initial data and set up realtime subscription.
-   * idempotent and race-condition free.
-   */
   public async init() {
     if (this.isInitialized) return;
 
-    // If initialization is already in progress, wait for it
     if (this.initPromise) {
       return this.initPromise;
     }
@@ -67,10 +56,8 @@ class ExchangeRatesStore {
       try {
         this.updateState({ isLoading: true, error: null });
 
-        // 1. Initial Fetch
         await this.refreshRates();
 
-        // 2. Setup Realtime Subscription (current_rates ONLY)
         this.setupRealtimeSubscription();
 
         this.isInitialized = true;
@@ -99,7 +86,6 @@ class ExchangeRatesStore {
       this.updateState({ rates: ratesMap, isLoading: false });
     } catch (error) {
       console.error("Failed to refresh rates:", error);
-      // We don't set global error here to avoid blocking UI on background refreshes
     }
   }
 
@@ -107,14 +93,9 @@ class ExchangeRatesStore {
     return `${source}-${symbol}` as ExchangeRateKey;
   }
 
-  /**
-   * Set up Supabase Realtime subscription for current_rates table
-   */
   private setupRealtimeSubscription() {
     if (this.subscription) return;
 
-    // We only subscribe to public:current_rates.
-    // RLS ensures we only receive events we are allowed to see.
     this.subscription = supabase
       .channel("public:current_rates")
       .on(
@@ -135,10 +116,7 @@ class ExchangeRatesStore {
         },
       )
       .subscribe((status) => {
-        // AUTO-HEALING LOGIC
         if (status === "SUBSCRIBED") {
-          // Connection established (or re-established).
-          // We fetch latest rates to ensure we didn't miss events while disconnected.
           this.refreshRates();
         } else if (status === "CLOSED") {
           console.warn(
@@ -181,9 +159,6 @@ class ExchangeRatesStore {
     this.listeners.forEach((listener) => listener());
   }
 
-  /**
-   * Cleanup subscription. Useful for testing or full app unmounts.
-   */
   public cleanup() {
     if (this.subscription) {
       supabase.removeChannel(this.subscription);
@@ -198,22 +173,18 @@ class ExchangeRatesStore {
     };
     this.emitChange();
   }
-  /**
-   * Updates the internal exchange rate manually.
-   * This is an optimistic action - the store will update via Realtime subscription.
-   */
+
   public async updateInternalRate(value: number) {
     try {
       this.updateState({ isLoading: true });
       await ExchangeRateService.updateInternalRate(value);
-      // We don't manually update state.rates here.
-      // We rely on the Realtime 'UPDATE' event to ensure source-of-truth consistency.
     } catch (error) {
       this.updateState({
-        isLoading: false,
         error: error instanceof Error ? error.message : "Failed to update rate",
       });
       throw error;
+    } finally {
+      this.updateState({ isLoading: false });
     }
   }
 }

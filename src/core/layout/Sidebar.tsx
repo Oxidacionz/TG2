@@ -28,7 +28,6 @@ export const Sidebar = (props: Props) => {
 
   return (
     <>
-      {/* Mobile Backdrop */}
       {props.isOpen && (
         <div
           className="fixed inset-0 z-20 bg-black/50 backdrop-blur-sm md:hidden"
@@ -36,7 +35,6 @@ export const Sidebar = (props: Props) => {
         />
       )}
 
-      {/* Sidebar Content */}
       <aside
         className={`fixed inset-y-0 left-0 z-30 flex w-64 shrink-0 flex-col bg-slate-900 text-slate-300 shadow-2xl transition-transform duration-300 ease-in-out md:shadow-none ${props.isOpen ? "translate-x-0" : "-translate-x-full"} md:relative md:translate-x-0`}
       >
@@ -44,7 +42,7 @@ export const Sidebar = (props: Props) => {
           <div className="mb-1 flex items-center gap-3">
             <Logo size="sm" invert />
           </div>
-          {/* Close button mobile only */}
+
           <button
             onClick={props.onClose}
             className="absolute top-4 right-4 text-slate-500 hover:text-white md:hidden"
@@ -73,7 +71,6 @@ export const Sidebar = (props: Props) => {
             />
           ))}
 
-          {/* Sección Especial para Dev Mode - VISIBLE SOLO PARA ROL DEV */}
           {props.userRole === "DEV" && (
             <div className="mt-4 border-t border-slate-800 pt-4">
               <p className="mb-2 px-4 text-xs font-bold text-slate-500 uppercase">

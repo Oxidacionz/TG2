@@ -39,9 +39,8 @@ export const Header = (props: Props) => (
 
 const HeadingTitle = () => {
   const location = useLocation();
-  const path = location.pathname.substring(1); // remove leading slash
+  const path = location.pathname.substring(1);
 
-  // Map paths to titles
   const titles: Record<string, string> = {
     "": "Dashboard",
     dashboard: "Dashboard",

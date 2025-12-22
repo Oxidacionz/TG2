@@ -9,7 +9,6 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   userEmail?: string;
-  // TODO: Add strict user object prop if we have one
 }
 
 interface SettingsFormData {
@@ -17,10 +16,9 @@ interface SettingsFormData {
 }
 
 export const SettingsModal = (props: Props) => {
-  // En una App real, estos datos vendrían del Objeto User de Supabase o Contexto
   const { userEmail, isOpen, onClose } = props;
   const initialUsername = userEmail ? userEmail.split("@")[0] : "Usuario";
-  const role = "ADMIN"; // Idealmente leer de metadata
+  const role = "ADMIN";
 
   const {
     register,
@@ -40,15 +38,12 @@ export const SettingsModal = (props: Props) => {
   }, [isOpen, initialUsername, reset]);
 
   const handleUpdate = async (data: SettingsFormData) => {
-    // Here we would call authService.updateProfile()
     console.log("SettingsModal Data:", data);
     console.log("Mock update username:", data.username);
 
-    // Simulate async operation
     await new Promise((resolve) => setTimeout(resolve, 500));
 
     onClose();
-    // Router revalidation would happen automatically if we updated global state
   };
 
   return (

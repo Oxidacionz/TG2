@@ -1,5 +1,3 @@
-// COMPONENTE CRITICO
-
 import { LoginForm } from "../components/LoginForm";
 import { Logo } from "@core/ui/Logo";
 

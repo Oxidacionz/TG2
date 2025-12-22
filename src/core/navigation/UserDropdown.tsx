@@ -14,9 +14,8 @@ export const UserDropdown = (props: Props) => {
   const { onLogout, userEmail, onSettings } = props;
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
-  const isAdmin = user?.role === Role.ADMIN; // setRole removed as it's unused
+  const isAdmin = user?.role === Role.ADMIN;
 
-  // Extraer nombre del email si no hay nombre de usuario (ej. admin@... -> admin)
   const displayName = userEmail ? userEmail.split("@")[0] : "ToroUser";
 
   return (
@@ -60,7 +59,6 @@ export const UserDropdown = (props: Props) => {
             <button
               onClick={() => {
                 if (onLogout) onLogout();
-                // setIsOpen(false);
               }}
               className="flex w-full flex-row items-center gap-2 p-4 text-left text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
             >

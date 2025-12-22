@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
-// import { exchangeRateService } from "@features/exchange-rates/services/ExchangeRateService"; // DELETED
+
 import {
   calculateVES,
   calculateProfit as calcProfitUtils,
@@ -14,7 +14,7 @@ export interface TransactionFormData {
   type: TransactionType;
   amount: string;
   rate: string;
-  profitPercent: number | "custom"; // 5 | "custom"
+  profitPercent: number | "custom";
   customProfit: string;
   clientName: string;
   clientBank: string;
@@ -41,8 +41,8 @@ export const useTransactionForm = ({
     defaultValues: {
       type: TransactionTypeEnum.INCOME,
       amount: "",
-      rate: "36.00", // Default static rate
-      profitPercent: PROFIT_PERCENTAGES[2], // 5%
+      rate: "36.00",
+      profitPercent: PROFIT_PERCENTAGES[2],
       customProfit: "",
       clientName: "",
       clientBank: "",
@@ -55,7 +55,6 @@ export const useTransactionForm = ({
 
   const { watch, handleSubmit } = methods;
 
-  // Watch fields for calculations
   const [amount, rate, profitPercent, customProfit, type] = watch([
     "amount",
     "rate",
@@ -64,11 +63,9 @@ export const useTransactionForm = ({
     "type",
   ]);
 
-  // Calculations
   const amountNum = parseFloat(amount) || 0;
   const rateNum = parseFloat(rate) || 0;
 
-  // Use independent utility instead of service
   const totalVES = calculateVES(amountNum, rateNum);
 
   const calculatedProfit =
@@ -76,7 +73,6 @@ export const useTransactionForm = ({
       ? parseFloat(customProfit) || 0
       : calcProfitUtils(amountNum, Number(profitPercent));
 
-  // File Handling
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -132,7 +128,7 @@ export const useTransactionForm = ({
       triggerFileInput,
       submit: handleSubmit(onSubmit),
     },
-    // Expose watched values for UI if needed directly, or just use watch in component
+
     values: {
       type,
       amount,

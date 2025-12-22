@@ -2,6 +2,7 @@ import { useState, type ReactNode } from "react";
 import { FaHandHoldingDollar } from "react-icons/fa6";
 import { MdModeEdit } from "react-icons/md";
 import { useExchangeRates } from "@features/exchange-rates";
+import { useForm } from "react-hook-form";
 
 interface IsLoadingProps {
   isLoading: boolean;
@@ -22,8 +23,15 @@ const IsLoading = ({ isLoading, children }: IsLoadingProps) => {
 };
 
 export const GlobalRateCard = () => {
-  const { ratesMap, isLoading } = useExchangeRates();
+  const { ratesMap, isLoading, updateInternalRate } = useExchangeRates();
+
   const globalRate = ratesMap["Internal-VES"]?.value;
+
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: {
+      updateGlobalRate: globalRate,
+    },
+  });
 
   const BUTTON_CLASSES =
     "px-2 py-1 transition-colors duration-100 hover:bg-white/10";
@@ -35,6 +43,12 @@ export const GlobalRateCard = () => {
   };
 
   const handleCancel = () => {
+    reset({ updateGlobalRate: globalRate });
+    setIsEdit(false);
+  };
+
+  const onSubmit = (data: { updateGlobalRate: number }) => {
+    updateInternalRate(data.updateGlobalRate);
     setIsEdit(false);
   };
 
@@ -56,13 +70,23 @@ export const GlobalRateCard = () => {
             <div className="flex w-full flex-row text-2xl font-bold text-white">
               <IsLoading isLoading={isLoading}>
                 {isEdit ? (
-                  <form className="flex w-full flex-col items-center gap-2 sm:flex-row sm:items-end">
+                  <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="flex w-full flex-col items-center gap-2 sm:flex-row sm:items-end"
+                  >
                     <div className="flex w-full flex-row items-center gap-4">
                       <input
+                        {...register("updateGlobalRate", {
+                          required: {
+                            value: true,
+                            message: "La tasa es requerida",
+                          },
+                          min: { value: 0, message: "Debe ser mayor a 0" },
+                        })}
                         className="w-full flex-1 [appearance:textfield] rounded-lg bg-white/15 px-2 py-1 text-white outline-none focus:bg-white/20 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                         type="number"
-                        inputMode="numeric"
                         min="0"
+                        step="any"
                         placeholder={globalRate.toString()}
                       />
                     </div>

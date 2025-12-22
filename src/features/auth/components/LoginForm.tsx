@@ -48,7 +48,7 @@ export const LoginForm = memo(() => {
 
   const handleLogin = async (data: LoginFormValues) => {
     console.log("LoginForm Data:", data);
-    // Clear root errors if any before new attempt
+
     const { error } = await authService.signInWithPassword(
       data.email,
       data.password,
@@ -161,5 +161,5 @@ export const LoginForm = memo(() => {
     </FormProvider>
   );
 });
-// Add display name for debugging
+
 LoginForm.displayName = "LoginForm";

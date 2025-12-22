@@ -30,8 +30,6 @@ export const DebtFormModal = (props: Props) => {
     formState: { errors },
   } = useForm<DebtFormData>();
 
-  // Need to fix import first locally? No I'm overwriting file.
-
   const onFormSubmit = (data: DebtFormData) => {
     console.log("DebtFormModal Data:", data);
     onSubmit({ ...data, type });

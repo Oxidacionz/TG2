@@ -35,7 +35,6 @@ export const TransactionForm = (props: Props) => {
   return (
     <FormProvider {...methods}>
       <div className="flex h-full flex-col gap-6 md:flex-row">
-        {/* Panel Izquierdo: Visualización y Comprobante */}
         <div className="flex w-full flex-col gap-4 p-2 md:w-5/12">
           <TransactionSummaryCard
             type={type}
@@ -53,7 +52,6 @@ export const TransactionForm = (props: Props) => {
           />
         </div>
 
-        {/* Panel Derecho: Inputs del Formulario */}
         <div className="flex w-full flex-col gap-4 overflow-y-auto p-2 md:w-7/12">
           <TransactionTypeSelector
             type={type}

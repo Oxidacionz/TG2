@@ -4,7 +4,6 @@ import { Notification } from "@/types";
 
 export const NotificationDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
-  // Aquí podrías conectar con Supabase para traer notificaciones reales de la tabla 'notes'
   const notifications: Notification[] = [];
 
   return (

@@ -39,7 +39,6 @@ export const TreasuryPage = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex items-end justify-between">
         <div>
           <h2 className="text-lg font-bold text-slate-800 dark:text-white">
@@ -56,7 +55,6 @@ export const TreasuryPage = () => {
         )}
       </div>
 
-      {/* Tabs */}
       <div className="flex gap-4 border-b border-slate-200 dark:border-slate-700">
         <button
           onClick={() => setActiveTab("ACCOUNTS")}
@@ -80,7 +78,6 @@ export const TreasuryPage = () => {
         </button>
       </div>
 
-      {/* Content */}
       {activeTab === "ACCOUNTS" ? (
         <AccountsList accounts={accounts} loading={loading} />
       ) : (
@@ -93,7 +90,6 @@ export const TreasuryPage = () => {
         />
       )}
 
-      {/* Modals */}
       <AccountFormModal
         isOpen={isAccountModalOpen}
         onClose={() => setIsAccountModalOpen(false)}

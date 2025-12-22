@@ -30,5 +30,6 @@
     "allowImportingTsExtensions": false
   },
 
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/tree-folders.js"]
 }

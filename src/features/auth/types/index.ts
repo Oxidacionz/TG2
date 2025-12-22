@@ -8,5 +8,4 @@ export interface AppUser {
 
 export interface AppSession {
   user: AppUser;
-  // Add other session fields if needed
 }
