@@ -1,6 +1,6 @@
-import React from "react";
 import { Account } from "@domain";
-import { AccountType } from "@/types/enums";
+import React from "react";
+
 import { Card } from "@core/layout/Card";
 
 interface Props {
@@ -18,37 +18,35 @@ export const AccountCard = React.memo((props: Props) => {
       <div className="mb-4 flex items-center gap-3">
         <div
           className={`flex h-12 w-12 items-center justify-center rounded-xl text-xl font-bold text-white shadow-lg ${
-            acc.type === AccountType.WALLET
-              ? "bg-yellow-500"
-              : acc.type === AccountType.EFECTIVO
+            acc.currency === "VES"
+              ? "bg-blue-600"
+              : acc.currency === "USD"
                 ? "bg-green-500"
-                : "bg-blue-600"
+                : "bg-yellow-500"
           }`}
         >
-          {acc.type === AccountType.WALLET
-            ? "₿"
-            : acc.type === AccountType.EFECTIVO
-              ? "$"
-              : "🏛"}
+          {acc.currency === "VES" ? "🏛" : "$"}
         </div>
         <div>
           <h3 className="font-bold text-slate-800 dark:text-white">
-            {acc.bankName}
+            {acc.name}
           </h3>
-          <p className="text-xs text-slate-500 uppercase">{acc.type}</p>
+          <p className="text-xs text-slate-500 uppercase">{acc.currency}</p>
         </div>
       </div>
       <div className="space-y-1">
         <p className="text-xs text-slate-400">Saldo Actual</p>
         <p className="text-2xl font-bold text-slate-900 dark:text-white">
-          {acc.balance.toLocaleString()}{" "}
+          {(acc.current_balance ?? 0).toLocaleString()}{" "}
           <span className="text-sm font-normal text-slate-500">
             {acc.currency}
           </span>
         </p>
       </div>
       <div className="mt-4 border-t border-slate-100 pt-3 dark:border-slate-700">
-        <p className="truncate text-xs text-slate-500">{acc.holder}</p>
+        <p className="truncate text-xs text-slate-500">
+          {acc.document_identity}
+        </p>
       </div>
     </Card>
   );

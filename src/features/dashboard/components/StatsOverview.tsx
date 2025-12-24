@@ -1,5 +1,6 @@
-import { GrTransaction } from "react-icons/gr";
 import { FaHandHoldingDollar, FaWallet } from "react-icons/fa6";
+import { GrTransaction } from "react-icons/gr";
+
 import { StatCard } from "@core/display/StatCard";
 
 interface Props {

@@ -1,6 +1,8 @@
 import { GrTransaction } from "react-icons/gr";
-import TickerCard from "./TickerCard";
+
 import { useExchangeRates } from "@/features/exchange-rates";
+
+import TickerCard from "./TickerCard";
 
 export const BCVTicker = () => {
   const { ratesMap, isLoading } = useExchangeRates();

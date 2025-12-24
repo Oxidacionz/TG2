@@ -1,13 +1,16 @@
-import { Button } from "@core/ui/Button";
-import { Input } from "@core/form/Input";
-import { FormField } from "@core/form/FormField";
-import { TransactionType } from "@/types/enums";
-import { useTransactionForm } from "../hooks/useTransactionForm";
 import { FormProvider } from "react-hook-form";
-import { TransactionSummaryCard } from "./TransactionSummaryCard";
+
 import { FileUploadZone } from "@core/form/FileUploadZone";
+import { FormField } from "@core/form/FormField";
+import { Input } from "@core/form/Input";
+import { Button } from "@core/ui/Button";
+
+import { TransactionType } from "@/types/enums";
+
+import { PROFIT_PERCENTAGES, TRANSACTION_ACCOUNTS } from "../config/constants";
+import { useTransactionForm } from "../hooks/useTransactionForm";
+import { TransactionSummaryCard } from "./TransactionSummaryCard";
 import { TransactionTypeSelector } from "./TransactionTypeSelector";
-import { TRANSACTION_ACCOUNTS, PROFIT_PERCENTAGES } from "../config/constants";
 
 interface Props {
   onSuccess: () => void;

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { useAuth } from "@features/auth/hooks/useAuth";
-import { Role } from "../../types";
-import { FaGear } from "react-icons/fa6";
 import { BiSolidExit } from "react-icons/bi";
+import { FaGear } from "react-icons/fa6";
+
+import { useAuth } from "@features/auth/hooks/useAuth";
+
+import { Role } from "../../types";
 
 interface Props {
   onLogout?: () => void;

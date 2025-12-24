@@ -1,8 +1,9 @@
 import { createBrowserRouter, redirect, RouteObject } from "react-router";
-import { authService } from "@features/auth/services/AuthService";
-import { DashboardLayout } from "./layouts/DashboardLayout";
 
 import { Spinner } from "@core/feedback/Spinner";
+import { authService } from "@features/auth/services/AuthService";
+
+import { DashboardLayout } from "./layouts/DashboardLayout";
 
 const protectedLoader = async () => {
   const { session } = await authService.getSession();
@@ -31,7 +32,7 @@ const routes: RouteObject[] = [
     path: "/login",
     lazy: () =>
       import("@features/auth/pages/LoginPage").then((m) => ({
-        Component: m.LoginPage,
+        Component: m.default,
       })),
     loader: publicLoader,
     hydrateFallbackElement: Fallback,
@@ -46,25 +47,27 @@ const routes: RouteObject[] = [
         index: true,
         lazy: () =>
           import("@features/dashboard/pages/DashboardPage").then((m) => ({
-            Component: m.DashboardPage,
+            Component: m.default,
           })),
       },
       {
         path: "transactions",
         lazy: () =>
           import("@features/transactions/pages/TransactionsPage").then((m) => ({
-            Component: m.TransactionsPage,
+            Component: m.default,
           })),
       },
       {
         path: "accounts",
         lazy: () =>
           import("./pages/TreasuryPage").then((m) => ({
-            Component: m.TreasuryPage,
+            Component: m.default,
           })),
       },
     ],
   },
 ];
 
-export const router = createBrowserRouter(routes);
+const router = createBrowserRouter(routes);
+
+export default router;

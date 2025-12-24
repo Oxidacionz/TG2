@@ -1,4 +1,5 @@
 import { Account } from "@domain";
+
 import { AccountCard } from "./AccountCard";
 
 interface Props {

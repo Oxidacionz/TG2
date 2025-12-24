@@ -34,7 +34,7 @@ const TickerCard = (props: Props) => {
         <span>{props.label}</span>
       </header>
       <div className="flex min-h-10 flex-col justify-center gap-0.5">
-        <IsLoading loading={props.loading}>{props.children}</IsLoading>
+        <IsLoading loading={!!props.loading}>{props.children}</IsLoading>
       </div>
     </article>
   );

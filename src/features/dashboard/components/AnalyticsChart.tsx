@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { ResponsiveContainer } from "recharts";
-import { MdSpaceDashboard } from "react-icons/md";
 import { IoIosStats } from "react-icons/io";
+import { MdSpaceDashboard } from "react-icons/md";
+import { ResponsiveContainer } from "recharts";
+
 import { Card } from "@core/layout/Card";
-import { TrendLineChart } from "./TrendLineChart";
-import { DistributionPieChart } from "./DistributionPieChart";
 
 import { LineDataPoint, PieDataPoint } from "../types/analytics";
+import { DistributionPieChart } from "./DistributionPieChart";
+import { TrendLineChart } from "./TrendLineChart";
 
 export const CHART_TYPES = {
   LINE: "line",

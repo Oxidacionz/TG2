@@ -1,20 +1,21 @@
 import { useState } from "react";
-import { Button } from "@core/ui/Button";
 import { LuPlus } from "react-icons/lu";
-import { AccountsList } from "@features/accounts/components/AccountsList";
-import { DebtsList } from "@features/debts/components/DebtsList";
+
+import { Button } from "@core/ui/Button";
 import {
-  AccountFormModal,
   AccountFormData,
+  AccountFormModal,
 } from "@features/accounts/components/AccountFormModal";
-import {
-  DebtFormModal,
-  DebtFormData,
-} from "@features/debts/components/DebtFormModal";
+import { AccountsList } from "@features/accounts/components/AccountsList";
 import { useAccounts } from "@features/accounts/hooks/useAccounts";
+import {
+  DebtFormData,
+  DebtFormModal,
+} from "@features/debts/components/DebtFormModal";
+import { DebtsList } from "@features/debts/components/DebtsList";
 import { useDebts } from "@features/debts/hooks/useDebts";
 
-export const TreasuryPage = () => {
+const TreasuryPage = () => {
   const [activeTab, setActiveTab] = useState<"ACCOUNTS" | "DEBTS">("ACCOUNTS");
 
   const { accounts, loading, createAccount } = useAccounts();
@@ -105,3 +106,5 @@ export const TreasuryPage = () => {
     </div>
   );
 };
+
+export default TreasuryPage;

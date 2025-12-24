@@ -1,9 +1,12 @@
-import { supabase } from "@/lib/supabaseClient";
+import supabaseClient from "@/lib/supabaseClient";
+
 import { ExchangeRate } from "../types";
 
 export const ExchangeRateService = {
   async getInitialRates(): Promise<ExchangeRate[]> {
-    const { data, error } = await supabase.from("current_rates").select("*");
+    const { data, error } = await supabaseClient
+      .from("current_rates")
+      .select("*");
 
     if (error) {
       console.error("Error fetching initial rates:", error);
@@ -14,7 +17,7 @@ export const ExchangeRateService = {
   },
 
   async updateInternalRate(value: number): Promise<void> {
-    const { error } = await supabase
+    const { error } = await supabaseClient
       .from("current_rates")
       .update({ value, updated_at: new Date().toISOString() })
       .match({ source: "Internal", symbol: "VES" });

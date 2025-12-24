@@ -1,12 +1,12 @@
 import React from "react";
+import { BiSupport } from "react-icons/bi";
+import { IoScan } from "react-icons/io5";
+import { MdClose } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router";
 
+import { DEV_SIDEBAR_ITEMS, SIDEBAR_ITEMS } from "@core/config/navigation";
 import { SidebarItem } from "@core/navigation/SidebarItem";
 import { Logo } from "@core/ui/Logo";
-import { SIDEBAR_ITEMS, DEV_SIDEBAR_ITEMS } from "@core/config/navigation";
-import { MdClose } from "react-icons/md";
-import { IoScan } from "react-icons/io5";
-import { BiSupport } from "react-icons/bi";
 
 interface Props {
   onScan: () => void;

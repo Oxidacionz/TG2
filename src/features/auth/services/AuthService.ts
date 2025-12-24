@@ -1,5 +1,11 @@
-import { supabase } from "@/lib/supabaseClient";
-import { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
+import {
+  AuthChangeEvent,
+  Session,
+  User,
+  WeakPassword,
+} from "@supabase/supabase-js";
+
+import supabaseClient from "@/lib/supabaseClient";
 
 export interface IAuthService {
   getSession(): Promise<{ session: Session | null }>;
@@ -9,7 +15,11 @@ export interface IAuthService {
     password: string,
   ): Promise<{
     error: Error | null;
-    data: { user: User; session: Session } | null;
+    data: {
+      user: User | null;
+      session: Session | null;
+      weakPassword?: WeakPassword | null;
+    };
   }>;
   subscribeToAuthChanges(
     callback: (event: AuthChangeEvent, session: Session | null) => void,
@@ -18,16 +28,16 @@ export interface IAuthService {
 
 class SupabaseAuthService implements IAuthService {
   async getSession() {
-    const { data } = await supabase.auth.getSession();
+    const { data } = await supabaseClient.auth.getSession();
     return { session: data.session };
   }
 
   async signOut() {
-    await supabase.auth.signOut();
+    await supabaseClient.auth.signOut();
   }
 
   async signInWithPassword(email: string, password: string) {
-    return await supabase.auth.signInWithPassword({
+    return await supabaseClient.auth.signInWithPassword({
       email,
       password,
     });
@@ -38,7 +48,7 @@ class SupabaseAuthService implements IAuthService {
   ) {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(callback);
+    } = supabaseClient.auth.onAuthStateChange(callback);
     return subscription;
   }
 }

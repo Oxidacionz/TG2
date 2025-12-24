@@ -1,8 +1,9 @@
 import { FaSearch } from "react-icons/fa";
-import { Card } from "@core/layout/Card";
-import { Input } from "@core/form/Input";
 
-export const TransactionsFilterBar = () => {
+import { Input } from "@core/form/Input";
+import { Card } from "@core/layout/Card";
+
+const TransactionsFilterBar = () => {
   return (
     <Card className="flex flex-col gap-4 p-4 md:flex-row">
       <div className="relative flex-1">
@@ -29,3 +30,5 @@ export const TransactionsFilterBar = () => {
     </Card>
   );
 };
+
+export default TransactionsFilterBar;

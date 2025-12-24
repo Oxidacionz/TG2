@@ -1,6 +1,8 @@
 import { FaBoltLightning } from "react-icons/fa6";
-import TickerCard from "./TickerCard";
+
 import { useExchangeRates } from "@/features/exchange-rates";
+
+import TickerCard from "./TickerCard";
 
 export const BinanceTicker = () => {
   const { ratesMap, isLoading } = useExchangeRates();

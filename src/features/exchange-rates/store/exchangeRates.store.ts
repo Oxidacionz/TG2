@@ -1,7 +1,9 @@
 import { RealtimeChannel } from "@supabase/supabase-js";
-import { supabase } from "@/lib/supabaseClient";
-import { ExchangeRate, ExchangeRateKey } from "../types";
+
+import supabaseClient from "@/lib/supabaseClient";
+
 import { ExchangeRateService } from "../services/exchangeRates.service";
+import { ExchangeRate, ExchangeRateKey } from "../types";
 
 interface ExchangeRatesState {
   rates: Partial<Record<ExchangeRateKey, ExchangeRate>>;
@@ -96,7 +98,7 @@ class ExchangeRatesStore {
   private setupRealtimeSubscription() {
     if (this.subscription) return;
 
-    this.subscription = supabase
+    this.subscription = supabaseClient
       .channel("public:current_rates")
       .on(
         "postgres_changes",
@@ -161,7 +163,7 @@ class ExchangeRatesStore {
 
   public cleanup() {
     if (this.subscription) {
-      supabase.removeChannel(this.subscription);
+      supabaseClient.removeChannel(this.subscription);
       this.subscription = null;
     }
     this.isInitialized = false;

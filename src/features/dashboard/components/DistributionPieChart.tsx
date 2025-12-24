@@ -1,4 +1,4 @@
-import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import { Cell, Legend, Pie, PieChart, Tooltip } from "recharts";
 
 import { PieDataPoint } from "../types/analytics";
 

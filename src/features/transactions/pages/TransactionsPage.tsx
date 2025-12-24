@@ -1,21 +1,21 @@
-// COMPONENTE CRITICO
-
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router";
-import { MOCK_TRANSACTIONS } from "../mocks/mockTransactions";
-import { Transaction } from "../types";
+
 import { DashboardContextType } from "@layouts/types";
 
-// Organisms/Molecules
-import { TransactionsHeader } from "../components/TransactionsHeader";
-import { TransactionsFilterBar } from "../components/TransactionsFilterBar";
-import { TransactionsTable } from "../components/TransactionsTable";
+import TransactionsFilterBar from "../components/TransactionsFilterBar";
+import TransactionsHeader from "../components/TransactionsHeader";
+import TransactionsTable from "../components/TransactionsTable";
+import { MOCK_TRANSACTIONS } from "../mocks/mockTransactions";
+import { TransactionWithDetails } from "../types";
 
-export const TransactionsPage = ({ onScan }: { onScan?: () => void }) => {
+const TransactionsPage = ({ onScan }: { onScan?: () => void }) => {
   const { refreshTrigger, openTransactionModal } =
     useOutletContext<DashboardContextType>();
 
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState<TransactionWithDetails[]>(
+    [],
+  );
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -45,3 +45,5 @@ export const TransactionsPage = ({ onScan }: { onScan?: () => void }) => {
     </div>
   );
 };
+
+export default TransactionsPage;

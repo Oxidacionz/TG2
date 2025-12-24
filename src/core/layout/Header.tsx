@@ -1,8 +1,9 @@
-import { useLocation } from "react-router";
-import { UserDropdown } from "@core/navigation/UserDropdown";
-import { NotificationDropdown } from "@core/navigation/NotificationDropdown";
-import { ThemeToggle } from "@core/ui/ThemeToggle";
 import { FaBars } from "react-icons/fa6";
+import { useLocation } from "react-router";
+
+import { NotificationDropdown } from "@core/navigation/NotificationDropdown";
+import { UserDropdown } from "@core/navigation/UserDropdown";
+import { ThemeToggle } from "@core/ui/ThemeToggle";
 
 interface Props {
   onMenuClick?: () => void;

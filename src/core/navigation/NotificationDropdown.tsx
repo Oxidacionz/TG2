@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaBell } from "react-icons/fa";
+
 import { Notification } from "@/types";
 
 export const NotificationDropdown = () => {

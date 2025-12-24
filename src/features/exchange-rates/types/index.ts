@@ -1,10 +1,6 @@
-export interface ExchangeRate {
-  id: number;
-  source: string;
-  symbol: string;
-  value: number;
-  updated_at: string;
-}
+import { CurrentRate } from "@/types/domain";
+
+export type ExchangeRate = CurrentRate;
 
 export type ExchangeProvider = "bcv" | "binance";
 

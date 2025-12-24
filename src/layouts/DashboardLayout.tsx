@@ -1,13 +1,13 @@
 import { Outlet } from "react-router";
-import DashboardTemplate from "@core/layout/DashboardTemplate";
-import { Sidebar } from "@core/layout/Sidebar";
-import { Header } from "@core/layout/Header";
-import { Modal } from "@core/overlay/Modal";
-import { TransactionForm } from "@features/transactions/components/TransactionForm";
 
+import DashboardTemplate from "@core/layout/DashboardTemplate";
+import { Header } from "@core/layout/Header";
+import { Sidebar } from "@core/layout/Sidebar";
+import { Modal } from "@core/overlay/Modal";
 import { SettingsModal } from "@core/overlay/SettingsModal";
 import { SupportModal } from "@core/overlay/SupportModal";
 import { useDashboardController } from "@features/dashboard/hooks/useDashboardController";
+import { TransactionForm } from "@features/transactions/components/TransactionForm";
 
 export const DashboardLayout = () => {
   const { session, userRole, ui, data, handlers } = useDashboardController();
@@ -32,7 +32,7 @@ export const DashboardLayout = () => {
       header={
         <Header
           onMenuClick={() => ui.setSidebarOpen(!ui.isSidebarOpen)}
-          userEmail={session.user.email}
+          userEmail={session?.user.email}
           onSettings={() => ui.setIsSettingsModalOpen(true)}
           onLogout={handlers.handleLogout}
         />
@@ -54,14 +54,14 @@ export const DashboardLayout = () => {
         <TransactionForm
           onSuccess={handlers.handleTransactionSuccess}
           onCancel={() => ui.setTransactionModalOpen(false)}
-          userEmail={session.user.email}
+          userEmail={session?.user.email}
         />
       </Modal>
 
       <SettingsModal
         isOpen={ui.isSettingsModalOpen}
         onClose={() => ui.setIsSettingsModalOpen(false)}
-        userEmail={session.user.email}
+        userEmail={session?.user.email}
       />
 
       <SupportModal

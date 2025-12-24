@@ -1,9 +1,9 @@
-import { RefObject, ChangeEvent } from "react";
+import { ChangeEvent, RefObject } from "react";
 import { FaCamera } from "react-icons/fa6";
 
 interface FileUploadZoneProps {
   previewImage: string | null;
-  fileInputRef: RefObject<HTMLInputElement>;
+  fileInputRef: RefObject<HTMLInputElement | null>;
   onFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onClick: () => void;
 }

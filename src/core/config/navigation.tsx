@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
-import { MdSpaceDashboard, MdAttachMoney } from "react-icons/md";
-
 import { GrTransaction } from "react-icons/gr";
+import { MdAttachMoney, MdSpaceDashboard } from "react-icons/md";
 
 import { Role } from "@/types";
 

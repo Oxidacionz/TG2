@@ -1,7 +1,10 @@
-import { LuPlus } from "react-icons/lu";
 import { Debt } from "@domain";
-import { TransactionType } from "@/types/enums";
+import { LuPlus } from "react-icons/lu";
+
 import { Button } from "@core/ui/Button";
+
+import { TransactionType } from "@/types/enums";
+
 import { DebtCard } from "./DebtCard";
 
 interface Props {

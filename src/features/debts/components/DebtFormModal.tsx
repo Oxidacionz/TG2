@@ -1,9 +1,11 @@
 import { useForm } from "react-hook-form";
-import { TransactionType } from "@/types/enums";
-import { Button } from "@core/ui/Button";
-import { Input } from "@core/form/Input";
+
 import { FormField } from "@core/form/FormField";
+import { Input } from "@core/form/Input";
 import { Modal } from "@core/overlay/Modal";
+import { Button } from "@core/ui/Button";
+
+import { TransactionType } from "@/types/enums";
 
 export interface DebtFormData {
   debtClient: string;

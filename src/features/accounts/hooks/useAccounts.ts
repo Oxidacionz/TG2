@@ -1,16 +1,19 @@
-import { useState } from "react";
 import { Account } from "@domain";
-import { AccountType, Currency } from "@/types/enums";
+import { useState } from "react";
+
 import { AccountFormData } from "../components/AccountFormModal";
 
 const MOCK_ACCOUNTS: Account[] = [
   {
-    id: 1,
-    bankName: "Mock Bank",
-    holder: "Mock Holder",
-    balance: 1000,
-    currency: Currency.USD,
-    type: AccountType.BANCO,
+    id: "1",
+    name: "Mock Bank",
+    current_balance: 1000,
+    currency: "USD",
+    bank_code: "0105",
+    created_at: new Date().toISOString(),
+    document_identity: "V-12345678",
+    is_active: true,
+    phone_linked: null,
   },
 ];
 

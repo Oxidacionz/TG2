@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { useOutletContext } from "react-router";
-import { MOCK_DATA } from "../mocks/mockData";
-import { DashboardContextType } from "@/types";
-import { GlobalRateCard } from "@features/exchange-rates/components/GlobalRateCard";
-import { DigitalClock } from "@core/display/DigitalClock";
-import { StatsOverview } from "../components/StatsOverview";
-import { AnalyticsChart } from "../components/AnalyticsChart";
-import { TickerBoard } from "../components/TickerBoard";
 
-export const DashboardPage = () => {
+import { DigitalClock } from "@core/display/DigitalClock";
+import { GlobalRateCard } from "@features/exchange-rates/components/GlobalRateCard";
+
+import { DashboardContextType } from "@/types";
+
+import { AnalyticsChart } from "../components/AnalyticsChart";
+import { StatsOverview } from "../components/StatsOverview";
+import { TickerBoard } from "../components/TickerBoard";
+import { MOCK_DATA } from "../mocks/mockData";
+
+const DashboardPage = () => {
   const { refreshTrigger } = useOutletContext<DashboardContextType>();
   console.log("Dashboard refreshed", refreshTrigger);
 
@@ -38,3 +41,5 @@ export const DashboardPage = () => {
     </div>
   );
 };
+
+export default DashboardPage;

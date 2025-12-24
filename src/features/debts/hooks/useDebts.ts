@@ -1,6 +1,8 @@
-import { useState } from "react";
 import { Debt } from "@domain";
-import { TransactionType, DebtStatus } from "@/types/enums";
+import { useState } from "react";
+
+import { DebtStatus, TransactionType } from "@/types/enums";
+
 import { DebtFormData } from "../components/DebtFormModal";
 
 const MOCK_DEBTS: Debt[] = [

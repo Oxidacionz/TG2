@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FaClock } from "react-icons/fa6";
 
 export const DigitalClock = () => {

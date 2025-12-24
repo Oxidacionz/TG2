@@ -1,4 +1,5 @@
 import { createContext } from "react";
+
 import { AppSession, AppUser } from "@/types";
 
 export interface AuthContextType {

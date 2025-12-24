@@ -1,4 +1,5 @@
-import { useSyncExternalStore, useEffect } from "react";
+import { useEffect, useSyncExternalStore } from "react";
+
 import { exchangeRatesStore } from "../store/exchangeRates.store";
 
 export const useExchangeRates = () => {

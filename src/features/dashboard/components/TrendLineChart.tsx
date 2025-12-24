@@ -1,10 +1,10 @@
 import {
-  LineChart,
+  CartesianGrid,
   Line,
+  LineChart,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
 } from "recharts";
 
 import { LineDataPoint } from "../types/analytics";

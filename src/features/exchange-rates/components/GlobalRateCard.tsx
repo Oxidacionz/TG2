@@ -1,8 +1,9 @@
 import { useState, type ReactNode } from "react";
+import { useForm } from "react-hook-form";
 import { FaHandHoldingDollar } from "react-icons/fa6";
 import { MdModeEdit } from "react-icons/md";
+
 import { useExchangeRates } from "@features/exchange-rates";
-import { useForm } from "react-hook-form";
 
 interface IsLoadingProps {
   isLoading: boolean;
@@ -47,8 +48,10 @@ export const GlobalRateCard = () => {
     setIsEdit(false);
   };
 
-  const onSubmit = (data: { updateGlobalRate: number }) => {
-    updateInternalRate(data.updateGlobalRate);
+  const onSubmit = (data: { updateGlobalRate: number | undefined }) => {
+    if (data.updateGlobalRate !== undefined) {
+      updateInternalRate(data.updateGlobalRate);
+    }
     setIsEdit(false);
   };
 
@@ -87,7 +90,7 @@ export const GlobalRateCard = () => {
                         type="number"
                         min="0"
                         step="any"
-                        placeholder={globalRate.toString()}
+                        placeholder={globalRate?.toString() || "0"}
                       />
                     </div>
 

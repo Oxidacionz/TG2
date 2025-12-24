@@ -1,20 +1,15 @@
-import {
-  AccountType,
-  Currency,
-  DebtStatus,
-  TransactionType,
-  ExpenseCategory,
-} from "./enums";
+import { Database } from "./database.types";
+import { DebtStatus, ExpenseCategory, TransactionType } from "./enums";
 
-export interface Account {
-  id: number;
-  bankName: string;
-  accountNumber?: string;
-  holder: string;
-  balance: number;
-  currency: Currency;
-  type: AccountType;
-}
+export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
+export type Account = Database["public"]["Tables"]["accounts"]["Row"];
+export type Transaction = Database["public"]["Tables"]["transactions"]["Row"];
+export type Contact = Database["public"]["Tables"]["contacts"]["Row"];
+export type CashSession = Database["public"]["Tables"]["cash_sessions"]["Row"];
+export type TransactionEvidence =
+  Database["public"]["Tables"]["transaction_evidence"]["Row"];
+export type RateHistory = Database["public"]["Tables"]["rates_history"]["Row"];
+export type CurrentRate = Database["public"]["Tables"]["current_rates"]["Row"];
 
 export interface Debt {
   id: number;

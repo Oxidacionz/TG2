@@ -1,4 +1,5 @@
 import { FaRegMoon, FaRegSun } from "react-icons/fa";
+
 import { useTheme } from "@core/hooks/useTheme";
 
 export const ThemeToggle = () => {

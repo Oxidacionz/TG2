@@ -1,5 +1,6 @@
-import { useForm, useWatch } from "react-hook-form";
 import { useEffect } from "react";
+import { useForm, useWatch } from "react-hook-form";
+
 import { Modal } from "@core/overlay/Modal";
 import { Button } from "@core/ui/Button";
 

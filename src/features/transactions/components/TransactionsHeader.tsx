@@ -1,11 +1,12 @@
 import { IoScan } from "react-icons/io5";
+
 import { Button } from "@core/ui/Button";
 
 interface Props {
   onScan?: () => void;
 }
 
-export const TransactionsHeader = (props: Props) => {
+const TransactionsHeader = (props: Props) => {
   const { onScan } = props;
 
   return (
@@ -28,3 +29,5 @@ export const TransactionsHeader = (props: Props) => {
     </div>
   );
 };
+
+export default TransactionsHeader;

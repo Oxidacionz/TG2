@@ -1,16 +1,17 @@
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import { TransactionType as TransactionTypeEnum } from "@/types/enums";
 import {
-  calculateVES,
   calculateProfit as calcProfitUtils,
+  calculateVES,
 } from "@/utils/currency";
+
+import { PROFIT_PERCENTAGES } from "../config/constants";
 import { transactionService } from "../services/transaction.service";
 import { TransactionType } from "../types";
-import { TransactionType as TransactionTypeEnum } from "@/types/enums";
-import { PROFIT_PERCENTAGES } from "../config/constants";
 
-export interface TransactionFormData {
+export interface TransactionFormState {
   type: TransactionType;
   amount: string;
   rate: string;
@@ -37,7 +38,7 @@ export const useTransactionForm = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
-  const methods = useForm<TransactionFormData>({
+  const methods = useForm<TransactionFormState>({
     defaultValues: {
       type: TransactionTypeEnum.INCOME,
       amount: "",
@@ -85,7 +86,7 @@ export const useTransactionForm = ({
     fileInputRef.current?.click();
   };
 
-  const onSubmit = async (data: TransactionFormData) => {
+  const onSubmit = async (data: TransactionFormState) => {
     console.log("TransactionForm Data:", data);
     setLoading(true);
     try {
