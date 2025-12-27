@@ -14,13 +14,27 @@ export type TransactionWithDetails = DomainTransaction & {
 
 export interface CreateTransactionDTO {
   type: TransactionType;
-  amount: string;
-  rate: string;
+  // Account Details
+  amount_native: string;
+  amount_usd?: number; // Optional derived
+  amount_ves?: number; // Optional derived
+  rate_internal: string;
+  currency: "VES" | "USD";
+
+  // Relations
+  contact_id?: string;
+  new_contact_tax_id?: string;
+  new_contact_name?: string; // Compliance: Integrity
+  account_id: string;
+
+  // Financials
   profit: number;
-  clientName: string;
-  clientBank?: string;
-  targetAccount: string;
-  notes?: string;
+  bank_commission_native?: string; // Compliance: Semantics
+  service_fee_percent?: number | "custom";
+
+  // Meta
+  reference?: string;
+  internal_notes?: string;
   user?: string;
 }
 
