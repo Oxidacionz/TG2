@@ -3,11 +3,11 @@ import { Outlet } from "react-router";
 import DashboardTemplate from "@core/layout/DashboardTemplate";
 import { Header } from "@core/layout/Header";
 import { Sidebar } from "@core/layout/Sidebar";
-import { Modal } from "@core/overlay/Modal";
+import Modal from "@core/overlay/Modal";
 import { SettingsModal } from "@core/overlay/SettingsModal";
 import { SupportModal } from "@core/overlay/SupportModal";
 import { useDashboardController } from "@features/dashboard/hooks/useDashboardController";
-import { TransactionForm } from "@features/transactions/components/TransactionForm";
+import TransactionForm from "@features/transactions/components/TransactionForm";
 
 export const DashboardLayout = () => {
   const { session, userRole, ui, data, handlers } = useDashboardController();
@@ -49,13 +49,10 @@ export const DashboardLayout = () => {
         isOpen={ui.isTransactionModalOpen}
         onClose={() => ui.setTransactionModalOpen(false)}
         title="Registrar Transacción"
+        className="min-w-[50vw]"
         size="lg"
       >
-        <TransactionForm
-          onSuccess={handlers.handleTransactionSuccess}
-          onCancel={() => ui.setTransactionModalOpen(false)}
-          userEmail={session?.user.email}
-        />
+        <TransactionForm onClose={() => ui.setTransactionModalOpen(false)} />
       </Modal>
 
       <SettingsModal
