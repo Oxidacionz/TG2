@@ -1,6 +1,6 @@
 import { FaSearch } from "react-icons/fa";
 
-import { Input } from "@core/form/Input";
+import Input from "@core/form/Input";
 import { Card } from "@core/layout/Card";
 
 const TransactionsFilterBar = () => {
