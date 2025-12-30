@@ -2,21 +2,17 @@ import { ChangeEvent, RefObject } from "react";
 import { FaCamera } from "react-icons/fa6";
 
 interface FileUploadZoneProps {
-  previewImage: string | null;
+  previewImage?: string | null;
   fileInputRef: RefObject<HTMLInputElement | null>;
   onFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onClick: () => void;
 }
 
-export const FileUploadZone = ({
-  previewImage,
-  fileInputRef,
-  onFileChange,
-  onClick,
-}: FileUploadZoneProps) => {
+const FileUploadZone = (props: FileUploadZoneProps) => {
+  const { onClick, onFileChange, fileInputRef, previewImage } = props;
   return (
     <div
-      className="group hover:border-brand-500 relative flex min-h-[200px] flex-1 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-slate-300 bg-slate-100 p-4 transition-colors dark:border-slate-600 dark:bg-slate-800"
+      className="group hover:border-brand-500 relative flex min-h-50 flex-1 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-slate-300 bg-slate-100 p-4 transition-colors dark:border-slate-600 dark:bg-slate-800"
       onClick={onClick}
     >
       <input
@@ -32,15 +28,15 @@ export const FileUploadZone = ({
           <img
             src={previewImage}
             alt="Comprobante"
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 z-10 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
             <FaCamera className="h-6 w-6 text-white" />
             <p className="mt-2 font-medium text-white">Cambiar Imagen</p>
           </div>
         </>
       ) : (
-        <>
+        <div className="flex flex-col items-center text-center">
           <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-slate-200 text-slate-400 transition-transform group-hover:scale-110 dark:bg-slate-700">
             <FaCamera className="h-6 w-6" />
           </div>
@@ -50,8 +46,10 @@ export const FileUploadZone = ({
           <p className="mt-1 text-center text-xs text-slate-400">
             Arrastra o haz clic
           </p>
-        </>
+        </div>
       )}
     </div>
   );
 };
+
+export default FileUploadZone;
