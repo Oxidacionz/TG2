@@ -3,8 +3,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { BiSupport } from "react-icons/bi";
 import { FaEye, FaEyeSlash, FaLock, FaUser } from "react-icons/fa6";
 
-import { FormField } from "@core/form/FormField";
-import { Input } from "@core/form/Input";
+import FormField from "@core/form/FormField";
+import Input from "@core/form/Input";
 import { SupportModal } from "@core/overlay/SupportModal";
 import { Button } from "@core/ui/Button";
 
