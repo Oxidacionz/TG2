@@ -71,7 +71,7 @@ const TransactionRow = React.memo((props: Props) => {
           <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-200 text-xs font-bold uppercase dark:bg-slate-700 dark:text-white">
             {tx.profiles?.username?.charAt(0) || "?"}
           </div>
-          <span className="max-w-[100px] truncate dark:text-slate-300">
+          <span className="max-w-25 truncate dark:text-slate-300">
             {tx.profiles?.username || "N/A"}
           </span>
         </div>
