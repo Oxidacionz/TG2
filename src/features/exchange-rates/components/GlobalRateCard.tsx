@@ -69,7 +69,7 @@ export const GlobalRateCard = () => {
               </p>
             </span>
           </div>
-          <div className="flex min-h-[32px] w-full flex-col justify-center">
+          <div className="flex min-h-8 w-full flex-col justify-center">
             <div className="flex w-full flex-row text-2xl font-bold text-white">
               <IsLoading isLoading={isLoading}>
                 {isEdit ? (
