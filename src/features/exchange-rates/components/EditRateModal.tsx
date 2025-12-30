@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-import { FormField } from "@core/form/FormField";
-import { Input } from "@core/form/Input";
-import { Modal } from "@core/overlay/Modal";
+import FormField from "@core/form/FormField";
+import Input from "@core/form/Input";
+import Modal from "@core/overlay/Modal";
 import { Button } from "@core/ui/Button";
 
 interface Props {
