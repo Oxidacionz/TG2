@@ -13,13 +13,13 @@ interface Props {
 }
 
 const columns = [
-  { title: "FECHA / ID", key: crypto.randomUUID() },
+  { title: "FECHA", key: crypto.randomUUID() },
   { title: "REFERENCIA", key: crypto.randomUUID() },
   { title: "CLIENTE", key: crypto.randomUUID() },
   { title: "MONTO", key: crypto.randomUUID() },
-  { title: "CUENTA INT.", key: crypto.randomUUID() },
+  { title: "CUENTA", key: crypto.randomUUID() },
   { title: "OPERADOR", key: crypto.randomUUID() },
-  { title: "TASA / GANANCIA", key: crypto.randomUUID() },
+  { title: "TASA", key: crypto.randomUUID() },
   { title: "ESTADO", key: crypto.randomUUID() },
 ];
 
