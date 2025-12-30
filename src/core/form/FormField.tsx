@@ -1,34 +1,42 @@
-import React, { type ReactNode } from "react";
+import {
+  cloneElement,
+  isValidElement,
+  ReactElement,
+  type ReactNode,
+} from "react";
 
 interface Props {
   label: string;
-  icon?: ReactNode;
   children: ReactNode;
+  icon?: ReactNode;
   htmlFor?: string;
   error?: string;
+  className?: string;
 }
 
-export const FormField = React.memo((props: Props) => {
-  const { label, icon, children, htmlFor, error } = props;
+const FormField = (props: Props) => {
+  const renderError = <p className="text-xs text-rose-500">{props.error}</p>;
+  const messageError = props.error ? renderError : null;
+  const generatedId = crypto.randomUUID();
+
   return (
-    <div className="space-y-1">
+    <div className={props.className}>
       <label
-        htmlFor={htmlFor}
-        className="text-sm font-medium text-slate-700 dark:text-slate-300"
+        htmlFor={generatedId}
+        className="cursor-pointer text-sm font-medium text-slate-700 dark:text-slate-300"
       >
-        {label}
+        {props.label}
       </label>
       <div className="relative">
-        {icon && (
-          <div className="absolute top-1/2 left-3 -translate-y-1/2 text-slate-400">
-            {icon}
-          </div>
-        )}
-        {children}
+        {isValidElement(props.children)
+          ? cloneElement(props.children as ReactElement<{ id?: string }>, {
+              id: generatedId,
+            })
+          : props.children}
       </div>
-      {error && <p className="text-xs text-rose-500">{error}</p>}
+      {messageError}
     </div>
   );
-});
+};
 
-FormField.displayName = "FormField";
+export default FormField;
