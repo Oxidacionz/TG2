@@ -19,27 +19,28 @@ interface Props {
 const TransactionForm = (props: Props) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<PreviewImage>(null);
-
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleClick = () => {
-    fileInputRef.current?.click();
-  };
-
   const [rate, setRate] = useState<string | number>("36.50"); // temporal
 
+  function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setPreviewImage(reader.result as string);
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  function handleClick() {
+    fileInputRef.current?.click();
+  }
+
   return (
-    <div className="flex h-full min-h-[50vh] flex-row gap-6">
-      <div className="hidden flex-col md:flex md:w-1/4">
+    <div className="grid h-full min-h-[50vh] grid-cols-1 gap-6 md:grid-cols-4 lg:gap-8 xl:gap-10">
+      <div className="hidden flex-col md:col-span-1 md:flex">
         <FileUploadZone
           previewImage={previewImage}
           fileInputRef={fileInputRef}
@@ -48,15 +49,18 @@ const TransactionForm = (props: Props) => {
         />
       </div>
 
-      <form className="grid w-full gap-2 md:w-[75%]" action="">
-        <div className="grid grid-cols-[1fr_auto] items-end gap-2">
+      <form
+        className="grid w-full grid-cols-1 gap-4 md:col-span-3 lg:gap-6"
+        action=""
+      >
+        <div className="grid grid-cols-[1fr_auto] items-end gap-2 lg:gap-4">
           <TransactionTypeSelect />
           <span className="flex h-9.5 items-center justify-center rounded bg-slate-100 px-4 text-xs font-bold text-slate-500 dark:bg-slate-800">
             NEUTRO
           </span>
         </div>
 
-        <div className="grid grid-cols-[1fr_auto] items-end gap-2">
+        <div className="grid grid-cols-[1fr_auto] items-end gap-2 lg:gap-4">
           <div className="w-full">
             <FormField label="Cliente">
               <Input type="text" />
@@ -70,7 +74,7 @@ const TransactionForm = (props: Props) => {
           </button>
         </div>
 
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:gap-4">
           <FormField label="Monto">
             <Input type="number" placeholder="00.00" />
           </FormField>
@@ -91,19 +95,23 @@ const TransactionForm = (props: Props) => {
             />
           </FormField>
 
-          <CurrencySelect />
+          <div className="sm:col-span-2 md:col-span-1">
+            <CurrencySelect />
+          </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:gap-4">
           <FormField label="Comisión del banco">
             <Input type="text" placeholder="00.00%" />
           </FormField>
           <FormField label="Destino">
             <Input type="text" />
           </FormField>
-          <FormField label="Referencia">
-            <Input type="text" />
-          </FormField>
+          <div className="sm:col-span-2 md:col-span-1">
+            <FormField label="Referencia">
+              <Input type="text" />
+            </FormField>
+          </div>
         </div>
 
         <div>
@@ -112,7 +120,7 @@ const TransactionForm = (props: Props) => {
           </FormField>
         </div>
 
-        <div className="mt-2 flex flex-row justify-center gap-2 md:justify-end">
+        <div className="mt-2 flex flex-row justify-center gap-2 md:justify-end lg:mt-4 lg:gap-4">
           <input
             type="button"
             value="Cancelar"
